@@ -11,6 +11,9 @@ export default function Home({ ethPrice }) {
         <button className="red border-radius-0-10">Button</button>
       </div>
       <div>
+        <p>
+          <strong>This</strong> is a <strong>Strong</strong> element
+        </p>
         <button className="action">Button</button>
       </div>
       <div>

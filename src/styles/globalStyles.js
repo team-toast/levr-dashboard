@@ -32,6 +32,7 @@ ${reset}
 }
 strong {
     font-family: HandelGotDBol;
+    font-weight: 500;
 }
 .content {
     max-width: ${sizes.container};
