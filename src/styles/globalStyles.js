@@ -376,7 +376,6 @@ input[type="text"] {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
-
 .thumb {
   pointer-events: none;
   position: absolute;
