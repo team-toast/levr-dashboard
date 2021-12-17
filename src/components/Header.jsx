@@ -48,6 +48,7 @@ export default function Header({
               >
                 <a
                   target="_blank"
+                  rel="noreferrer"
                   href="https://twitter.com/levr_ly"
                   title="twitter"
                 >
@@ -55,12 +56,18 @@ export default function Header({
                 </a>
                 <a
                   target="_blank"
+                  rel="noreferrer"
                   href="https://medium.com/levr-ly"
                   title="Medium"
                 >
                   <img src="/Icon awesome-medium-m.svg" height="21" />
                 </a>
-                <a target="_blank" href="https://t.me/levrly" title="Telegram">
+                <a
+                  target="_blank"
+                  href="https://t.me/levrly"
+                  rel="noreferrer"
+                  title="Telegram"
+                >
                   <img src="/Icon awesome-telegram-plane.svg" height="21" />
                 </a>
               </SocialCol>
