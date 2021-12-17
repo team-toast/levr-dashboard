@@ -46,13 +46,21 @@ export default function Header({
                 }
                 size={`0 0 auto`}
               >
-                <a href="https://twitter.com/levr_ly" title="twitter">
+                <a
+                  target="_blank"
+                  href="https://twitter.com/levr_ly"
+                  title="twitter"
+                >
                   <img src="/Icon feather-twitter.svg" height="21" />
                 </a>
-                <a href="https://medium.com/levr-ly" title="Medium">
+                <a
+                  target="_blank"
+                  href="https://medium.com/levr-ly"
+                  title="Medium"
+                >
                   <img src="/Icon awesome-medium-m.svg" height="21" />
                 </a>
-                <a href="https://t.me/levrly" title="Telegram">
+                <a target="_blank" href="https://t.me/levrly" title="Telegram">
                   <img src="/Icon awesome-telegram-plane.svg" height="21" />
                 </a>
               </SocialCol>
@@ -128,24 +136,6 @@ export default function Header({
   );
 }
 
-const SocialCol = styled(Col)`
-  display: flex;
-  a {
-    display: flex;
-    margin: 0 1rem;
-    &:hover {
-      opacity: 0.7;
-    }
-    @media screen and (max-width: 40em) {
-      display: inline-block;
-      text-align: right;
-    }
-  }
-  @media screen and (max-width: 40em) {
-    display: block;
-    text-align: right;
-  }
-`;
 const StyledHamburgerMenu = styled.div`
   position: relative;
   margin: auto;
@@ -498,4 +488,29 @@ const StyledHeader = styled.header`
 
 const ColLogo = styled(Col)`
   padding-right: 2rem;
+`;
+
+const SocialCol = styled(Col)`
+  display: flex;
+  a {
+    display: flex;
+    margin: 0 1rem;
+    &:last-child {
+      margin-right: 2rem !important;
+    }
+    &:hover {
+      opacity: 0.7;
+    }
+    @media screen and (max-width: 40em) {
+      display: inline-block;
+      text-align: right;
+      &:last-child {
+        margin-right: 1rem !important;
+      }
+    }
+  }
+  @media screen and (max-width: 40em) {
+    display: block;
+    text-align: right;
+  }
 `;
