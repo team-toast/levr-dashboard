@@ -5,6 +5,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import { sizes } from "./../styles/styleguide";
 
+import Footer from "./Footer";
+
 export default function Layout({ title = "LEVR", children = null }) {
   useEffect(() => {
     setTimeout(() => {
@@ -48,10 +50,7 @@ export default function Layout({ title = "LEVR", children = null }) {
 
       <StyledMain>{children}</StyledMain>
 
-      <StyledFooter>
-        <StyledFooterLogo>{title}</StyledFooterLogo>
-        &copy; Copyright {new Date().getFullYear()}
-      </StyledFooter>
+      <Footer />
     </LayoutStyling>
   );
 }
