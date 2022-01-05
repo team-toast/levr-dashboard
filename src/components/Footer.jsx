@@ -51,7 +51,8 @@ const PageLinks = styled.div`
   a {
     color: #06033d !important;
     text-decoration: none;
-    padding: 1rem 1rem 0;
+    margin: 1rem 1rem 0;
+    display: inline-block;
     &:hover {
       text-decoration: underline;
     }
