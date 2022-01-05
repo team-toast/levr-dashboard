@@ -1,8 +1,180 @@
-import Layout from "../components/Layout";
+import { useState, useEffect } from "react";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3 from "web3";
 
-export default function Home({ ethPrice }) {
+import Layout from "../components/Layout";
+import Header from "../components/Header";
+import ProgressBar from "./../components/ProgressBar";
+
+let web3;
+
+export default function Home() {
+  const [wallet, setWallet] = useState(null);
+  const [web3Obj, setWeb3Obj] = useState(null);
+  const [web3Detect, setWeb3Detect] = useState(false);
+  const [wrongChain, setWrongChain] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [showConnectOptions, setShowConnectOptions] = useState(false);
+  const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
+  useEffect(() => {
+    if (typeof window != "undefined" && !web3) {
+      if (window.ethereum !== undefined) {
+        setWeb3Detect(true);
+      }
+      connectSelectedWallet();
+    }
+  }, [wallet]);
+  const connectSelectedWallet = async () => {
+    console.log("connectSelectedWallet");
+    if (wallet === "metamask") {
+      try {
+        const newWeb3 = await new Web3(window.ethereum);
+        web3 = newWeb3;
+        setWeb3Obj(web3);
+        connectWallet();
+      } catch (error) {
+        setWallet(null);
+        web3 = false;
+        setWeb3Obj(null);
+        console.log("Could not connect Web3");
+      }
+    } else if (wallet === "walletconnect") {
+      try {
+        const provider = new WalletConnectProvider({
+          rpc: {
+            1: process.env.ETH_RPC,
+          },
+        });
+        await provider.enable();
+        const newWeb3 = await new Web3(provider);
+        web3 = newWeb3;
+        setWeb3Obj(web3);
+        const accounts = await web3.eth.getAccounts();
+        console.log(56, accounts);
+        connectWallet();
+      } catch (error) {
+        setWallet(null);
+        web3 = false;
+        setWeb3Obj(null);
+        console.log("Could not connect Web3");
+      }
+    }
+  };
+  const disconnectWallet = () => {
+    // setWeb3(null);
+    setWalletAddress(null);
+  };
+  const disconnectWalletConnect = () => {
+    localStorage.removeItem("walletconnect");
+    web3 = null;
+    setWeb3Obj(null);
+    setWalletAddress(null);
+    setWallet(null);
+    // setDETHbalance(null);
+    // setDETHtoETHvalue(0);
+    // setETHbalance(0);
+  };
+  const connectWallet = () => {
+    console.log(66, `connectWallet`);
+    if (typeof window != "undefined" && web3) {
+      (async () => {
+        console.log("Startup, test eth_requestAccounts");
+        let testPassed = false;
+        if (wallet === "metamask") {
+          try {
+            const sendTest = await window.ethereum.send("eth_requestAccounts");
+            console.log("sendTest", sendTest);
+            testPassed = true;
+          } catch (error) {
+            setWallet(null);
+            web3 = false;
+            setWeb3Obj(null);
+            console.log("sendTest Error: ", error);
+          }
+        }
+
+        if (testPassed || wallet === "walletconnect") {
+          console.log("updating web3");
+          // const newWeb3 = new Web3(window.ethereum);
+          const accounts = await web3.eth.getAccounts();
+          console.log("accounts", accounts);
+          setWalletAddress(accounts[0]);
+          // await getDETHbalance(accounts[0]);
+          // await getETHbalance(accounts[0]);
+        }
+      })();
+    }
+  };
+  const shortenAddress = (data) => {
+    const first = data.slice(0, 6);
+    const last = data.slice(data.length - 4, data.length);
+    return `${first}...${last}`;
+  };
+  useEffect(() => {
+    if (web3Obj !== null) {
+      web3Obj.eth.getChainId().then((chainID) => {
+        // Detect which blockchain MM is connected to. ID 1 means Ethereum
+        if (chainID == 1) {
+          setWrongChain(false);
+        } else {
+          setWrongChain(true);
+        }
+      });
+    }
+  }, [web3, web3Obj, walletAddress]);
+  useEffect(() => {
+    if (window.ethereum) {
+      // Metamask account change
+      window.ethereum.on("accountsChanged", function (accounts) {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+        } else {
+          // setWeb3(null);
+          localStorage.removeItem("walletconnect");
+          web3 = null;
+          setWeb3Obj(null);
+          setWalletAddress(null);
+          setWallet(null);
+          // setDETHbalance(null);
+          // setDETHtoETHvalue(0);
+          // setETHbalance(0);
+        }
+      });
+      // Network account change
+      window.ethereum.on("chainChanged", function (networkId) {
+        console.log(157, networkId);
+        if (networkId === "0x1") {
+          setWrongChain(false);
+        } else {
+          setWrongChain(true);
+        }
+      });
+    } else {
+      console.warn("No web3 detected.");
+    }
+  }, []);
   return (
     <Layout>
+      {wrongChain !== false && (
+        <ProgressBar
+          status={`Wrong chain, please switch to Ethereum Mainnet${
+            wallet === "walletconnect" ? " and refresh." : "."
+          }`}
+          closeBtn={() => setWrongChain(false)}
+        ></ProgressBar>
+      )}
+      <Header
+        wallet={wallet}
+        setWallet={setWallet}
+        web3Detect={web3Detect}
+        walletAddress={walletAddress}
+        showConnectOptions={showConnectOptions}
+        setShowConnectOptions={setShowConnectOptions}
+        showDisconnectWallet={showDisconnectWallet}
+        setShowDisconnectWallet={setShowDisconnectWallet}
+        disconnectWalletConnect={disconnectWalletConnect}
+        shortenAddress={shortenAddress}
+      />
       <h1>LEVR Curve Sale</h1>
       <h2>LEVR Curve Sale</h2>
       <div>
@@ -39,11 +211,6 @@ export default function Home({ ethPrice }) {
           !
         </p>
       </div>
-      <div className="flex">
-        <input type="text" />
-        <button className="blue border-radius-0-10">Button</button>
-      </div>
-      <br />
       <div className="flex">
         <div className="bg-red">RED</div>
         <div className="bg-blue">BLUE</div>

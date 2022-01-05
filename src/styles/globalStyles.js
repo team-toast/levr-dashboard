@@ -186,6 +186,37 @@ button, .button {
             color: white;
             background: transparent linear-gradient(84deg, #FFB300 0%, #E02235 100%) 0% 0% no-repeat padding-box;
         }
+        &.white {
+            color: #fff;
+            box-shadow: inset 0 0 0 1px #fff;
+            &:hover {
+                box-shadow: none;
+            }
+        }
+        &.ellipse {
+            text-align: left;
+            background: url("/Icon feather-external-link.svg");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 20px) center;
+            background-size: 15px;
+            padding: 0 4em 0 1.5em;
+            position: relative;
+            &:hover {
+                box-shadow: none;
+                color: white;
+                &:after {
+                    height: 100%;
+                    border-radius: 25px;
+                    background: transparent linear-gradient(84deg, #FFB300 0%, #E02235 100%) 0% 0% no-repeat padding-box;
+                    content: "Disconnect";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 .button.button-secondary {
@@ -345,7 +376,6 @@ input[type="text"] {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
-
 .thumb {
   pointer-events: none;
   position: absolute;
