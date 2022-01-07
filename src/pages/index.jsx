@@ -5,6 +5,7 @@ import Web3 from "web3";
 import Layout from "../components/Layout";
 import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
+import CurveSale from "./../components/CurveSale";
 
 let web3;
 
@@ -175,8 +176,8 @@ export default function Home() {
         disconnectWalletConnect={disconnectWalletConnect}
         shortenAddress={shortenAddress}
       />
-      <h1>LEVR Curve Sale</h1>
-      <h2>LEVR Curve Sale</h2>
+      <CurveSale />
+      <h2>Styleguide</h2>
       <div>
         <button>Button</button>
         <button className="green border-radius-0-10">Button</button>

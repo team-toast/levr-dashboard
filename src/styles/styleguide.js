@@ -20,6 +20,7 @@ export const colors = {
   green: "#1AE287",
   red: "#E02235",
   yellow: "#FFB300",
+  grey: "#F5F5F5",
 };
 
 // Sizes for typography scale
