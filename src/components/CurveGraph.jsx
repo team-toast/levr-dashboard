@@ -21,10 +21,10 @@ export default function CurveGraph({ web3, curveData }) {
         </Col>
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
-            <Col size={1}>{curveData.price.toFixed(5)}</Col>
-            <Col size={1}>{((curveData.price / 4) * 3).toFixed(5)}</Col>
-            <Col size={1}>{((curveData.price / 4) * 2).toFixed(5)}</Col>
-            <Col size={1}>{((curveData.price / 4) * 1).toFixed(5)}</Col>
+            <Col size={1}>{curveData.maxPrice.toFixed(5)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 4) * 2).toFixed(5)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col>
             <Col size={"0 0 auto"}>0</Col>
           </ColRow>
         </Col>

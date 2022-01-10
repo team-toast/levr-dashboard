@@ -26,6 +26,7 @@ export default function Home() {
     tokensIssued: 0,
     tokensReceived: 0,
     curvePercentage: 0,
+    maxPrice: 0,
   });
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
@@ -54,6 +55,9 @@ export default function Home() {
         ),
         curvePercentage:
           (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) * 10,
+        maxPrice: parseFloat(
+          web3?.utils?.fromWei("11364981489402339", "ether")
+        ),
       });
       // let obj = {
       //   protocol: web3?.utils?.fromWei(getSalesData._protocolFee),

@@ -65,6 +65,7 @@ export default function CurveSale({ curveData, web3 }) {
 
 const Box = styled.div`
   width: 100%;
+  max-width: 1240px;
   margin: auto;
   padding: 0 1rem;
 `;
