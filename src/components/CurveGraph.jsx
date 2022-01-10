@@ -91,9 +91,15 @@ const ColRow = styled(Row)`
 
 const CurveBox = styled.div`
   width: 100%;
+  max-width: 1050px;
+  margin: auto;
 `;
 
-const Supply = styled.div``;
+const Supply = styled.div`
+  width: 100%;
+  max-width: 1050px;
+  margin: auto;
+`;
 
 const ChartBox = styled.div`
   background: #f5f5f5;
