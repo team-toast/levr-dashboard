@@ -42,6 +42,9 @@ strong {
 .strong-500 {
     font-weight: 500;
 }
+.margin-b-4 {
+    margin-bottom: 4rem;
+}
 .text {
     &-left {
         text-align: left;

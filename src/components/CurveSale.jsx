@@ -2,6 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../styles/flex-grid";
 import { useState, useEffect } from "react";
 
+import CurveGraph from "./../components/CurveGraph";
+
 export default function CurveSale() {
   return (
     <Box>
@@ -56,22 +58,10 @@ export default function CurveSale() {
           </Row>
         </Col>
       </Row>
-      <Curve></Curve>
-      <div>
-        <h3 className="text-center">Token Supply</h3>
-      </div>
+      <CurveGraph></CurveGraph>
     </Box>
   );
 }
-
-const Curve = styled.div`
-  background: #f5f5f5;
-  border-radius: 10px;
-  height: 480px;
-  width: 100%;
-  max-width: 1000px;
-  margin: 2rem 0;
-`;
 
 const Box = styled.div`
   width: 100%;
