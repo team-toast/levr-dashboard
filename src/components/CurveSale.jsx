@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import CurveGraph from "./../components/CurveGraph";
 
-export default function CurveSale() {
+export default function CurveSale({ curveData, web3 }) {
   return (
     <Box>
       <h1 className="text-center">LEVR Curve Sale</h1>
@@ -21,7 +21,7 @@ export default function CurveSale() {
               className="b-r-0-10-10-0 bg-blue text-white p-10 text-center strong-500"
               size={"0 0 120px"}
             >
-              17 ETH
+              {curveData.raised === 1000 ? "0" : curveData.raised - 1000} ETH
             </Col>
           </Row>
         </Col>
@@ -37,7 +37,7 @@ export default function CurveSale() {
               className="b-r-0-10-10-0 bg-red text-white p-10 text-center strong-500"
               size={"0 0 120px"}
             >
-              505M LEVR
+              {curveData.tokensIssued} LEVR
             </Col>
           </Row>
         </StyledColMargin10>
@@ -53,12 +53,12 @@ export default function CurveSale() {
               className="b-r-0-10-10-0 bg-green text-white p-10 text-center strong-500"
               size={"0 0 120px"}
             >
-              0,62 nETH
+              {curveData.price.toFixed(5)} nETH
             </Col>
           </Row>
         </Col>
       </Row>
-      <CurveGraph></CurveGraph>
+      <CurveGraph web3={web3} curveData={curveData}></CurveGraph>
     </Box>
   );
 }

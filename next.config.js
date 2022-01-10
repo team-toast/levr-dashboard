@@ -3,7 +3,7 @@ module.exports = {
   target: "serverless",
   env: {
     ETH_RPC: "https://cloudflare-eth.com/",
-    ETH_CONTRACT_ADDRESS: "0x51863Ec92BA14ede7B17fb2B053145C90E215A57",
+    ETH_CONTRACT_ADDRESS: "0x2d1256e9F1758dA2722991BC5D411872549C89A1",
     BLOCKCHAINS: {
       eth: "Ethereum",
     },

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 
+import CONTRACT_ABI from "./../lib/ABI_2022_01_10.json";
+
 import Layout from "../components/Layout";
 import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
@@ -17,6 +19,14 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
+
+  const [curveData, setCurveData] = useState({
+    price: 0,
+    raised: 0,
+    tokensIssued: 0,
+    tokensReceived: 0,
+    curvePercentage: 0,
+  });
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
       if (window.ethereum !== undefined) {
@@ -25,6 +35,33 @@ export default function Home() {
       connectSelectedWallet();
     }
   }, [wallet]);
+  const fetchSaleData = async () => {
+    console.log("++++++++++++++ fetchSaleData();");
+    try {
+      let new_contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        process.env.ETH_CONTRACT_ADDRESS
+      );
+      const { price, raised, tokensIssued, tokensReceived } =
+        await new_contract.methods.getSaleInfo("1").call();
+      console.log(38, price, raised, tokensIssued, tokensReceived);
+      setCurveData({
+        price: parseFloat(web3?.utils?.fromWei(price, "ether")),
+        raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
+        tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
+        tokensReceived: parseFloat(
+          web3?.utils?.fromWei(tokensReceived, "ether")
+        ),
+        curvePercentage:
+          (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) * 10,
+      });
+      // let obj = {
+      //   protocol: web3?.utils?.fromWei(getSalesData._protocolFee),
+      // };
+    } catch (error) {
+      console.log("Increase -error", error);
+    }
+  };
   const connectSelectedWallet = async () => {
     console.log("connectSelectedWallet");
     if (wallet === "metamask") {
@@ -115,7 +152,7 @@ export default function Home() {
     if (web3Obj !== null) {
       web3Obj.eth.getChainId().then((chainID) => {
         // Detect which blockchain MM is connected to. ID 1 means Ethereum
-        if (chainID == 1) {
+        if (chainID == 1 || chainID == 3) {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -123,8 +160,16 @@ export default function Home() {
       });
     }
   }, [web3, web3Obj, walletAddress]);
+  const connectWeb3 = async () => {
+    if (typeof window != "undefined" && web3 === undefined) {
+      const newWeb3 = await new Web3(window.ethereum);
+      web3 = newWeb3;
+      fetchSaleData();
+    }
+  };
   useEffect(() => {
     if (window.ethereum) {
+      connectWeb3();
       // Metamask account change
       window.ethereum.on("accountsChanged", function (accounts) {
         if (accounts.length > 0) {
@@ -144,7 +189,7 @@ export default function Home() {
       // Network account change
       window.ethereum.on("chainChanged", function (networkId) {
         console.log(157, networkId);
-        if (networkId === "0x1") {
+        if (networkId === "0x1" || networkId === "0x3") {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -176,7 +221,7 @@ export default function Home() {
         disconnectWalletConnect={disconnectWalletConnect}
         shortenAddress={shortenAddress}
       />
-      <CurveSale />
+      <CurveSale web3={web3} curveData={curveData} />
       <h2>Styleguide</h2>
       <div>
         <button>Button</button>

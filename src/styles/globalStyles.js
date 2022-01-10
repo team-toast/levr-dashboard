@@ -45,6 +45,9 @@ strong {
 .margin-b-4 {
     margin-bottom: 4rem;
 }
+.position-relative {
+    position: relative;
+}
 .text {
     &-left {
         text-align: left;
