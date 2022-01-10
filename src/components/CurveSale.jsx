@@ -19,7 +19,7 @@ export default function CurveSale({ curveData, web3 }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-blue text-white p-10 text-center strong-500"
-              size={"0 0 120px"}
+              size={"0 0 160px"}
             >
               {curveData.raised === 1000 ? "0" : curveData.raised - 1000} ETH
             </Col>
@@ -35,7 +35,7 @@ export default function CurveSale({ curveData, web3 }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-red text-white p-10 text-center strong-500"
-              size={"0 0 120px"}
+              size={"0 0 160px"}
             >
               {curveData.tokensIssued} LEVR
             </Col>
@@ -51,7 +51,7 @@ export default function CurveSale({ curveData, web3 }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-green text-white p-10 text-center strong-500"
-              size={"0 0 120px"}
+              size={"0 0 160px"}
             >
               {curveData.price.toFixed(5)} nETH
             </Col>
