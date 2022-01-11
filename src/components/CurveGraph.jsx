@@ -120,7 +120,7 @@ const ColRow = styled(Row)`
   flex-direction: column;
   float: left;
   height: 100%;
-  padding: 2rem 0.5rem;
+  padding: 1.9rem 0.5rem 0.5rem;
 `;
 
 const CurveBox = styled.div`

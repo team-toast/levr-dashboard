@@ -21,13 +21,20 @@ export default function Home() {
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
 
   const [curveData, setCurveData] = useState({
-    price: 0,
-    raised: 0,
+    // price: 0,
+    // raised: 0,
+    // tokensIssued: 0,
+    // tokensReceived: 0,
+    // curvePercentage: 0,
+    // maxPrice: 0,
+    // difference: 0,
+
+    curvePercentage: 0.0001,
+    maxPrice: 0.000200000000018968,
+    price: 0.000092471252390582,
+    raised: 35000000,
     tokensIssued: 0,
     tokensReceived: 0,
-    curvePercentage: 0,
-    maxPrice: 0,
-    difference: 0,
   });
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
@@ -38,7 +45,8 @@ export default function Home() {
     }
   }, [wallet]);
   const setNewData = () => {
-    fetchSaleData("100000000000000000000");
+    // fetchSaleData("20000000000000000000000");
+    fetchSaleData("500000000000000000000");
   };
   const fetchSaleData = async (amount) => {
     console.log("++++++++++++++ fetchSaleData();");
@@ -59,9 +67,7 @@ export default function Home() {
         ),
         curvePercentage:
           (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) * 10,
-        maxPrice: parseFloat(
-          web3?.utils?.fromWei("11364981489402339", "ether")
-        ),
+        maxPrice: parseFloat(web3?.utils?.fromWei("200000000018968", "ether")),
         // difference:
         // curveData.tokensReceived === 0
         //   ? 0
@@ -174,7 +180,8 @@ export default function Home() {
     if (typeof window != "undefined" && web3 === undefined) {
       const newWeb3 = await new Web3(window.ethereum);
       web3 = newWeb3;
-      fetchSaleData("1");
+      // Execute and fetch data on first init
+      // fetchSaleData("1");
     }
   };
   useEffect(() => {
