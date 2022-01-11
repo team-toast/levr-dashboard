@@ -26,21 +26,23 @@ export default function CurveGraph({ web3, curveData }) {
         </Col>
         <Col size={1}>
           <LineCurve>
-            <Curve>
-              <Raised
-                raisedlevr={parseFloat(curveData.raised / 100000000) * 100}
-              >
-                <Text className="right">LEVR Raised</Text>
-              </Raised>
-              <NewPrice
-                difference={
-                  parseFloat(curveData.tokensReceived / 100000000) * 100
-                }
-              ></NewPrice>
-              <Available>
-                <Text>LEVR Available</Text>
-              </Available>
-            </Curve>
+            <InnerCurve>
+              <Curve>
+                <Raised
+                  raisedlevr={parseFloat(curveData.raised / 100000000) * 100}
+                >
+                  <Text className="right">LEVR Raised</Text>
+                </Raised>
+                <NewPrice
+                  difference={
+                    parseFloat(curveData.tokensReceived / 100000000) * 100
+                  }
+                ></NewPrice>
+                <Available>
+                  <Text>LEVR Available</Text>
+                </Available>
+              </Curve>
+            </InnerCurve>
             {/* <GrowthLine></GrowthLine> */}
             {/* <NewPriceIndicator
               newprice="123"
@@ -149,12 +151,25 @@ const LineCurve = styled.div`
   height: 480px;
   width: 100%;
   max-width: 1050px;
-  margin: 2rem auto;
+  margin: 2rem auto 0.5rem;
   overflow: hidden;
   position: relative;
 `;
 
+const InnerCurve = styled.div`
+  background: #0b0581;
+  clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
+  position: relative;
+  height: 100%;
+`;
+
 const Curve = styled.div`
+  background: #ffffff;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -179,7 +194,7 @@ const Raised = styled.div`
   min-width: 0;
   flex: 1;
   flex: 0 0 ${(props) => props.raisedlevr}%;
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
   background: rgba(255, 179, 0, 0.6);
   background: linear-gradient(
     90deg,
@@ -191,7 +206,7 @@ const Raised = styled.div`
 const NewPrice = styled.div`
   background: #b68cf4;
   flex: 0 0 ${(props) => props.difference}%;
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
   border-left: dashed 1px #e02235;
   border-right: dashed 1px #133be3;
 `;

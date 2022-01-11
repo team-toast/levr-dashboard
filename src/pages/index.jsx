@@ -233,6 +233,7 @@ export default function Home() {
       />
       <CurveSale web3={web3} curveData={curveData} />
       <div>
+        <h3 onClick={setNewData}>Fetch</h3>
         <button onClick={setNewData}>100ETH Mock</button>
       </div>
     </Layout>
