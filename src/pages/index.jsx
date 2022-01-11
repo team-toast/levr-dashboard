@@ -27,6 +27,7 @@ export default function Home() {
     tokensReceived: 0,
     curvePercentage: 0,
     maxPrice: 0,
+    difference: 0,
   });
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
@@ -36,7 +37,10 @@ export default function Home() {
       connectSelectedWallet();
     }
   }, [wallet]);
-  const fetchSaleData = async () => {
+  const setNewData = () => {
+    fetchSaleData("100000000000000000000");
+  };
+  const fetchSaleData = async (amount) => {
     console.log("++++++++++++++ fetchSaleData();");
     try {
       let new_contract = await new web3.eth.Contract(
@@ -44,11 +48,11 @@ export default function Home() {
         process.env.ETH_CONTRACT_ADDRESS
       );
       const { price, raised, tokensIssued, tokensReceived } =
-        await new_contract.methods.getSaleInfo("1").call();
-      console.log(38, price, raised, tokensIssued, tokensReceived);
+        await new_contract.methods.getSaleInfo(amount).call();
       setCurveData({
         price: parseFloat(web3?.utils?.fromWei(price, "ether")),
-        raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
+        // raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
+        raised: 35000000,
         tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
         tokensReceived: parseFloat(
           web3?.utils?.fromWei(tokensReceived, "ether")
@@ -58,10 +62,12 @@ export default function Home() {
         maxPrice: parseFloat(
           web3?.utils?.fromWei("11364981489402339", "ether")
         ),
+        // difference:
+        // curveData.tokensReceived === 0
+        //   ? 0
+        //   : web3?.utils?.fromWei(tokensReceived, "ether") -
+        //     curveData.tokensReceived,
       });
-      // let obj = {
-      //   protocol: web3?.utils?.fromWei(getSalesData._protocolFee),
-      // };
     } catch (error) {
       console.log("Increase -error", error);
     }
@@ -168,7 +174,7 @@ export default function Home() {
     if (typeof window != "undefined" && web3 === undefined) {
       const newWeb3 = await new Web3(window.ethereum);
       web3 = newWeb3;
-      fetchSaleData();
+      fetchSaleData("1");
     }
   };
   useEffect(() => {
@@ -226,48 +232,8 @@ export default function Home() {
         shortenAddress={shortenAddress}
       />
       <CurveSale web3={web3} curveData={curveData} />
-      <h2>Styleguide</h2>
       <div>
-        <button>Button</button>
-        <button className="green border-radius-0-10">Button</button>
-        <button className="red border-radius-0-10">Button</button>
-      </div>
-      <div>
-        <p>
-          <strong>This</strong> is a <strong>Strong</strong> element
-        </p>
-        <button className="action">Button</button>
-      </div>
-      <div>
-        <button className="action">Button</button>
-      </div>
-      <div>
-        <p>
-          Since the cost raises with each transaction, the faster you buy, the
-          more LEVR you will get for the ETH you spend! Since the cost raises
-          with each transaction, the faster you buy, the more LEVR you will get
-          for the ETH you spend! Since the cost raises with each transaction,
-          the faster you buy, the more LEVR you will get for the ETH you spend!
-        </p>
-        <p>
-          Since the cost raises with each transaction, the faster you buy, the
-          more LEVR you will get for the ETH you spend! Since the cost raises
-          with each transaction, the faster you buy, the more LEVR you will get
-          for the ETH you spend! Since the cost raises with each transaction,
-          the faster you buy, the more LEVR you will get for the{" "}
-          <a href="https://levr.ly" rel="noreferrer">
-            ETH you spend
-          </a>
-          !
-        </p>
-      </div>
-      <div className="flex">
-        <div className="bg-red">RED</div>
-        <div className="bg-blue">BLUE</div>
-        <div className="bg-green">GREEN</div>
-        <div className="bg-dark-blue">BLUE</div>
-        <div className="bg-yellow">YELLOW</div>
-        <div className="bg-darkest-blue">darkest-blue</div>
+        <button onClick={setNewData}>100ETH Mock</button>
       </div>
     </Layout>
   );

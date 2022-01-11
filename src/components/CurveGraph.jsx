@@ -8,11 +8,7 @@ import { Chart } from "chart.js";
 import { colors, sizes } from "./../styles/styleguide";
 
 export default function CurveGraph({ web3, curveData }) {
-  const formatDecimals = (data) => {
-    console.log(12, data);
-    return data;
-    // return data.slice(0, data.length - 13);
-  };
+  console.log(curveData);
   return (
     <CurveBox>
       <Row>
@@ -31,10 +27,16 @@ export default function CurveGraph({ web3, curveData }) {
         <Col size={1}>
           <LineCurve>
             <Curve>
-              <Raised raisedlevr={curveData.curvePercentage.toFixed()}>
+              <Raised
+                raisedlevr={parseFloat(curveData.raised / 100000000) * 100}
+              >
                 <Text className="right">LEVR Raised</Text>
               </Raised>
-              {/* <NewPrice></NewPrice> */}
+              <NewPrice
+                difference={
+                  parseFloat(curveData.tokensReceived / 100000000) * 100
+                }
+              ></NewPrice>
               <Available>
                 <Text>LEVR Available</Text>
               </Available>
@@ -177,6 +179,7 @@ const Raised = styled.div`
   min-width: 0;
   flex: 1;
   flex: 0 0 ${(props) => props.raisedlevr}%;
+  transition: all 0.5s ease;
   background: rgba(255, 179, 0, 0.6);
   background: linear-gradient(
     90deg,
@@ -187,7 +190,8 @@ const Raised = styled.div`
 
 const NewPrice = styled.div`
   background: #b68cf4;
-  flex: 0 0 20px;
+  flex: 0 0 ${(props) => props.difference}%;
+  transition: all 0.5s ease;
   border-left: dashed 1px #e02235;
   border-right: dashed 1px #133be3;
 `;
