@@ -20,22 +20,28 @@ export default function Home() {
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
 
-  const [curveData, setCurveData] = useState({
-    // price: 0,
-    // raised: 0,
-    // tokensIssued: 0,
-    // tokensReceived: 0,
-    // curvePercentage: 0,
-    // maxPrice: 0,
-    // difference: 0,
+  const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
-    curvePercentage: 0.0001,
-    // maxPrice: 0.000200000000018968,
-    maxPrice: 0.00032835239499604,
-    price: 0.000092471252390582,
-    raised: 35000000,
+  const [curveData, setCurveData] = useState({
+    price: 0,
+    raised: 0,
     tokensIssued: 0,
     tokensReceived: 0,
+    curvePercentage: 0,
+    maxPrice: 0,
+    difference: 0,
+    oldPrice: 0,
+  });
+
+  const [newCurveData, setNewCurveData] = useState({
+    price: 0,
+    raised: 0,
+    tokensIssued: 0,
+    tokensReceived: 0,
+    curvePercentage: 0,
+    maxPrice: 0,
+    difference: 0,
+    oldPrice: 0,
   });
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
@@ -47,7 +53,10 @@ export default function Home() {
   }, [wallet]);
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
-    fetchSaleData("500000000000000000000");
+    const data = 500 * setNewDataIncrements;
+    console.log(52, data, setNewDataIncrements);
+    fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
+    setSetNewDataIncrements(setNewDataIncrements + 1);
   };
   const fetchSaleData = async (amount) => {
     console.log("++++++++++++++ fetchSaleData();");
@@ -58,23 +67,39 @@ export default function Home() {
       );
       const { price, raised, tokensIssued, tokensReceived } =
         await new_contract.methods.getSaleInfo(amount).call();
-      setCurveData({
-        price: parseFloat(web3?.utils?.fromWei(price, "ether")),
-        // raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
-        raised: 35000000,
-        tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
-        tokensReceived: parseFloat(
-          web3?.utils?.fromWei(tokensReceived, "ether")
-        ),
-        curvePercentage:
-          (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) * 10,
-        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
-        // difference:
-        // curveData.tokensReceived === 0
-        //   ? 0
-        //   : web3?.utils?.fromWei(tokensReceived, "ether") -
-        //     curveData.tokensReceived,
-      });
+      if (curveData.price === 0) {
+        setCurveData({
+          price: parseFloat(web3?.utils?.fromWei(price, "ether")),
+          raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
+          // raised: 35000000,
+          tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
+          tokensReceived: parseFloat(
+            web3?.utils?.fromWei(tokensReceived, "ether")
+          ),
+          curvePercentage:
+            (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) *
+            10,
+          maxPrice: parseFloat(
+            web3?.utils?.fromWei("328352394996040", "ether")
+          ),
+          oldPrice: curveData.price,
+        });
+      } else {
+        setNewCurveData({
+          price: parseFloat(web3?.utils?.fromWei(price, "ether")),
+          raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
+          tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
+          tokensReceived: parseFloat(
+            web3?.utils?.fromWei(tokensReceived, "ether")
+          ),
+          curvePercentage:
+            (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) *
+            10,
+          maxPrice: parseFloat(
+            web3?.utils?.fromWei("328352394996040", "ether")
+          ),
+        });
+      }
     } catch (error) {
       console.log("Increase -error", error);
     }
@@ -182,7 +207,7 @@ export default function Home() {
       const newWeb3 = await new Web3(window.ethereum);
       web3 = newWeb3;
       // Execute and fetch data on first init
-      // fetchSaleData("1");
+      fetchSaleData("1");
     }
   };
   useEffect(() => {
@@ -239,10 +264,13 @@ export default function Home() {
         disconnectWalletConnect={disconnectWalletConnect}
         shortenAddress={shortenAddress}
       />
-      <CurveSale web3={web3} curveData={curveData} />
+      <CurveSale
+        newCurveData={newCurveData}
+        web3={web3}
+        curveData={curveData}
+      />
       <div>
-        <h3 onClick={setNewData}>Fetch</h3>
-        <button onClick={setNewData}>100ETH Mock</button>
+        <button onClick={setNewData}>Increment 100ETH Mock</button>
       </div>
     </Layout>
   );

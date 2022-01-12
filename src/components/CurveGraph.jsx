@@ -7,7 +7,7 @@ import { Chart } from "chart.js";
 
 import { colors, sizes } from "./../styles/styleguide";
 
-export default function CurveGraph({ web3, curveData }) {
+export default function CurveGraph({ web3, curveData, newCurveData }) {
   console.log(curveData);
   return (
     <CurveBox>
@@ -19,14 +19,29 @@ export default function CurveGraph({ web3, curveData }) {
           <ColRow>
             <Col size={1}>{curveData.maxPrice.toFixed(5)}</Col>
             <ColPositionAbsolute
+              className={
+                newCurveData.price === 0 ? "hide-this-price" : "show-this-price"
+              }
+              bottom={
+                parseFloat(
+                  (curveData.raised + newCurveData.tokensReceived - 1000) /
+                    100000000
+                ) * 100
+              }
+            >
+              {newCurveData.price.toFixed(5)}
+            </ColPositionAbsolute>
+            <ColPositionAbsolute
               bottom={parseFloat(curveData.raised / 100000000) * 100}
             >
-              {curveData.price.toFixed(5)}
+              {curveData.oldPrice === 0
+                ? curveData.price.toFixed(5)
+                : curveData.oldPrice.toFixed(5)}
             </ColPositionAbsolute>
             {/* <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
             <Col size={1}>{((curveData.maxPrice / 4) * 2).toFixed(5)}</Col>
             <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col> */}
-            <Col size={"0 0 auto"}>0</Col>
+            <Col size={"0 0 auto"}>0.00007</Col>
           </ColRow>
         </Col>
         <Col size={1}>
@@ -40,7 +55,7 @@ export default function CurveGraph({ web3, curveData }) {
                 </Raised>
                 <NewPrice
                   difference={
-                    parseFloat(curveData.tokensReceived / 100000000) * 100
+                    parseFloat(newCurveData.tokensReceived / 100000000) * 100
                   }
                 ></NewPrice>
                 <Available>
@@ -74,6 +89,15 @@ export default function CurveGraph({ web3, curveData }) {
 const ColPositionAbsolute = styled(Col)`
   position: absolute;
   bottom: ${(props) => props.bottom}%;
+  transition: all 0.25s ease;
+  &.hide-this-price {
+    opacity: 0;
+    bottom: 0;
+  }
+  &.show-this-price {
+    bottom: ${(props) => props.bottom}%;
+    opacity: 1;
+  }
 `;
 
 const NewPriceIndicator = styled.div`
@@ -131,7 +155,7 @@ const ColRow = styled(Row)`
   flex-direction: column;
   float: left;
   height: 100%;
-  padding: 1.7rem 0.5rem 0.5rem;
+  padding: 1.3rem 0.5rem 0;
 `;
 
 const CurveBox = styled.div`

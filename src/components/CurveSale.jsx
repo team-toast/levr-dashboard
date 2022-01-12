@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import CurveGraph from "./../components/CurveGraph";
 
-export default function CurveSale({ curveData, web3 }) {
+export default function CurveSale({ curveData, web3, newCurveData }) {
   return (
     <Box>
       <h1 className="text-center">LEVR Curve Sale</h1>
@@ -58,7 +58,11 @@ export default function CurveSale({ curveData, web3 }) {
           </Row>
         </Col>
       </Row>
-      <CurveGraph web3={web3} curveData={curveData}></CurveGraph>
+      <CurveGraph
+        web3={web3}
+        curveData={curveData}
+        newCurveData={newCurveData}
+      ></CurveGraph>
     </Box>
   );
 }
