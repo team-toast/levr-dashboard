@@ -30,7 +30,8 @@ export default function Home() {
     // difference: 0,
 
     curvePercentage: 0.0001,
-    maxPrice: 0.000200000000018968,
+    // maxPrice: 0.000200000000018968,
+    maxPrice: 0.00032835239499604,
     price: 0.000092471252390582,
     raised: 35000000,
     tokensIssued: 0,
@@ -67,7 +68,7 @@ export default function Home() {
         ),
         curvePercentage:
           (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) * 10,
-        maxPrice: parseFloat(web3?.utils?.fromWei("200000000018968", "ether")),
+        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
         // difference:
         // curveData.tokensReceived === 0
         //   ? 0

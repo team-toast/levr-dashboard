@@ -18,9 +18,14 @@ export default function CurveGraph({ web3, curveData }) {
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>{curveData.maxPrice.toFixed(5)}</Col>
-            <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
+            <ColPositionAbsolute
+              bottom={parseFloat(curveData.raised / 100000000) * 100}
+            >
+              {curveData.price.toFixed(5)}
+            </ColPositionAbsolute>
+            {/* <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
             <Col size={1}>{((curveData.maxPrice / 4) * 2).toFixed(5)}</Col>
-            <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col> */}
             <Col size={"0 0 auto"}>0</Col>
           </ColRow>
         </Col>
@@ -65,6 +70,11 @@ export default function CurveGraph({ web3, curveData }) {
     </CurveBox>
   );
 }
+
+const ColPositionAbsolute = styled(Col)`
+  position: absolute;
+  bottom: ${(props) => props.bottom}%;
+`;
 
 const NewPriceIndicator = styled.div`
   position: absolute;
@@ -115,12 +125,13 @@ const PriceStrong = styled.strong`
 `;
 
 const ColRow = styled(Row)`
+  position: relative;
   text-align: right;
   -webkit-flex-direction: column;
   flex-direction: column;
   float: left;
   height: 100%;
-  padding: 1.9rem 0.5rem 0.5rem;
+  padding: 1.7rem 0.5rem 0.5rem;
 `;
 
 const CurveBox = styled.div`
