@@ -41,7 +41,9 @@ export default function CurveGraph({ web3, curveData, newCurveData }) {
             {/* <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
             <Col size={1}>{((curveData.maxPrice / 4) * 2).toFixed(5)}</Col>
             <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col> */}
-            <Col size={"0 0 auto"}>0.00007</Col>
+            <Col size={"0 0 auto"}>
+              {parseFloat(curveData.raised) > 10000000 && 0.00007}
+            </Col>
           </ColRow>
         </Col>
         <Col size={1}>

@@ -53,7 +53,7 @@ export default function Home() {
   }, [wallet]);
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
-    const data = 500 * setNewDataIncrements;
+    const data = 25000 * setNewDataIncrements;
     console.log(52, data, setNewDataIncrements);
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
     setSetNewDataIncrements(setNewDataIncrements + 1);
@@ -71,7 +71,6 @@ export default function Home() {
         setCurveData({
           price: parseFloat(web3?.utils?.fromWei(price, "ether")),
           raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
-          // raised: 35000000,
           tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
           tokensReceived: parseFloat(
             web3?.utils?.fromWei(tokensReceived, "ether")
@@ -270,7 +269,7 @@ export default function Home() {
         curveData={curveData}
       />
       <div>
-        <button onClick={setNewData}>Increment 100ETH Mock</button>
+        <button onClick={setNewData}>Increment Mock purchase</button>
       </div>
     </Layout>
   );
