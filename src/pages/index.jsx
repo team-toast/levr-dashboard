@@ -53,9 +53,11 @@ export default function Home() {
   }, [wallet]);
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
-    const data = 25000 * setNewDataIncrements;
-    fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
-    setSetNewDataIncrements(setNewDataIncrements + 1);
+    if (setNewDataIncrements < 5) {
+      const data = 25000 * setNewDataIncrements;
+      fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
+      setSetNewDataIncrements(setNewDataIncrements + 1);
+    }
   };
   const fetchSaleData = async (amount) => {
     try {
