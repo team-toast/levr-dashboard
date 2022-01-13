@@ -7,8 +7,11 @@ import { Chart } from "chart.js";
 
 import { colors, sizes } from "./../styles/styleguide";
 
-export default function CurveGraph({ web3, curveData, newCurveData }) {
-  console.log(curveData);
+export default function CurveGraph({ curveData, newCurveData }) {
+  let bottomPosition =
+    parseFloat(
+      (curveData.raised + newCurveData.tokensReceived - 1000) / 100000000
+    ) * 100;
   return (
     <CurveBox>
       <Row>
@@ -20,18 +23,20 @@ export default function CurveGraph({ web3, curveData, newCurveData }) {
             <Col size={1}>{curveData.maxPrice.toFixed(5)}</Col>
             <ColPositionAbsolute
               className={
-                newCurveData.price === 0 ? "hide-this-price" : "show-this-price"
+                newCurveData.price === 0
+                  ? "newprice hide-this-price"
+                  : "newprice show-this-price"
               }
-              bottom={
-                parseFloat(
-                  (curveData.raised + newCurveData.tokensReceived - 1000) /
-                    100000000
-                ) * 100
-              }
+              bottom={bottomPosition < 15 ? 15 : bottomPosition}
             >
               {newCurveData.price.toFixed(5)}
             </ColPositionAbsolute>
             <ColPositionAbsolute
+              className={
+                newCurveData.price === 0
+                  ? "currentprice hide-after"
+                  : "currentprice show-after"
+              }
               bottom={parseFloat(curveData.raised / 100000000) * 100}
             >
               {curveData.oldPrice === 0
@@ -99,6 +104,35 @@ const ColPositionAbsolute = styled(Col)`
   &.show-this-price {
     bottom: ${(props) => props.bottom}%;
     opacity: 1;
+  }
+  &.newprice {
+    color: #133be3;
+  }
+  &.newprice::before {
+    content: "New Price";
+    border-bottom: dashed 1px #133be3;
+    width: 85px;
+    display: block;
+    left: 116%;
+    position: absolute;
+    bottom: 5px;
+    z-index: 1;
+    color: #133be3;
+    line-height: 19px;
+    font-size: 14px;
+  }
+  &.currentprice.show-after::after {
+    content: "Current Price";
+    border-bottom: dashed 1px #e02235;
+    width: 85px;
+    display: block;
+    left: 116%;
+    position: absolute;
+    bottom: 5px;
+    z-index: 1;
+    color: #e02235;
+    line-height: 19px;
+    font-size: 14px;
   }
 `;
 
