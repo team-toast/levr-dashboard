@@ -12,6 +12,11 @@ export default function CurveGraph({ curveData, newCurveData }) {
     parseFloat(
       (curveData.raised + newCurveData.tokensReceived - 1000) / 100000000
     ) * 100;
+  if (bottomPosition < 15) {
+    bottomPosition = 15;
+  } else if (bottomPosition > 92.8) {
+    bottomPosition = 92.8;
+  }
   return (
     <CurveBox>
       <Row>
@@ -107,6 +112,9 @@ const ColPositionAbsolute = styled(Col)`
   }
   &.newprice {
     color: #133be3;
+    box-shadow: 0 0 10px 6px #fff;
+    background: white;
+    z-index: 1;
   }
   &.newprice::before {
     content: "New Price";

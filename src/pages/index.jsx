@@ -54,12 +54,10 @@ export default function Home() {
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
     const data = 25000 * setNewDataIncrements;
-    console.log(52, data, setNewDataIncrements);
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
     setSetNewDataIncrements(setNewDataIncrements + 1);
   };
   const fetchSaleData = async (amount) => {
-    console.log("++++++++++++++ fetchSaleData();");
     try {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
