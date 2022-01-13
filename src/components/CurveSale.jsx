@@ -8,7 +8,7 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
   return (
     <Box>
       <h1 className="text-center">LEVR Curve Sale</h1>
-      <Row className="font-family-HandelGotDBol">
+      <ChartRow xsNoflex className="font-family-HandelGotDBol">
         <Col size={1}>
           <Row>
             <Col
@@ -57,7 +57,7 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
             </Col>
           </Row>
         </Col>
-      </Row>
+      </ChartRow>
       <CurveGraph
         web3={web3}
         curveData={curveData}
@@ -66,6 +66,14 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
     </Box>
   );
 }
+
+const ChartRow = styled(Row)`
+  > div {
+    @media screen and (max-width: 48em) {
+      margin-bottom: 1rem;
+    }
+  }
+`;
 
 const Box = styled.div`
   width: 100%;
@@ -76,4 +84,7 @@ const Box = styled.div`
 
 const StyledColMargin10 = styled(Col)`
   margin: 0 1rem;
+  @media screen and (max-width: 48em) {
+    margin: 0;
+  }
 `;

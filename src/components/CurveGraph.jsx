@@ -20,7 +20,7 @@ export default function CurveGraph({ curveData, newCurveData }) {
   return (
     <CurveBox>
       <Row>
-        <Col className="margin-b-4" size={"0 0 auto"}>
+        <Col className="margin-b-4 hide-xs" size={"0 0 auto"}>
           <PriceStrong>Price (nETH)</PriceStrong>
         </Col>
         <Col className="margin-b-4" size={"0 0 auto"}>
