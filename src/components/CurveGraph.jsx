@@ -27,7 +27,7 @@ export default function CurveGraph({ curveData, initSaleInfoFetch }) {
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>
-              <span className="opacity-0">{curveData.maxPrice.toFixed(6)}</span>
+              <span>{curveData.maxPrice.toFixed(6)}</span>
             </Col>
             <ColPositionAbsolute
               className={

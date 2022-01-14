@@ -47,7 +47,6 @@ export default function Home() {
     // fetchSaleData("20000000000000000000000");
     const data = 1000;
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
-    setInitSaleInfoFetch(false);
   };
   const fetchSaleData = async (amount) => {
     try {
@@ -84,6 +83,9 @@ export default function Home() {
         ),
         maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
       });
+      if (curveData.priceBefore !== 0) {
+        setInitSaleInfoFetch(false);
+      }
     } catch (error) {
       console.log("Increase -error", error);
     }
