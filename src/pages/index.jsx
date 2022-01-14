@@ -45,9 +45,8 @@ export default function Home() {
   }, [wallet]);
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
-    const data = 50 * setNewDataIncrements;
+    const data = 1000;
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
-    setSetNewDataIncrements(setNewDataIncrements + 1);
     setInitSaleInfoFetch(false);
   };
   const fetchSaleData = async (amount) => {
@@ -255,7 +254,7 @@ export default function Home() {
         curveData={curveData}
       />
       <div>
-        <button onClick={setNewData}>Increment Mock purchase</button>
+        <button onClick={setNewData}>Mock purchase 1000 ETH</button>
       </div>
     </Layout>
   );
