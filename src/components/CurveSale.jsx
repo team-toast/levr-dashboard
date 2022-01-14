@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 
 import CurveGraph from "./../components/CurveGraph";
 
-export default function CurveSale({ curveData, web3, newCurveData }) {
+export default function CurveSale({ curveData, web3, initSaleInfoFetch }) {
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
     <Box>
       <h1 className="text-center">LEVR Curve Sale</h1>
@@ -19,9 +22,9 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-blue text-white p-10 text-center strong-500"
-              size={"0 0 160px"}
+              size={"0 0 170px"}
             >
-              {curveData.raised === 1000 ? "0" : curveData.raised - 1000} ETH
+              {numberWithCommas(curveData.raisedBefore)} ETH
             </Col>
           </Row>
         </Col>
@@ -35,9 +38,9 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-red text-white p-10 text-center strong-500"
-              size={"0 0 160px"}
+              size={"0 0 170px"}
             >
-              {curveData.tokensIssued} LEVR
+              {numberWithCommas(curveData.totalTokensSoldBefore.toFixed())} LEVR
             </Col>
           </Row>
         </StyledColMargin10>
@@ -51,9 +54,9 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
             </Col>
             <Col
               className="b-r-0-10-10-0 bg-green text-white p-10 text-center strong-500"
-              size={"0 0 160px"}
+              size={"0 0 170px"}
             >
-              {curveData.price.toFixed(5)} nETH
+              {curveData.priceBefore.toFixed(5)} nETH
             </Col>
           </Row>
         </Col>
@@ -61,7 +64,7 @@ export default function CurveSale({ curveData, web3, newCurveData }) {
       <CurveGraph
         web3={web3}
         curveData={curveData}
-        newCurveData={newCurveData}
+        initSaleInfoFetch={initSaleInfoFetch}
       ></CurveGraph>
     </Box>
   );

@@ -289,6 +289,9 @@ button, .button {
     top: 3px;
     cursor: pointer;
 }
+.opacity-0 {
+    opacity: 0;
+}
 .hidden {
     display: none;
 }

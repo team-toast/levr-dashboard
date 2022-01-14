@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 
-import CONTRACT_ABI from "./../lib/ABI_2022_01_10.json";
+import CONTRACT_ABI from "./../lib/abi_2022_01_14.json";
 
 import Layout from "../components/Layout";
 import Header from "../components/Header";
@@ -23,26 +23,18 @@ export default function Home() {
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
   const [curveData, setCurveData] = useState({
-    price: 0,
-    raised: 0,
-    tokensIssued: 0,
+    priceBefore: 0,
+    raisedBefore: 0,
+    totalTokensSoldBefore: 0,
+    raisedAfter: 0,
+    totalTokensSoldAfter: 0,
+    priceAfter: 0,
     tokensReceived: 0,
-    curvePercentage: 0,
+    pricePaidPerToken: 0,
     maxPrice: 0,
-    difference: 0,
-    oldPrice: 0,
   });
 
-  const [newCurveData, setNewCurveData] = useState({
-    price: 0,
-    raised: 0,
-    tokensIssued: 0,
-    tokensReceived: 0,
-    curvePercentage: 0,
-    maxPrice: 0,
-    difference: 0,
-    oldPrice: 0,
-  });
+  const [initSaleInfoFetch, setInitSaleInfoFetch] = useState(true);
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
       if (window.ethereum !== undefined) {
@@ -53,11 +45,10 @@ export default function Home() {
   }, [wallet]);
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
-    if (setNewDataIncrements < 5) {
-      const data = 25000 * setNewDataIncrements;
-      fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
-      setSetNewDataIncrements(setNewDataIncrements + 1);
-    }
+    const data = 50 * setNewDataIncrements;
+    fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
+    setSetNewDataIncrements(setNewDataIncrements + 1);
+    setInitSaleInfoFetch(false);
   };
   const fetchSaleData = async (amount) => {
     try {
@@ -65,40 +56,35 @@ export default function Home() {
         CONTRACT_ABI,
         process.env.ETH_CONTRACT_ADDRESS
       );
-      const { price, raised, tokensIssued, tokensReceived } =
-        await new_contract.methods.getSaleInfo(amount).call();
-      if (curveData.price === 0) {
-        setCurveData({
-          price: parseFloat(web3?.utils?.fromWei(price, "ether")),
-          raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
-          tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
-          tokensReceived: parseFloat(
-            web3?.utils?.fromWei(tokensReceived, "ether")
-          ),
-          curvePercentage:
-            (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) *
-            10,
-          maxPrice: parseFloat(
-            web3?.utils?.fromWei("328352394996040", "ether")
-          ),
-          oldPrice: curveData.price,
-        });
-      } else {
-        setNewCurveData({
-          price: parseFloat(web3?.utils?.fromWei(price, "ether")),
-          raised: parseFloat(web3?.utils?.fromWei(raised, "ether")),
-          tokensIssued: parseFloat(web3?.utils?.fromWei(tokensIssued, "ether")),
-          tokensReceived: parseFloat(
-            web3?.utils?.fromWei(tokensReceived, "ether")
-          ),
-          curvePercentage:
-            (parseFloat(web3?.utils?.fromWei(raised, "ether")) / 100000000) *
-            10,
-          maxPrice: parseFloat(
-            web3?.utils?.fromWei("328352394996040", "ether")
-          ),
-        });
-      }
+      const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
+      console.log(60, saleInfo);
+      setCurveData({
+        priceBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
+        ),
+        raisedBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
+        ),
+        totalTokensSoldBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldBefore, "ether")
+        ),
+        raisedAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedAfter, "ether")
+        ),
+        totalTokensSoldAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
+        ),
+        priceAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceAfter, "ether")
+        ),
+        tokensReceived: parseFloat(
+          web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
+        ),
+        pricePaidPerToken: parseFloat(
+          web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
+        ),
+        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
+      });
     } catch (error) {
       console.log("Increase -error", error);
     }
@@ -264,7 +250,7 @@ export default function Home() {
         shortenAddress={shortenAddress}
       />
       <CurveSale
-        newCurveData={newCurveData}
+        initSaleInfoFetch={initSaleInfoFetch}
         web3={web3}
         curveData={curveData}
       />

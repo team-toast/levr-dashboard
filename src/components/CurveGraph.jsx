@@ -7,10 +7,10 @@ import { Chart } from "chart.js";
 
 import { colors, sizes } from "./../styles/styleguide";
 
-export default function CurveGraph({ curveData, newCurveData }) {
+export default function CurveGraph({ curveData, initSaleInfoFetch }) {
   let bottomPosition =
     parseFloat(
-      (curveData.raised + newCurveData.tokensReceived - 1000) / 100000000
+      (curveData.totalTokensSoldBefore + curveData.tokensReceived) / 100000000
     ) * 100;
   if (bottomPosition < 15) {
     bottomPosition = 15;
@@ -23,51 +23,53 @@ export default function CurveGraph({ curveData, newCurveData }) {
         <Col className="margin-b-4 hide-xs" size={"0 0 auto"}>
           <PriceStrong>Price (nETH)</PriceStrong>
         </Col>
+        {/* Y AXIS PRICING */}
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
-            <Col size={1}>{curveData.maxPrice.toFixed(5)}</Col>
+            <Col size={1}>
+              <span className="opacity-0">{curveData.maxPrice.toFixed(6)}</span>
+            </Col>
             <ColPositionAbsolute
               className={
-                newCurveData.price === 0
+                initSaleInfoFetch
                   ? "newprice hide-this-price"
                   : "newprice show-this-price"
               }
               bottom={bottomPosition < 15 ? 15 : bottomPosition}
             >
-              {newCurveData.price.toFixed(5)}
+              {curveData.priceAfter.toFixed(6)}
             </ColPositionAbsolute>
             <ColPositionAbsolute
-              className={
-                newCurveData.price === 0
-                  ? "currentprice hide-after"
-                  : "currentprice show-after"
+              className="currentprice"
+              bottom={
+                parseFloat(curveData.totalTokensSoldBefore / 100000000) * 100
               }
-              bottom={parseFloat(curveData.raised / 100000000) * 100}
             >
-              {curveData.oldPrice === 0
-                ? curveData.price.toFixed(5)
-                : curveData.oldPrice.toFixed(5)}
+              {curveData.priceBefore.toFixed(6)}
             </ColPositionAbsolute>
-            {/* <Col size={1}>{((curveData.maxPrice / 4) * 3).toFixed(5)}</Col>
-            <Col size={1}>{((curveData.maxPrice / 4) * 2).toFixed(5)}</Col>
-            <Col size={1}>{((curveData.maxPrice / 4) * 1).toFixed(5)}</Col> */}
-            <Col size={"0 0 auto"}>
-              {parseFloat(curveData.raised) > 10000000 && 0.00007}
-            </Col>
+            {/* <Col size={1}>{((curveData.maxPrice / 5) * 4).toFixed(6)}</Col> */}
+            {/* <Col size={1}>{((curveData.maxPrice / 5) * 3).toFixed(6)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 5) * 2).toFixed(6)}</Col>
+            <Col size={1}>{((curveData.maxPrice / 5) * 1).toFixed(6)}</Col> */}
+            <Col size={"0 0 auto"}>0</Col>
           </ColRow>
         </Col>
         <Col size={1}>
+          {/* X AXIS TOKENS RAISED */}
           <LineCurve>
             <InnerCurve>
               <Curve>
                 <Raised
-                  raisedlevr={parseFloat(curveData.raised / 100000000) * 100}
+                  raisedlevr={
+                    parseFloat(curveData.totalTokensSoldBefore / 100000000) *
+                    100
+                  }
                 >
                   <Text className="right">LEVR Raised</Text>
                 </Raised>
                 <NewPrice
                   difference={
-                    parseFloat(newCurveData.tokensReceived / 100000000) * 100
+                    parseFloat(curveData.tokensReceived / 100000000) * 100
                   }
                 ></NewPrice>
                 <Available>
@@ -75,11 +77,6 @@ export default function CurveGraph({ curveData, newCurveData }) {
                 </Available>
               </Curve>
             </InnerCurve>
-            {/* <GrowthLine></GrowthLine> */}
-            {/* <NewPriceIndicator
-              newprice="123"
-              oldprice="456"
-            ></NewPriceIndicator> */}
           </LineCurve>
           <Supply>
             <Row>
@@ -113,8 +110,8 @@ const ColPositionAbsolute = styled(Col)`
   &.newprice {
     color: #133be3;
     box-shadow: 0 0 10px 6px #fff;
-    background: white;
-    z-index: 1;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 2;
   }
   &.newprice::before {
     content: "New Price";
@@ -128,8 +125,9 @@ const ColPositionAbsolute = styled(Col)`
     color: #133be3;
     line-height: 19px;
     font-size: 14px;
+    background: rgba(245, 245, 245, 0.7);
   }
-  &.currentprice.show-after::after {
+  &.currentprice::after {
     content: "Current Price";
     border-bottom: dashed 1px #e02235;
     width: 85px;
@@ -264,7 +262,7 @@ const Text = styled.div`
   font-weight: 500;
   &.right {
     width: inherit;
-    right: 4rem;
+    right: 1rem;
   }
 `;
 
