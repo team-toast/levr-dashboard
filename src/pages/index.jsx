@@ -22,6 +22,9 @@ export default function Home() {
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
+  const [maxTokens, setMaxTokens] = useState(100000000);
+  const [zoomLevel, setZoomLevel] = useState(1);
+
   const [curveData, setCurveData] = useState({
     priceBefore: 0,
     raisedBefore: 0,
@@ -43,6 +46,9 @@ export default function Home() {
       connectSelectedWallet();
     }
   }, [wallet]);
+  const zoomGraph = (data) => {
+    setZoomLevel(data);
+  };
   const setNewData = () => {
     // fetchSaleData("20000000000000000000000");
     const data = 1000;
@@ -254,7 +260,20 @@ export default function Home() {
         initSaleInfoFetch={initSaleInfoFetch}
         web3={web3}
         curveData={curveData}
+        maxTokens={maxTokens}
+        zoomLevel={zoomLevel}
       />
+      <div>
+        <h3>Graph Zoom</h3>
+        <input
+          onChange={(value) => zoomGraph(value.target.value)}
+          type="range"
+          min="1"
+          max="2"
+          value={zoomLevel}
+          step="0.1"
+        />
+      </div>
       <div>
         <button onClick={setNewData}>Mock purchase 1000 ETH</button>
       </div>

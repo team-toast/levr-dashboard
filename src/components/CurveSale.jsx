@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 
 import CurveGraph from "./../components/CurveGraph";
 
-export default function CurveSale({ curveData, web3, initSaleInfoFetch }) {
+export default function CurveSale({
+  curveData,
+  web3,
+  initSaleInfoFetch,
+  maxTokens,
+  zoomLevel,
+}) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -65,6 +71,8 @@ export default function CurveSale({ curveData, web3, initSaleInfoFetch }) {
         web3={web3}
         curveData={curveData}
         initSaleInfoFetch={initSaleInfoFetch}
+        maxTokens={maxTokens}
+        zoomLevel={zoomLevel}
       ></CurveGraph>
     </Box>
   );

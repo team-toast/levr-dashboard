@@ -7,10 +7,16 @@ import { Chart } from "chart.js";
 
 import { colors, sizes } from "./../styles/styleguide";
 
-export default function CurveGraph({ curveData, initSaleInfoFetch }) {
+export default function CurveGraph({
+  curveData,
+  initSaleInfoFetch,
+  maxTokens,
+  zoomLevel,
+}) {
   let bottomPosition =
     parseFloat(
-      (curveData.totalTokensSoldBefore + curveData.tokensReceived) / 100000000
+      (curveData.totalTokensSoldBefore + curveData.tokensReceived) /
+        (maxTokens / zoomLevel)
     ) * 100;
   if (bottomPosition < 15) {
     bottomPosition = 15;
@@ -27,7 +33,7 @@ export default function CurveGraph({ curveData, initSaleInfoFetch }) {
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>
-              <span>{curveData.maxPrice.toFixed(6)}</span>
+              <span>{(curveData.maxPrice / zoomLevel).toFixed(6)}</span>
             </Col>
             <ColPositionAbsolute
               className={
@@ -42,7 +48,9 @@ export default function CurveGraph({ curveData, initSaleInfoFetch }) {
             <ColPositionAbsolute
               className="currentprice"
               bottom={
-                parseFloat(curveData.totalTokensSoldBefore / 100000000) * 100
+                parseFloat(
+                  curveData.totalTokensSoldBefore / (maxTokens / zoomLevel)
+                ) * 100
               }
             >
               {curveData.priceBefore.toFixed(6)}
@@ -61,15 +69,18 @@ export default function CurveGraph({ curveData, initSaleInfoFetch }) {
               <Curve>
                 <Raised
                   raisedlevr={
-                    parseFloat(curveData.totalTokensSoldBefore / 100000000) *
-                    100
+                    parseFloat(
+                      curveData.totalTokensSoldBefore / (maxTokens / zoomLevel)
+                    ) * 100
                   }
                 >
                   <Text className="right">LEVR Raised</Text>
                 </Raised>
                 <NewPrice
                   difference={
-                    parseFloat(curveData.tokensReceived / 100000000) * 100
+                    parseFloat(
+                      curveData.tokensReceived / (maxTokens / zoomLevel)
+                    ) * 100
                   }
                 ></NewPrice>
                 <Available>
@@ -80,11 +91,11 @@ export default function CurveGraph({ curveData, initSaleInfoFetch }) {
           </LineCurve>
           <Supply>
             <Row>
-              <Col size={1}>10M</Col>
-              <Col size={1}>25M</Col>
-              <Col size={1}>50M</Col>
-              <Col size={1}>75M</Col>
-              <Col size={"0 0 auto"}>100M</Col>
+              <Col size={1}>{(10 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(25 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(50 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(75 / zoomLevel).toFixed()}M</Col>
+              <Col size={"0 0 auto"}>{(100 / zoomLevel).toFixed()}M</Col>
             </Row>
             <br />
             <h3 className="text-center">Token Supply</h3>
