@@ -12,6 +12,7 @@ export default function CurveGraph({
   initSaleInfoFetch,
   maxTokens,
   zoomLevel,
+  zoomGraph,
 }) {
   let bottomPosition =
     parseFloat(
@@ -101,10 +102,81 @@ export default function CurveGraph({
             <h3 className="text-center">Token Supply</h3>
           </Supply>
         </Col>
+        <Col className="text-center hide-xs">
+          <RangeSliderBox>
+            <RangeSlider
+              onChange={(value) => zoomGraph(value.target.value)}
+              type="range"
+              min="1"
+              max="2"
+              value={zoomLevel}
+              step="0.1"
+            />
+            <h3>
+              Graph
+              <br />
+              Zoom
+            </h3>
+          </RangeSliderBox>
+        </Col>
       </Row>
     </CurveBox>
   );
 }
+
+const RangeSliderBox = styled.div`
+  top: 3rem;
+  position: relative;
+  height: 450px;
+  width: 100px;
+  h3 {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+`;
+
+const RangeSlider = styled.input`
+  -webkit-appearance: none;
+  width: 366px;
+  background: #f5f5f5;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  //   appearance: slider-vertical;
+  height: 16px;
+  transform: rotate(-90deg) translateY(-50%);
+  top: 42%;
+  position: absolute;
+  left: 0;
+  margin-left: -126px;
+  border-radius: 8px;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #1ae287;
+    cursor: pointer;
+    top: -13px;
+    box-shadow: 1px 2px 2px #0000001a;
+    border-radius: 2px;
+    height: 33px;
+    width: 16px;
+  }
+
+  &::-moz-range-thumb {
+    position: relative;
+    left: -12px;
+    width: 25px;
+    height: 25px;
+    background: black;
+    cursor: pointer;
+    border: none;
+  }
+`;
 
 const ColPositionAbsolute = styled(Col)`
   position: absolute;

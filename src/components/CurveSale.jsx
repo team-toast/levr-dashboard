@@ -10,6 +10,7 @@ export default function CurveSale({
   initSaleInfoFetch,
   maxTokens,
   zoomLevel,
+  zoomGraph,
 }) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -73,6 +74,7 @@ export default function CurveSale({
         initSaleInfoFetch={initSaleInfoFetch}
         maxTokens={maxTokens}
         zoomLevel={zoomLevel}
+        zoomGraph={zoomGraph}
       ></CurveGraph>
     </Box>
   );

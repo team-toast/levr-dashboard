@@ -262,18 +262,8 @@ export default function Home() {
         curveData={curveData}
         maxTokens={maxTokens}
         zoomLevel={zoomLevel}
+        zoomGraph={zoomGraph}
       />
-      <div>
-        <h3>Graph Zoom</h3>
-        <input
-          onChange={(value) => zoomGraph(value.target.value)}
-          type="range"
-          min="1"
-          max="2"
-          value={zoomLevel}
-          step="0.1"
-        />
-      </div>
       <div>
         <button onClick={setNewData}>Mock purchase 1000 ETH</button>
       </div>
