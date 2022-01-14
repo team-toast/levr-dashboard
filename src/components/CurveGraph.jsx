@@ -112,11 +112,11 @@ export default function CurveGraph({
               value={zoomLevel}
               step="0.1"
             />
-            <h3>
+            <span>
               Graph
               <br />
               Zoom
-            </h3>
+            </span>
           </RangeSliderBox>
         </Col>
       </Row>
@@ -129,7 +129,7 @@ const RangeSliderBox = styled.div`
   position: relative;
   height: 450px;
   width: 100px;
-  h3 {
+  span {
     position: absolute;
     bottom: 0;
     left: 50%;
