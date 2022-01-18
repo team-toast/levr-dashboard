@@ -13,7 +13,18 @@ export default function CurveGraph({
   maxTokens,
   zoomLevel,
   zoomGraph,
+  STATIC_MAX_TOKENS,
 }) {
+  let steps_to_use =
+    curveData.priceBefore !== curveData.priceAfter
+      ? parseFloat(
+          curveData.tokensReceived /
+            (STATIC_MAX_TOKENS -
+              (curveData.totalTokensSoldBefore + curveData.tokensReceived))
+        ).toFixed(4)
+      : parseFloat(curveData.totalTokensSoldBefore / STATIC_MAX_TOKENS).toFixed(
+          4
+        );
   let bottomPosition =
     parseFloat(
       (curveData.totalTokensSoldBefore + curveData.tokensReceived) /
@@ -103,14 +114,16 @@ export default function CurveGraph({
           </Supply>
         </Col>
         <Col className="text-center hide-xs">
-          <RangeSliderBox>
+          <RangeSliderBox
+            className={steps_to_use * 2 >= 2 ? "disable-zoom" : ""}
+          >
             <RangeSlider
               onChange={(value) => zoomGraph(value.target.value)}
               type="range"
               min="1"
               max="2"
               value={zoomLevel}
-              step="0.1"
+              step={steps_to_use}
             />
             <span>
               Graph
@@ -134,6 +147,14 @@ const RangeSliderBox = styled.div`
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+  }
+  &.disable-zoom {
+    opacity: 0.3;
+    cursor: disabled;
+    input {
+      cursor: not-allowed;
+      filter: grayscale(1);
+    }
   }
 `;
 

@@ -11,6 +11,7 @@ export default function CurveSale({
   maxTokens,
   zoomLevel,
   zoomGraph,
+  STATIC_MAX_TOKENS,
 }) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -75,6 +76,7 @@ export default function CurveSale({
         maxTokens={maxTokens}
         zoomLevel={zoomLevel}
         zoomGraph={zoomGraph}
+        STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
       ></CurveGraph>
     </Box>
   );

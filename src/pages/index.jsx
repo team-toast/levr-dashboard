@@ -11,6 +11,8 @@ import CurveSale from "./../components/CurveSale";
 
 let web3;
 
+const STATIC_MAX_TOKENS = 100000000;
+
 export default function Home() {
   const [wallet, setWallet] = useState(null);
   const [web3Obj, setWeb3Obj] = useState(null);
@@ -263,6 +265,7 @@ export default function Home() {
         maxTokens={maxTokens}
         zoomLevel={zoomLevel}
         zoomGraph={zoomGraph}
+        STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
       />
       <div>
         <button onClick={setNewData}>Mock purchase 1000 ETH</button>
