@@ -2,6 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
 import { useState, useEffect } from "react";
 
+import Link from "next/link";
+
 export default function Buy({ curveData, web3 }) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -38,7 +40,10 @@ export default function Buy({ curveData, web3 }) {
               <button className="b-r-0-10-10-0">Buy</button>
             </div>
             <p>
-              View <a href="/">Terms & Conditions</a>
+              View{" "}
+              <Link href="/">
+                <a>Terms & Conditions</a>
+              </Link>
             </p>
             <p>
               Average cost per token is{" "}
