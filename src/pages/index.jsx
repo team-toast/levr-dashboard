@@ -8,6 +8,7 @@ import Layout from "../components/Layout";
 import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
 import CurveSale from "./../components/CurveSale";
+import Buy from "./../components/Buy";
 
 let web3;
 
@@ -267,9 +268,7 @@ export default function Home() {
         zoomGraph={zoomGraph}
         STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
       />
-      <div>
-        <button onClick={setNewData}>Mock purchase 1000 ETH</button>
-      </div>
+      <Buy web3={web3} curveData={curveData} />
     </Layout>
   );
 }

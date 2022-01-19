@@ -109,8 +109,6 @@ export default function CurveGraph({
               <Col size={1}>{(75 / zoomLevel).toFixed()}M</Col>
               <Col size={"0 0 auto"}>{(100 / zoomLevel).toFixed()}M</Col>
             </Row>
-            <br />
-            <h3 className="text-center">Token Supply</h3>
           </Supply>
         </Col>
         <Col className="text-center hide-xs">
@@ -133,6 +131,8 @@ export default function CurveGraph({
           </RangeSliderBox>
         </Col>
       </Row>
+      <br />
+      <h3 className="text-center">Token Supply</h3>
     </CurveBox>
   );
 }

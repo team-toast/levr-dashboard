@@ -132,6 +132,9 @@ p {
 .flex {
     display: flex;
 }
+.display-block {
+    display: block;
+}
 .text {
     &-white {
         color: ${colors.White};
@@ -339,6 +342,14 @@ input[type="text"] {
 }
 .visible-xs {
     display: none;
+}
+.font-weight {
+    &-bold {
+        font-weight: bold;
+    }
+    &-normal {
+        font-weight: normal;
+    }
 }
 ._loading_overlay_content {
     font-weight: bold;
