@@ -198,15 +198,18 @@ export default function Home() {
   }, [web3, web3Obj, walletAddress]);
   const connectWeb3 = async () => {
     if (typeof window != "undefined" && web3 === undefined) {
-      const newWeb3 = await new Web3(window.ethereum);
+      console.log(201, "connectWeb3");
+      // const newWeb3 = await new Web3(window.ethereum);
+      const newWeb3 = await new Web3(process.env.ETH_RPC);
       web3 = newWeb3;
       // Execute and fetch data on first init
       fetchSaleData("1");
     }
   };
   useEffect(() => {
+    console.log(208, window.ethereum);
+    connectWeb3();
     if (window.ethereum) {
-      connectWeb3();
       // Metamask account change
       window.ethereum.on("accountsChanged", function (accounts) {
         if (accounts.length > 0) {
