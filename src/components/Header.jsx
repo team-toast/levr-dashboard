@@ -364,7 +364,7 @@ const StyledHeader = styled.header`
   top: 0;
   left: 0;
   background: #06033d;
-  z-index: 2;
+  z-index: 3;
   padding: 0.5em 1em;
   box-shadow: none;
   > div {

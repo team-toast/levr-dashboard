@@ -1,0 +1,74 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISale",
+        "name": "_SaleAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "Sale",
+    "outputs": [
+      { "internalType": "contract ISale", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_add", "type": "uint256" }
+    ],
+    "name": "addRaised",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_supplied", "type": "uint256" }
+    ],
+    "name": "getSaleInfo",
+    "outputs": [
+      { "internalType": "uint256", "name": "_raisedBefore", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_totalTokensSoldBefore",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_priceBefore", "type": "uint256" },
+      { "internalType": "uint256", "name": "_raisedAfter", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_totalTokensSoldAfter",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_priceAfter", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_tokensReceived",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_pricePaidPerToken",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_sub", "type": "uint256" }
+    ],
+    "name": "subtractRaised",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

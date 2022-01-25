@@ -2,11 +2,16 @@ import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 
+import CONTRACT_ABI from "./../lib/abi_2022_01_14.json";
+
 import Layout from "../components/Layout";
 import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
+import CurveSale from "./../components/CurveSale";
 
 let web3;
+
+const STATIC_MAX_TOKENS = 100000000;
 
 export default function Home() {
   const [wallet, setWallet] = useState(null);
@@ -16,6 +21,25 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
+
+  const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
+
+  const [maxTokens, setMaxTokens] = useState(100000000);
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  const [curveData, setCurveData] = useState({
+    priceBefore: 0,
+    raisedBefore: 0,
+    totalTokensSoldBefore: 0,
+    raisedAfter: 0,
+    totalTokensSoldAfter: 0,
+    priceAfter: 0,
+    tokensReceived: 0,
+    pricePaidPerToken: 0,
+    maxPrice: 0,
+  });
+
+  const [initSaleInfoFetch, setInitSaleInfoFetch] = useState(true);
   useEffect(() => {
     if (typeof window != "undefined" && !web3) {
       if (window.ethereum !== undefined) {
@@ -24,6 +48,56 @@ export default function Home() {
       connectSelectedWallet();
     }
   }, [wallet]);
+  const zoomGraph = (data) => {
+    setZoomLevel(data);
+  };
+  const setNewData = () => {
+    // fetchSaleData("20000000000000000000000");
+    const data = 1000;
+    fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
+  };
+  const fetchSaleData = async (amount) => {
+    try {
+      let new_contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        process.env.ETH_CONTRACT_ADDRESS
+      );
+      const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
+      console.log(60, saleInfo);
+      setCurveData({
+        priceBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
+        ),
+        raisedBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
+        ),
+        totalTokensSoldBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldBefore, "ether")
+        ),
+        raisedAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedAfter, "ether")
+        ),
+        totalTokensSoldAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
+        ),
+        priceAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceAfter, "ether")
+        ),
+        tokensReceived: parseFloat(
+          web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
+        ),
+        pricePaidPerToken: parseFloat(
+          web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
+        ),
+        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
+      });
+      if (curveData.priceBefore !== 0) {
+        setInitSaleInfoFetch(false);
+      }
+    } catch (error) {
+      console.log("Increase -error", error);
+    }
+  };
   const connectSelectedWallet = async () => {
     console.log("connectSelectedWallet");
     if (wallet === "metamask") {
@@ -114,7 +188,7 @@ export default function Home() {
     if (web3Obj !== null) {
       web3Obj.eth.getChainId().then((chainID) => {
         // Detect which blockchain MM is connected to. ID 1 means Ethereum
-        if (chainID == 1) {
+        if (chainID == 1 || chainID == 3) {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -122,7 +196,19 @@ export default function Home() {
       });
     }
   }, [web3, web3Obj, walletAddress]);
+  const connectWeb3 = async () => {
+    if (typeof window != "undefined" && web3 === undefined) {
+      console.log(201, "connectWeb3");
+      // const newWeb3 = await new Web3(window.ethereum);
+      const newWeb3 = await new Web3(process.env.ETH_RPC);
+      web3 = newWeb3;
+      // Execute and fetch data on first init
+      fetchSaleData("1");
+    }
+  };
   useEffect(() => {
+    console.log(208, window.ethereum);
+    connectWeb3();
     if (window.ethereum) {
       // Metamask account change
       window.ethereum.on("accountsChanged", function (accounts) {
@@ -143,7 +229,7 @@ export default function Home() {
       // Network account change
       window.ethereum.on("chainChanged", function (networkId) {
         console.log(157, networkId);
-        if (networkId === "0x1") {
+        if (networkId === "0x1" || networkId === "0x3") {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -175,49 +261,17 @@ export default function Home() {
         disconnectWalletConnect={disconnectWalletConnect}
         shortenAddress={shortenAddress}
       />
-      <h1>LEVR Curve Sale</h1>
-      <h2>LEVR Curve Sale</h2>
+      <CurveSale
+        initSaleInfoFetch={initSaleInfoFetch}
+        web3={web3}
+        curveData={curveData}
+        maxTokens={maxTokens}
+        zoomLevel={zoomLevel}
+        zoomGraph={zoomGraph}
+        STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
+      />
       <div>
-        <button>Button</button>
-        <button className="green border-radius-0-10">Button</button>
-        <button className="red border-radius-0-10">Button</button>
-      </div>
-      <div>
-        <p>
-          <strong>This</strong> is a <strong>Strong</strong> element
-        </p>
-        <button className="action">Button</button>
-      </div>
-      <div>
-        <button className="action">Button</button>
-      </div>
-      <div>
-        <p>
-          Since the cost raises with each transaction, the faster you buy, the
-          more LEVR you will get for the ETH you spend! Since the cost raises
-          with each transaction, the faster you buy, the more LEVR you will get
-          for the ETH you spend! Since the cost raises with each transaction,
-          the faster you buy, the more LEVR you will get for the ETH you spend!
-        </p>
-        <p>
-          Since the cost raises with each transaction, the faster you buy, the
-          more LEVR you will get for the ETH you spend! Since the cost raises
-          with each transaction, the faster you buy, the more LEVR you will get
-          for the ETH you spend! Since the cost raises with each transaction,
-          the faster you buy, the more LEVR you will get for the{" "}
-          <a href="https://levr.ly" rel="noreferrer">
-            ETH you spend
-          </a>
-          !
-        </p>
-      </div>
-      <div className="flex">
-        <div className="bg-red">RED</div>
-        <div className="bg-blue">BLUE</div>
-        <div className="bg-green">GREEN</div>
-        <div className="bg-dark-blue">BLUE</div>
-        <div className="bg-yellow">YELLOW</div>
-        <div className="bg-darkest-blue">darkest-blue</div>
+        <button onClick={setNewData}>Mock purchase 1000 ETH</button>
       </div>
     </Layout>
   );

@@ -39,6 +39,15 @@ strong {
     margin: auto;
     width: 100%;
 }
+.strong-500 {
+    font-weight: 500;
+}
+.margin-b-4 {
+    margin-bottom: 4rem;
+}
+.position-relative {
+    position: relative;
+}
 .text {
     &-left {
         text-align: left;
@@ -69,6 +78,9 @@ strong {
     &-blue {
         color: ${colors.blue};
     }
+}
+.font-family-HandelGotDBol {
+    font-family: HandelGotDBol;
 }
 h1 {
     font-family: HandelGotDBol;
@@ -120,7 +132,15 @@ p {
 .flex {
     display: flex;
 }
+.text {
+    &-white {
+        color: ${colors.White};
+    }
+}
 .bg {
+    &-grey {
+        background: ${colors.grey}
+    }
     &-red {
         background: ${colors.red}
     }
@@ -228,6 +248,15 @@ button, .button {
         background: ${colors.Yellow};
     }
 }
+.b-r-0-10-10-0 {
+    border-radius: 0 10px 10px 0;
+}
+.b-r-10-0-0-10 {
+    border-radius: 10px 0 0 10px;
+}
+.p-10 {
+    padding: 10px;
+}
 .margin {
     &-top-2 {
         margin-top: 2em;
@@ -259,6 +288,9 @@ button, .button {
     position: relative;
     top: 3px;
     cursor: pointer;
+}
+.opacity-0 {
+    opacity: 0;
 }
 .hidden {
     display: none;
