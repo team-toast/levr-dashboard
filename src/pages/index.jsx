@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 
-import CONTRACT_ABI from "./../lib/abi_2022_01_14.json";
+import CONTRACT_ABI_SALE_INFO from "./../lib/abi_2022_01_14.json";
 
 import Layout from "../components/Layout";
 import Header from "../components/Header";
@@ -42,7 +42,7 @@ export default function Home() {
 
   const [initSaleInfoFetch, setInitSaleInfoFetch] = useState(true);
   useEffect(() => {
-    if (typeof window != "undefined" && !web3) {
+    if (typeof window != "undefined" && web3 != undefined) {
       if (window.ethereum !== undefined) {
         setWeb3Detect(true);
       }
@@ -60,8 +60,8 @@ export default function Home() {
   const fetchSaleData = async (amount) => {
     try {
       let new_contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        CONTRACT_ABI_SALE_INFO,
+        process.env.ETH_CONTRACT_ADDRESS_SALE_INFO
       );
       const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
       console.log(60, saleInfo);
@@ -100,7 +100,7 @@ export default function Home() {
     }
   };
   const connectSelectedWallet = async () => {
-    console.log("connectSelectedWallet");
+    console.log("connectSelectedWallet", wallet);
     if (wallet === "metamask") {
       try {
         const newWeb3 = await new Web3(window.ethereum);
@@ -109,7 +109,7 @@ export default function Home() {
         connectWallet();
       } catch (error) {
         setWallet(null);
-        web3 = false;
+        // web3 = false;
         setWeb3Obj(null);
         console.log("Could not connect Web3");
       }
@@ -129,7 +129,7 @@ export default function Home() {
         connectWallet();
       } catch (error) {
         setWallet(null);
-        web3 = false;
+        // web3 = false;
         setWeb3Obj(null);
         console.log("Could not connect Web3");
       }
@@ -141,7 +141,7 @@ export default function Home() {
   };
   const disconnectWalletConnect = () => {
     localStorage.removeItem("walletconnect");
-    web3 = null;
+    // web3 = null;
     setWeb3Obj(null);
     setWalletAddress(null);
     setWallet(null);
@@ -208,9 +208,9 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    console.log(208, window.ethereum);
     connectWeb3();
     if (window.ethereum) {
+      setWeb3Detect(true);
       // Metamask account change
       window.ethereum.on("accountsChanged", function (accounts) {
         if (accounts.length > 0) {
@@ -218,7 +218,7 @@ export default function Home() {
         } else {
           // setWeb3(null);
           localStorage.removeItem("walletconnect");
-          web3 = null;
+          // web3 = null;
           setWeb3Obj(null);
           setWalletAddress(null);
           setWallet(null);
@@ -271,7 +271,13 @@ export default function Home() {
         zoomGraph={zoomGraph}
         STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
       />
-      <Buy web3={web3} curveData={curveData} />
+      <Buy
+        setShowConnectOptions={setShowConnectOptions}
+        walletAddress={walletAddress}
+        web3Obj={web3Obj}
+        web3={web3}
+        curveData={curveData}
+      />
     </Layout>
   );
 }
