@@ -239,7 +239,7 @@ export default function Buy({
             </div>
             <p>
               View{" "}
-              <Link href="/">
+              <Link href="/terms-and-conditions">
                 <a>Terms & Conditions</a>
               </Link>
             </p>

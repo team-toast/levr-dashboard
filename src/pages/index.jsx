@@ -22,6 +22,7 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
+  const [currentTimeStamp, setCurrentTimeStamp] = useState(Date.now());
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
@@ -197,7 +198,7 @@ export default function Home() {
     }
   }, [web3, web3Obj, walletAddress]);
   const connectWeb3 = async () => {
-    if (typeof window != "undefined" && web3 === undefined) {
+    if (typeof window != "undefined") {
       console.log(201, "connectWeb3");
       // const newWeb3 = await new Web3(window.ethereum);
       const newWeb3 = await new Web3(process.env.ETH_RPC);
@@ -208,6 +209,8 @@ export default function Home() {
   };
   useEffect(() => {
     connectWeb3();
+  }, [currentTimeStamp]);
+  useEffect(() => {
     if (window.ethereum) {
       setWeb3Detect(true);
       // Metamask account change
