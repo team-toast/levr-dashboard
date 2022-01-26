@@ -6,8 +6,6 @@ import CONTRACT_ABI from "./../../lib/abi_2022_01_24.json";
 
 import Web3 from "web3";
 
-import WalletState from "./../WalletState";
-
 const BALANCE_ABI = [
   // balanceOf
   {
@@ -34,10 +32,13 @@ export default function Buy({
   web3,
   web3Obj,
   walletAddress,
+  setNewDataFunction,
   setShowConnectOptions,
 }) {
   const [levrBalance, setLevrBalance] = useState(0);
   const [eTHbalance, setETHbalance] = useState(0);
+  const [depositEth, setDepositEth] = useState(0);
+  const [status, setStatus] = useState(false);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -99,6 +100,41 @@ export default function Buy({
       console.log(error);
     }
   };
+
+  const depositEthToLEVR = async () => {
+    console.log(`depositEthToLEVR`);
+    await getETHbalance(walletAddress);
+    if (parseFloat(eTHbalance) >= parseFloat(depositEth)) {
+      let new_contract = await new web3.eth.Contract(
+        CONTRACT_ABI,
+        process.env.ETH_CONTRACT_ADDRESS
+      );
+      setStatus("Depositing ...");
+      const fundit = await new_contract.methods
+        .buy(walletAddress)
+        .send({
+          from: walletAddress,
+          value: web3.utils.toWei(depositEth.toString(), "ether"),
+        })
+        .then((res) => {
+          console.log("Success");
+          getLevrBalance(walletAddress);
+          setStatus(false);
+        })
+        .catch((err) => {
+          console.log("err", err);
+          setStatus("Unable to deposit, please try again.");
+        });
+    } else {
+      setNotEnoughBalance(true);
+    }
+  };
+
+  const enterEthValue = (event) => {
+    setNewDataFunction(event.target.value);
+    setDepositEth(event.target.value);
+  };
+
   useEffect(() => {
     if (walletAddress != null) {
       getLevrBalance(walletAddress);
@@ -113,6 +149,7 @@ export default function Buy({
           </button>
         </ConnectWalletOverlay>
       )}
+      {status != false && <ConnectWalletOverlay>{status}</ConnectWalletOverlay>}
       <h2 className="text-center">Your LEVR</h2>
       <BuyRow xsNoflex>
         {/* Balance */}
@@ -143,8 +180,15 @@ export default function Buy({
           <Inner>
             <strong className="margin-bottom-1 display-block">Buy LEVR</strong>
             <div className="flex">
-              <input type="text" placeholder="Enter ETH amount" />
-              <button className="b-r-0-10-10-0">Buy</button>
+              <input
+                value={depositEth}
+                onChange={() => enterEthValue(event)}
+                type="text"
+                placeholder="Enter ETH amount"
+              />
+              <button onClick={depositEthToLEVR} className="b-r-0-10-10-0">
+                Buy
+              </button>
             </div>
             <p>
               View{" "}

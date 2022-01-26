@@ -52,9 +52,8 @@ export default function Home() {
   const zoomGraph = (data) => {
     setZoomLevel(data);
   };
-  const setNewData = () => {
-    // fetchSaleData("20000000000000000000000");
-    const data = 1000;
+  const setNewData = (ethValue) => {
+    const data = ethValue;
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
   };
   const fetchSaleData = async (amount) => {
@@ -277,6 +276,7 @@ export default function Home() {
         web3Obj={web3Obj}
         web3={web3}
         curveData={curveData}
+        setNewDataFunction={setNewData}
       />
     </Layout>
   );
