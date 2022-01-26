@@ -71,7 +71,6 @@ export default function Buy({
   };
 
   const addLevrTokenToMM = async () => {
-    console.log(`addDETHtokenToMM`);
     const tokenAddress = "0x45F7e0A7Ebb5cd6E908F6AaE5F47c2D6f3952abd";
     const tokenSymbol = "LEVR";
     const tokenDecimals = 18;
@@ -86,7 +85,7 @@ export default function Buy({
             address: tokenAddress, // The address that the token is at.
             symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
             decimals: tokenDecimals, // The number of decimals in the token
-            image: tokenImage, // A string url of the token logo
+            // image: tokenImage, // A string url of the token logo
           },
         },
       });
