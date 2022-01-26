@@ -37,7 +37,7 @@ export default function Buy({
 }) {
   const [levrBalance, setLevrBalance] = useState(0);
   const [eTHbalance, setETHbalance] = useState(0);
-  const [depositEth, setDepositEth] = useState(0);
+  const [depositEth, setDepositEth] = useState("");
   const [status, setStatus] = useState(false);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -131,8 +131,11 @@ export default function Buy({
   };
 
   const enterEthValue = (event) => {
-    setNewDataFunction(event.target.value);
-    setDepositEth(event.target.value);
+    const value = event.target.value == "" ? "" : event.target.value;
+    if (event.target.value != "") {
+      setNewDataFunction(event.target.value);
+    }
+    setDepositEth(value);
   };
 
   useEffect(() => {
@@ -199,15 +202,19 @@ export default function Buy({
             <p>
               Average cost per token is{" "}
               <span className="font-weight-bold text-red">
-                {curveData.priceBefore.toFixed(6)} nETH
+                {curveData.priceBefore.toFixed(8)} nETH
               </span>
             </p>
-            {curveData.priceBefore.toFixed(6) !==
-              curveData.priceAfter.toFixed(6) && (
+            {curveData.priceBefore.toFixed(8) !==
+              curveData.priceAfter.toFixed(8) && (
               <p>
                 {`You'll`} raise average cost to{" "}
                 <span className=" font-weight-bold text-blue">
-                  {curveData.priceAfter.toFixed(6)} nETH
+                  {curveData.priceAfter.toFixed(8)} nETH
+                </span>{" "}
+                and receive{" "}
+                <span className=" font-weight-bold text-green">
+                  {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR.
                 </span>
               </p>
             )}
