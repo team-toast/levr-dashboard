@@ -1,0 +1,237 @@
+[
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
+      {
+        "internalType": "contract IERC20Mintable",
+        "name": "_tokenOnSale",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "_gulper", "type": "address" },
+      { "internalType": "address", "name": "_treasury", "type": "address" },
+      { "internalType": "address", "name": "_liquidity", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_foundryTreasury",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Bought",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_receiver", "type": "address" }
+    ],
+    "name": "buy",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_tokensIssued", "type": "uint256" }
+    ],
+    "name": "calculatePrice",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_supplied", "type": "uint256" }
+    ],
+    "name": "calculatePricePerToken",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_supplied", "type": "uint256" }
+    ],
+    "name": "calculateTokensReceived",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokensReturned",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "foundryTreasury",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCurrentPrice",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gulper",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "inclineWAD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "liquidity",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pointPriceWAD",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
+      { "internalType": "uint256", "name": "_tokensIssued", "type": "uint256" }
+    ],
+    "name": "pureCalculatePrice",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_alreadyRaised",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_supplied", "type": "uint256" }
+    ],
+    "name": "pureCalculatePricePerToken",
+    "outputs": [
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
+      { "internalType": "uint256", "name": "_raised", "type": "uint256" }
+    ],
+    "name": "pureCalculateSupply",
+    "outputs": [
+      { "internalType": "uint256", "name": "_tokens", "type": "uint256" }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_alreadyRaised",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_supplied", "type": "uint256" }
+    ],
+    "name": "pureCalculateTokensRecieved",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokensReturned",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "raised",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "x", "type": "uint256" }],
+    "name": "sqrt",
+    "outputs": [{ "internalType": "uint256", "name": "y", "type": "uint256" }],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenOnSale",
+    "outputs": [
+      {
+        "internalType": "contract IERC20Mintable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokensIssued",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "treasury",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+]

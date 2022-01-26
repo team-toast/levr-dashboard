@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
 import { useState, useEffect } from "react";
 
-import CONTRACT_ABI from "./../../lib/abi_2022_01_24.json";
+import CONTRACT_ABI from "./../../lib/abi_eth_contract.json";
 
 import Web3 from "web3";
 
@@ -38,6 +38,7 @@ export default function Buy({
   const [levrBalance, setLevrBalance] = useState(0);
   const [eTHbalance, setETHbalance] = useState(0);
   const [depositEth, setDepositEth] = useState("");
+  const [notEnoughBalance, setNotEnoughBalance] = useState(false);
   const [status, setStatus] = useState(false);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -72,7 +73,7 @@ export default function Buy({
   };
 
   const addLevrTokenToMM = async () => {
-    const tokenAddress = "0x45F7e0A7Ebb5cd6E908F6AaE5F47c2D6f3952abd";
+    const tokenAddress = "0xa9cccd81e1fa331ac893dfc7ff833bbb7309c720";
     const tokenSymbol = "LEVR";
     const tokenDecimals = 18;
     // const tokenImage = "https://app.levr.ly/deth-logo-svg.svg";
@@ -109,7 +110,11 @@ export default function Buy({
         CONTRACT_ABI,
         process.env.ETH_CONTRACT_ADDRESS
       );
-      setStatus("Depositing ...");
+      setStatus(
+        `Buying ${numberWithCommas(
+          curveData.tokensReceived.toFixed(0)
+        )} LEVR ...`
+      );
       const fundit = await new_contract.methods
         .buy(walletAddress)
         .send({
@@ -152,7 +157,34 @@ export default function Buy({
           </button>
         </ConnectWalletOverlay>
       )}
-      {status != false && <ConnectWalletOverlay>{status}</ConnectWalletOverlay>}
+      {status != false && (
+        <ConnectWalletOverlay>
+          <div>
+            <h3>{status}</h3>
+            <br />
+            <br />
+            <button onClick={() => setStatus(false)}>Close</button>
+          </div>
+        </ConnectWalletOverlay>
+      )}
+      {notEnoughBalance && (
+        <ConnectWalletOverlay>
+          <div>
+            <h3>Not enough ETH in your wallet to buy </h3>
+            <div>
+              <h2>
+                <span className=" font-weight-bold text-green">
+                  {" "}
+                  {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR
+                </span>
+              </h2>
+              <br />
+              <br />
+              <button onClick={() => setNotEnoughBalance(false)}>Close</button>
+            </div>
+          </div>
+        </ConnectWalletOverlay>
+      )}
       <h2 className="text-center">Your LEVR</h2>
       <BuyRow xsNoflex>
         {/* Balance */}
@@ -167,7 +199,7 @@ export default function Buy({
             </Col>
             <Col className="text-right" size={1}>
               <h2 className="text-green">
-                {numberWithCommas(levrBalance)} LEVR
+                {numberWithCommas(parseFloat(levrBalance).toFixed(0))} LEVR
               </h2>
               <i>In your wallet</i>
             </Col>
