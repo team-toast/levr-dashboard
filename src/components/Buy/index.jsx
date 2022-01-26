@@ -70,6 +70,7 @@ export default function Buy({
     //  Get Chain Id
     console.log("ETH Balance", getWeiValue);
     setETHbalance(getWeiValue);
+    return getWeiValue;
   };
 
   const addLevrTokenToMM = async () => {
@@ -104,8 +105,9 @@ export default function Buy({
 
   const depositEthToLEVR = async () => {
     console.log(`depositEthToLEVR`);
-    await getETHbalance(walletAddress);
-    if (parseFloat(eTHbalance) >= parseFloat(depositEth)) {
+    const currentBalance = await getETHbalance(walletAddress);
+    console.log("currentBalance", currentBalance);
+    if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         process.env.ETH_CONTRACT_ADDRESS
@@ -128,9 +130,10 @@ export default function Buy({
         })
         .catch((err) => {
           console.log("err", err);
-          setStatus("Unable to deposit, please try again.");
+          setStatus("Unable to buy, please try again.");
         });
     } else {
+      console.log("setNotEnoughBalance");
       setNotEnoughBalance(true);
     }
   };
@@ -150,13 +153,6 @@ export default function Buy({
   }, [web3Obj, walletAddress]);
   return (
     <Box>
-      {walletAddress == null && (
-        <ConnectWalletOverlay>
-          <button onClick={() => setShowConnectOptions(true)}>
-            Connect Wallet
-          </button>
-        </ConnectWalletOverlay>
-      )}
       {status != false && (
         <ConnectWalletOverlay>
           <div>
@@ -209,6 +205,13 @@ export default function Buy({
               List on my Metamask/Wallet
             </button>
           </div>
+          {walletAddress == null && (
+            <ConnectWalletOverlay className="top-0">
+              <button onClick={() => setShowConnectOptions(true)}>
+                Connect Wallet
+              </button>
+            </ConnectWalletOverlay>
+          )}
         </Col>
         {/* Buy */}
         <Col className="balance buy" size={1}>
@@ -221,9 +224,18 @@ export default function Buy({
                 type="text"
                 placeholder="Enter ETH amount"
               />
-              <button onClick={depositEthToLEVR} className="b-r-0-10-10-0">
-                Buy
-              </button>
+              {walletAddress == null ? (
+                <button
+                  onClick={() => setShowConnectOptions(true)}
+                  className="b-r-0-10-10-0"
+                >
+                  Connect Wallet
+                </button>
+              ) : (
+                <button onClick={depositEthToLEVR} className="b-r-0-10-10-0">
+                  Buy
+                </button>
+              )}
             </div>
             <p>
               View{" "}
@@ -263,12 +275,16 @@ const ConnectWalletOverlay = styled.div`
   bottom: 0;
   height: 75%;
   width: 100%;
+  z-index: 2;
   background: rgba(255, 255, 255, 0.5);
   text-align: center;
   backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
+  &.top-0 {
+    height: 100%;
+  }
 `;
 
 const BuyRow = styled(Row)`
@@ -280,6 +296,7 @@ const BuyRow = styled(Row)`
     border-radius: 10px;
     background: #f5f5f5;
     padding: 2rem;
+    position: relative;
     &.buy {
       padding: 0 2rem;
       background: #fff;
