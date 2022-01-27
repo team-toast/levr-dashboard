@@ -190,7 +190,7 @@ export default function Buy({
     <Box>
       {statusBusy && (
         <ConnectWalletOverlay className="status-overlay">
-          <div class="flex">
+          <div className="flex">
             <div>
               <Row className={status.length === 1 ? "busy" : "done"}>
                 <Col size={1} className="text-right">
@@ -414,7 +414,13 @@ export default function Buy({
               name="confirmTerms"
               id="confirmTerms"
             />{" "}
-            <label htmlFor="confirmTerms"> to our Terms & Conditions</label>
+            <label htmlFor="confirmTerms">
+              {" "}
+              to our{" "}
+              <Link href="/terms-and-conditions">
+                <a>Terms & Conditions</a>
+              </Link>
+            </label>
           </p>
           <p>
             <input
