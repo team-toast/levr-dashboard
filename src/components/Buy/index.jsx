@@ -181,6 +181,14 @@ export default function Buy({
     setDepositEth(value);
   };
 
+  const goToPleaseNote = () => {
+    document.getElementById("please-note").scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  };
+
   useEffect(() => {
     if (walletAddress != null) {
       getLevrBalance(walletAddress);
@@ -459,9 +467,24 @@ export default function Buy({
           </p>
         </div>
       </ConfirmAgree>
+      <PleaseNote>
+        <span onClick={goToPleaseNote}>Please note</span>
+      </PleaseNote>
     </Box>
   );
 }
+
+const PleaseNote = styled.div`
+  margin-top: 3rem;
+  font-weight: 500;
+  text-align: center;
+  span {
+    padding-right: 1.25rem;
+    cursor: pointer;
+    background: url(/down-arrow.svg) no-repeat right;
+    background-size: 1rem;
+  }
+`;
 
 const ItalicSmall = styled.i`
   font-size: 14px;

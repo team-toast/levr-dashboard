@@ -42,6 +42,9 @@ strong {
 .strong-500 {
     font-weight: 500;
 }
+.font-21 {
+    font-size: 1.31rem;
+}
 .margin-b-4 {
     margin-bottom: 4rem;
 }
@@ -277,6 +280,9 @@ button, .button {
 }
 .p-10 {
     padding: 10px;
+}
+.padding-0-1 {
+    padding: 0 1rem;
 }
 .margin {
     &-top-2 {

@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
 import CurveSale from "./../components/CurveSale";
 import Buy from "./../components/Buy";
+import TakeNoteOf from "./../components/TakeNoteOf";
 
 let web3;
 
@@ -281,6 +282,7 @@ export default function Home() {
         curveData={curveData}
         setNewDataFunction={setNewData}
       />
+      <TakeNoteOf />
     </Layout>
   );
 }
