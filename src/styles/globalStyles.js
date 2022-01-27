@@ -241,6 +241,13 @@ button, .button {
             }
         }
     }
+    &.blue-button {
+        background: none;
+        border: none;
+        box-shadow: none;
+        text-decoration: underline;
+        color: #36A9E1;
+    }
 }
 .button.button-secondary {
     border-color: ${colors.White};
@@ -256,8 +263,11 @@ button, .button {
     min-width: auto;
     margin-right: 1rem;
 }
-.inactive-button {
+.inactive-button, .disabled-button {
     pointer-events: none;
+}
+.disabled-button {
+    opacity: 0.2;
 }
 .b-r-0-10-10-0 {
     border-radius: 0 10px 10px 0;

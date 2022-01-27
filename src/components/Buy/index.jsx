@@ -41,6 +41,9 @@ export default function Buy({
   const [notEnoughBalance, setNotEnoughBalance] = useState(false);
   const [status, setStatus] = useState([]);
   const [statusBusy, setStatusBusy] = useState(false);
+  const [confirmTerms, setConfirmTerms] = useState(false);
+  const [confirmLoaction, setConfirmLoaction] = useState(false);
+  const [showConfirmBox, setShowConfirmBox] = useState(false);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -106,6 +109,7 @@ export default function Buy({
 
   const depositEthToLEVR = async () => {
     console.log(`depositEthToLEVR`);
+    setShowConfirmBox(false);
     const currentBalance = await getETHbalance(walletAddress);
     console.log("currentBalance", currentBalance);
     if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
@@ -186,87 +190,89 @@ export default function Buy({
     <Box>
       {statusBusy && (
         <ConnectWalletOverlay className="status-overlay">
-          <div>
-            <Row className={status.length === 1 ? "busy" : "done"}>
-              <Col size={1} className="text-right">
-                {status.length === 1 ? (
-                  <span className="pending"></span>
-                ) : (
-                  <span
-                    className={status.length <= 3 ? "success" : "pending"}
-                  ></span>
-                )}
-              </Col>
-              <Col hidexs size={1}>
-                <h3>Approve </h3>
-              </Col>
-            </Row>
-          </div>
-          <div>
-            <Row className={status.length === 2 ? "busy" : "done"}>
-              <Col size={1}>
-                {status.length <= 2 ? (
-                  <span className="pending"></span>
-                ) : (
-                  <span
-                    className={status.length <= 3 ? "success" : "pending"}
-                  ></span>
-                )}
-              </Col>
-              <Col hidexs size={1}>
-                <h3>Pending </h3>
-              </Col>
-            </Row>
-          </div>
-          {status.length <= 3 && (
-            <div>
-              <h3>
-                <Row className={status.length === 4 ? "busy" : "done"}>
-                  <Col size={1}>
-                    {status.length === 3 ? (
-                      <span className="success"></span>
-                    ) : (
-                      <span
-                        className={status.length < 3 ? "pending" : "pending"}
-                      ></span>
-                    )}
-                  </Col>
-                  <Col hidexs size={1}>
-                    <h3>Success </h3>
-                  </Col>
-                </Row>
-              </h3>
-            </div>
-          )}
-          {status.length === 4 && (
+          <div class="flex">
             <div>
               <Row className={status.length === 1 ? "busy" : "done"}>
-                <Col size={1}>
-                  {status.length === 4 ? (
-                    <span className="error"></span>
-                  ) : (
+                <Col size={1} className="text-right">
+                  {status.length === 1 ? (
                     <span className="pending"></span>
+                  ) : (
+                    <span
+                      className={status.length <= 3 ? "success" : "pending"}
+                    ></span>
                   )}
                 </Col>
                 <Col hidexs size={1}>
-                  <h3>Failed</h3>
+                  <h3>Approve </h3>
                 </Col>
               </Row>
             </div>
-          )}
-          {status.length >= 3 && (
-            <div className="text-right position-absolute-right">
-              <button
-                className="close-button"
-                onClick={() => {
-                  setStatusBusy(false);
-                  setStatus([]);
-                }}
-              >
-                X
-              </button>
+            <div>
+              <Row className={status.length === 2 ? "busy" : "done"}>
+                <Col size={1}>
+                  {status.length <= 2 ? (
+                    <span className="pending"></span>
+                  ) : (
+                    <span
+                      className={status.length <= 3 ? "success" : "pending"}
+                    ></span>
+                  )}
+                </Col>
+                <Col hidexs size={1}>
+                  <h3>Pending </h3>
+                </Col>
+              </Row>
             </div>
-          )}
+            {status.length <= 3 && (
+              <div>
+                <h3>
+                  <Row className={status.length === 4 ? "busy" : "done"}>
+                    <Col size={1}>
+                      {status.length === 3 ? (
+                        <span className="success"></span>
+                      ) : (
+                        <span
+                          className={status.length < 3 ? "pending" : "pending"}
+                        ></span>
+                      )}
+                    </Col>
+                    <Col hidexs size={1}>
+                      <h3>Success </h3>
+                    </Col>
+                  </Row>
+                </h3>
+              </div>
+            )}
+            {status.length === 4 && (
+              <div>
+                <Row className={status.length === 1 ? "busy" : "done"}>
+                  <Col size={1}>
+                    {status.length === 4 ? (
+                      <span className="error"></span>
+                    ) : (
+                      <span className="pending"></span>
+                    )}
+                  </Col>
+                  <Col hidexs size={1}>
+                    <h3>Failed</h3>
+                  </Col>
+                </Row>
+              </div>
+            )}
+            {status.length >= 3 && (
+              <div className="text-right position-absolute-right">
+                <button
+                  className="close-button"
+                  onClick={() => {
+                    setStatusBusy(false);
+                    setStatus([]);
+                  }}
+                >
+                  X
+                </button>
+              </div>
+            )}
+          </div>
         </ConnectWalletOverlay>
       )}
       {notEnoughBalance && (
@@ -339,7 +345,7 @@ export default function Buy({
                 </button>
               ) : (
                 <button
-                  onClick={depositEthToLEVR}
+                  onClick={() => setShowConfirmBox(true)}
                   className={
                     status.length > 0
                       ? "b-r-0-10-10-0 inactive-button"
@@ -378,9 +384,82 @@ export default function Buy({
           </Inner>
         </Col>
       </BuyRow>
+
+      <ConfirmAgree className={showConfirmBox ? "showbox" : "hidebox"}>
+        <div className="inner-confirm">
+          <h2>Confirmation</h2>
+          <p className="strong-500">
+            You are about to push{" "}
+            <span className="text-green">{depositEth} ETH</span> to get{" "}
+            <span className="text-blue">
+              {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR
+            </span>
+            .*
+          </p>
+          <p>
+            <ItalicSmall>
+              *Depending on timing, someone else could front run you and you’ll
+              get less LEVR.
+            </ItalicSmall>
+          </p>
+          <p>
+            <br />
+            <strong>Please indicate that you agree:</strong>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              value={confirmTerms}
+              onChange={() => setConfirmTerms(!confirmTerms)}
+              name="confirmTerms"
+              id="confirmTerms"
+            />{" "}
+            <label htmlFor="confirmTerms"> to our Terms & Conditions</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              value={confirmLoaction}
+              name="confirmLoaction"
+              id="confirmLoaction"
+              onChange={() => setConfirmLoaction(!confirmLoaction)}
+            />{" "}
+            <label htmlFor="confirmLoaction">
+              {" "}
+              that you are not a citizen of the USA or a country they have
+              sanctions with.
+            </label>
+          </p>
+          <p>
+            <br />
+            <button
+              onClick={depositEthToLEVR}
+              className={
+                confirmLoaction && confirmTerms
+                  ? "button action"
+                  : "button action disabled-button"
+              }
+            >
+              Shut up and take my money
+            </button>
+          </p>
+          <p>
+            <button
+              onClick={() => setShowConfirmBox(false)}
+              className="button blue-button"
+            >
+              Cancel
+            </button>
+          </p>
+        </div>
+      </ConfirmAgree>
     </Box>
   );
 }
+
+const ItalicSmall = styled.i`
+  font-size: 14px;
+`;
 
 const blink = keyframes`
   0% {
@@ -416,7 +495,12 @@ const ConnectWalletOverlay = styled.div`
     background: rgba(255, 255, 255, 0.9);
     height: 72px;
     border-bottom: solid 4px #06033d;
-    > * {
+    > div {
+      width: 100%;
+      max-width: 1240px;
+      margin: auto;
+    }
+    > .flex > * {
       flex: 1;
     }
   }
@@ -447,9 +531,50 @@ const ConnectWalletOverlay = styled.div`
   .position-absolute-right {
     position: absolute;
     right: 0;
+    top: 1rem;
     @media screen and (max-width: 48em) {
       position: relative;
+      right: 0;
+      top: 0;
     }
+  }
+`;
+
+const ConfirmAgree = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(6, 3, 61, 0.3);
+  backdrop-filter: blur(5px);
+  z-index: 3;
+  .inner-confirm {
+    text-align: center;
+    border-radius: 10px;
+    padding: 2rem 2rem;
+    background: #fff;
+    width: 100%;
+    max-width: 820px;
+    height: 100%;
+    max-height: 590px;
+    overflow: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    @media screen and (max-width: 48em) {
+      max-height: 100vh;
+      border-radius: 0;
+    }
+  }
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.15s ease;
+  &.showbox {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.15s ease;
   }
 `;
 
