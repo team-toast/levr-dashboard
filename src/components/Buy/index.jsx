@@ -106,12 +106,6 @@ export default function Buy({
 
   const depositEthToLEVR = async () => {
     console.log(`depositEthToLEVR`);
-    if (status.length > 0) {
-      setStatusBusy(true);
-      return false;
-    } else {
-      setStatusBusy(false);
-    }
     const currentBalance = await getETHbalance(walletAddress);
     console.log("currentBalance", currentBalance);
     if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
@@ -260,14 +254,19 @@ export default function Buy({
               </Row>
             </div>
           )}
-          <div className="text-right">
-            <button
-              className="close-button"
-              onClick={() => setStatusBusy(false)}
-            >
-              X
-            </button>
-          </div>
+          {status.length >= 3 && (
+            <div className="text-right position-absolute-right">
+              <button
+                className="close-button"
+                onClick={() => {
+                  setStatusBusy(false);
+                  setStatus([]);
+                }}
+              >
+                X
+              </button>
+            </div>
+          )}
         </ConnectWalletOverlay>
       )}
       {notEnoughBalance && (
@@ -347,11 +346,7 @@ export default function Buy({
                       : "b-r-0-10-10-0"
                   }
                 >
-                  {status.length > 0 ? (
-                    <span>Show Status</span>
-                  ) : (
-                    <span>Buy</span>
-                  )}
+                  {status.length > 0 ? <span>Busy ...</span> : <span>Buy</span>}
                 </button>
               )}
             </div>
@@ -447,6 +442,13 @@ const ConnectWalletOverlay = styled.div`
     .pending {
       animation: 1s ${blink} infinite;
       background: #06033d;
+    }
+  }
+  .position-absolute-right {
+    position: absolute;
+    right: 0;
+    @media screen and (max-width: 48em) {
+      position: relative;
     }
   }
 `;

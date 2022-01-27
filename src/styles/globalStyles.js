@@ -257,7 +257,7 @@ button, .button {
     margin-right: 1rem;
 }
 .inactive-button {
-    // pointer-events: none;
+    pointer-events: none;
 }
 .b-r-0-10-10-0 {
     border-radius: 0 10px 10px 0;
