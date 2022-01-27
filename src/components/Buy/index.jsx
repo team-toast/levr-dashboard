@@ -39,7 +39,8 @@ export default function Buy({
   const [eTHbalance, setETHbalance] = useState(0);
   const [depositEth, setDepositEth] = useState("");
   const [notEnoughBalance, setNotEnoughBalance] = useState(false);
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState([]);
+  const [statusBusy, setStatusBusy] = useState(false);
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -105,32 +106,68 @@ export default function Buy({
 
   const depositEthToLEVR = async () => {
     console.log(`depositEthToLEVR`);
+    if (status.length > 0) {
+      setStatusBusy(true);
+      return false;
+    } else {
+      setStatusBusy(false);
+    }
     const currentBalance = await getETHbalance(walletAddress);
     console.log("currentBalance", currentBalance);
     if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
+      setStatusBusy(true);
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
         process.env.ETH_CONTRACT_ADDRESS
       );
-      setStatus(
-        `Buying ${numberWithCommas(
-          curveData.tokensReceived.toFixed(0)
-        )} LEVR ...`
-      );
+      setStatus([
+        {
+          title: "`Awaiting ...`",
+        },
+      ]);
       const fundit = await new_contract.methods
         .buy(walletAddress)
-        .send({
-          from: walletAddress,
-          value: web3.utils.toWei(depositEth.toString(), "ether"),
-        })
+        .send(
+          {
+            from: walletAddress,
+            value: web3.utils.toWei(depositEth.toString(), "ether"),
+          },
+          (err, transactionHash) => {
+            // this.setState({
+            //   firetext: "Transaction Pending ...",
+            //   firetextShow: true,
+            // });
+            setStatusBusy(true);
+            setStatus([
+              {
+                title: "`Awaiting ...`",
+              },
+              { title: "Pending transaction ..." },
+            ]);
+          }
+        )
         .then((res) => {
           console.log("Success");
           getLevrBalance(walletAddress);
-          setStatus(false);
+          // });
+          setStatusBusy(true);
+          setStatus([
+            {
+              title: "Awaiting ...",
+            },
+            { title: "Pending transaction" },
+            { title: "Transaction Complete." },
+          ]);
         })
         .catch((err) => {
           console.log("err", err);
-          setStatus("Unable to buy, please try again.");
+          setStatusBusy(true);
+          setStatus([
+            { title: "Awaiting" },
+            { title: "Pending transaction" },
+            { title: "Transaction Complete." },
+            { title: "Unable to buy, please try again." },
+          ]);
         });
     } else {
       console.log("setNotEnoughBalance");
@@ -153,13 +190,83 @@ export default function Buy({
   }, [web3Obj, walletAddress]);
   return (
     <Box>
-      {status != false && (
-        <ConnectWalletOverlay>
+      {statusBusy && (
+        <ConnectWalletOverlay className="status-overlay">
           <div>
-            <h3>{status}</h3>
-            <br />
-            <br />
-            <button onClick={() => setStatus(false)}>Close</button>
+            <Row className={status.length === 1 ? "busy" : "done"}>
+              <Col size={1} className="text-right">
+                {status.length === 1 ? (
+                  <span className="pending"></span>
+                ) : (
+                  <span
+                    className={status.length <= 3 ? "success" : "pending"}
+                  ></span>
+                )}
+              </Col>
+              <Col hidexs size={1}>
+                <h3>Approve </h3>
+              </Col>
+            </Row>
+          </div>
+          <div>
+            <Row className={status.length === 2 ? "busy" : "done"}>
+              <Col size={1}>
+                {status.length <= 2 ? (
+                  <span className="pending"></span>
+                ) : (
+                  <span
+                    className={status.length <= 3 ? "success" : "pending"}
+                  ></span>
+                )}
+              </Col>
+              <Col hidexs size={1}>
+                <h3>Pending </h3>
+              </Col>
+            </Row>
+          </div>
+          {status.length <= 3 && (
+            <div>
+              <h3>
+                <Row className={status.length === 4 ? "busy" : "done"}>
+                  <Col size={1}>
+                    {status.length === 3 ? (
+                      <span className="success"></span>
+                    ) : (
+                      <span
+                        className={status.length < 3 ? "pending" : "pending"}
+                      ></span>
+                    )}
+                  </Col>
+                  <Col hidexs size={1}>
+                    <h3>Success </h3>
+                  </Col>
+                </Row>
+              </h3>
+            </div>
+          )}
+          {status.length === 4 && (
+            <div>
+              <Row className={status.length === 1 ? "busy" : "done"}>
+                <Col size={1}>
+                  {status.length === 4 ? (
+                    <span className="error"></span>
+                  ) : (
+                    <span className="pending"></span>
+                  )}
+                </Col>
+                <Col hidexs size={1}>
+                  <h3>Failed</h3>
+                </Col>
+              </Row>
+            </div>
+          )}
+          <div className="text-right">
+            <button
+              className="close-button"
+              onClick={() => setStatusBusy(false)}
+            >
+              X
+            </button>
           </div>
         </ConnectWalletOverlay>
       )}
@@ -232,8 +339,19 @@ export default function Buy({
                   Connect Wallet
                 </button>
               ) : (
-                <button onClick={depositEthToLEVR} className="b-r-0-10-10-0">
-                  Buy
+                <button
+                  onClick={depositEthToLEVR}
+                  className={
+                    status.length > 0
+                      ? "b-r-0-10-10-0 inactive-button"
+                      : "b-r-0-10-10-0"
+                  }
+                >
+                  {status.length > 0 ? (
+                    <span>Show Status</span>
+                  ) : (
+                    <span>Buy</span>
+                  )}
                 </button>
               )}
             </div>
@@ -269,6 +387,15 @@ export default function Buy({
   );
 }
 
+const blink = keyframes`
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const ConnectWalletOverlay = styled.div`
   position: absolute;
   left: 0;
@@ -284,6 +411,43 @@ const ConnectWalletOverlay = styled.div`
   align-items: center;
   &.top-0 {
     height: 100%;
+  }
+  &.status-overlay {
+    position: fixed;
+    bottom: initial;
+    text-align: left;
+    top: 72px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    height: 72px;
+    border-bottom: solid 4px #06033d;
+    > * {
+      flex: 1;
+    }
+  }
+  .success,
+  .pending,
+  .error {
+    height: 30px;
+    width: 30px;
+    background: #ccc;
+    border-radius: 100%;
+    display: block;
+    left: 100%;
+    position: relative;
+    margin-left: -40px;
+  }
+  .error {
+    background: #e02235;
+  }
+  .success {
+    background: #1ae287;
+  }
+  .busy {
+    .pending {
+      animation: 1s ${blink} infinite;
+      background: #06033d;
+    }
   }
 `;
 
