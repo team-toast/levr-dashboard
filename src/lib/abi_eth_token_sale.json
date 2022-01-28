@@ -9,7 +9,6 @@
       },
       { "internalType": "address", "name": "_gulper", "type": "address" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
-      { "internalType": "address", "name": "_liquidity", "type": "address" },
       {
         "internalType": "address",
         "name": "_foundryTreasury",
@@ -40,7 +39,8 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_receiver", "type": "address" }
+      { "internalType": "address", "name": "_receiver", "type": "address" },
+      { "internalType": "address", "name": "_referrer", "type": "address" }
     ],
     "name": "buy",
     "outputs": [],
@@ -49,7 +49,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_tokensIssued", "type": "uint256" }
+      { "internalType": "uint256", "name": "_tokensSold", "type": "uint256" }
     ],
     "name": "calculatePrice",
     "outputs": [
@@ -116,13 +116,6 @@
   },
   {
     "inputs": [],
-    "name": "liquidity",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "pointPriceWAD",
     "outputs": [
       { "internalType": "uint256", "name": "_price", "type": "uint256" }
@@ -133,7 +126,7 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_inclineWAD", "type": "uint256" },
-      { "internalType": "uint256", "name": "_tokensIssued", "type": "uint256" }
+      { "internalType": "uint256", "name": "_tokensSold", "type": "uint256" }
     ],
     "name": "pureCalculatePrice",
     "outputs": [
@@ -221,7 +214,7 @@
   },
   {
     "inputs": [],
-    "name": "tokensIssued",
+    "name": "tokensSold",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

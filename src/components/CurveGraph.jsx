@@ -103,11 +103,11 @@ export default function CurveGraph({
           </LineCurve>
           <Supply>
             <Row>
-              <Col size={1}>{(10 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(25 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(50 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(75 / zoomLevel).toFixed()}M</Col>
-              <Col size={"0 0 auto"}>{(100 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(0 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(87 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(174 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(261 / zoomLevel).toFixed()}M</Col>
+              <Col size={"0 0 auto"}>{(350 / zoomLevel).toFixed()}M</Col>
             </Row>
           </Supply>
         </Col>

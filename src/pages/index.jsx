@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 
-import CONTRACT_ABI_SALE_INFO from "./../lib/abi_2022_01_14.json";
+import CONTRACT_ABI_SALE_INFO from "./../lib/abi_info_sale.json";
 
 import Layout from "../components/Layout";
 import Header from "../components/Header";
@@ -13,7 +13,7 @@ import TakeNoteOf from "./../components/TakeNoteOf";
 
 let web3;
 
-const STATIC_MAX_TOKENS = 100000000;
+const STATIC_MAX_TOKENS = 350000000;
 
 export default function Home() {
   const [wallet, setWallet] = useState(null);
@@ -27,7 +27,7 @@ export default function Home() {
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
-  const [maxTokens, setMaxTokens] = useState(100000000);
+  const [maxTokens, setMaxTokens] = useState(350000000);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const [curveData, setCurveData] = useState({
@@ -158,7 +158,9 @@ export default function Home() {
         let testPassed = false;
         if (wallet === "metamask") {
           try {
-            const sendTest = await window.ethereum.send("eth_requestAccounts");
+            const sendTest = await window.ethereum.request({
+              method: "eth_requestAccounts",
+            });
             console.log("sendTest", sendTest);
             testPassed = true;
           } catch (error) {

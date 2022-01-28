@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
 import { useState, useEffect } from "react";
 
-import CONTRACT_ABI from "./../../lib/abi_eth_contract.json";
+import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
 
 import Web3 from "web3";
 
@@ -48,12 +48,10 @@ export default function Buy({
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const getLevrBalance = async (data) => {
-    console.log(27, web3, web3Obj);
     let new_contract;
     const rpcURL = process.env.ETH_RPC;
     const web3_rpc = new Web3(rpcURL);
     // try {
-    console.log(42, web3_rpc);
     if (web3_rpc !== undefined) {
       new_contract = new web3_rpc.eth.Contract(
         BALANCE_ABI,
@@ -120,25 +118,24 @@ export default function Buy({
       );
       setStatus([
         {
-          title: "`Awaiting ...`",
+          title: "Awaiting ...",
         },
       ]);
       const fundit = await new_contract.methods
-        .buy(walletAddress)
+        // Params
+        // 1. Wallet who gets the LEVR
+        // 2. Person who referred the purchase
+        .buy(walletAddress, "0x0000000000000000000000000000000000000000")
         .send(
           {
             from: walletAddress,
             value: web3.utils.toWei(depositEth.toString(), "ether"),
           },
           (err, transactionHash) => {
-            // this.setState({
-            //   firetext: "Transaction Pending ...",
-            //   firetextShow: true,
-            // });
             setStatusBusy(true);
             setStatus([
               {
-                title: "`Awaiting ...`",
+                title: "Awaiting ...",
               },
               { title: "Pending transaction ..." },
             ]);
@@ -147,7 +144,6 @@ export default function Buy({
         .then((res) => {
           console.log("Success");
           getLevrBalance(walletAddress);
-          // });
           setStatusBusy(true);
           setStatus([
             {
@@ -175,7 +171,7 @@ export default function Buy({
 
   const enterEthValue = (event) => {
     const value = event.target.value == "" ? "" : event.target.value;
-    if (event.target.value != "") {
+    if (event.target.value != "" && event.target.value != 0) {
       setNewDataFunction(event.target.value);
     }
     setDepositEth(value);
