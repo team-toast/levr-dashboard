@@ -76,7 +76,7 @@ export default function Buy({
   };
 
   const addLevrTokenToMM = async () => {
-    const tokenAddress = "0xa9cccd81e1fa331ac893dfc7ff833bbb7309c720";
+    const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_TOKEN_SALE;
     const tokenSymbol = "LEVR";
     const tokenDecimals = 18;
     // const tokenImage = "https://app.levr.ly/deth-logo-svg.svg";
@@ -170,11 +170,17 @@ export default function Buy({
   };
 
   const enterEthValue = (event) => {
-    const value = event.target.value == "" ? "" : event.target.value;
-    if (event.target.value != "" && event.target.value != 0) {
-      setNewDataFunction(event.target.value);
+    const regExp = /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
+    const input = event.target.value;
+    const value = input == "" ? "" : input;
+    if (input != "" && input != 0) {
+      if (regExp.test(input)) {
+        setNewDataFunction(input);
+      }
     }
-    setDepositEth(value);
+    if (regExp.test(input)) {
+      setDepositEth(value);
+    }
   };
 
   const goToPleaseNote = () => {

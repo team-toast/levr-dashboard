@@ -65,7 +65,6 @@ export default function Home() {
         process.env.ETH_CONTRACT_ADDRESS_SALE_INFO
       );
       const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
-      console.log(60, saleInfo);
       setCurveData({
         priceBefore: parseFloat(
           web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
@@ -161,7 +160,6 @@ export default function Home() {
             const sendTest = await window.ethereum.request({
               method: "eth_requestAccounts",
             });
-            console.log("sendTest", sendTest);
             testPassed = true;
           } catch (error) {
             setWallet(null);
@@ -202,7 +200,6 @@ export default function Home() {
   }, [web3, web3Obj, walletAddress]);
   const connectWeb3 = async () => {
     if (typeof window != "undefined") {
-      console.log(201, "connectWeb3");
       // const newWeb3 = await new Web3(window.ethereum);
       const newWeb3 = await new Web3(process.env.ETH_RPC);
       web3 = newWeb3;
