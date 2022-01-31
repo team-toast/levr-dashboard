@@ -31,9 +31,9 @@ export default function CurveGraph({
         (maxTokens / zoomLevel)
     ) * 100;
   if (bottomPosition < 15) {
-    bottomPosition = 15;
-  } else if (bottomPosition > 92.8) {
-    bottomPosition = 92.8;
+    // bottomPosition = 15;
+  } else if (bottomPosition >= 99) {
+    bottomPosition = 99;
   }
   return (
     <CurveBox>
@@ -53,7 +53,7 @@ export default function CurveGraph({
                   ? "newprice hide-this-price"
                   : "newprice show-this-price"
               }
-              bottom={bottomPosition < 15 ? 15 : bottomPosition}
+              bottom={bottomPosition}
             >
               {curveData.priceAfter.toFixed(6)}
             </ColPositionAbsolute>

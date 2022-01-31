@@ -3,12 +3,14 @@ module.exports = {
   target: "serverless",
   env: {
     // ETH_RPC: "https://cloudflare-eth.com/",
-    ETH_RPC: "https://ropsten.infura.io/v3/2adef7d1aa684a1485e38140c7894434",
+    // ETH_RPC: "https://ropsten.infura.io/v3/2adef7d1aa684a1485e38140c7894434",
+    ETH_RPC: "https://arb1.arbitrum.io/rpc",
+    // ETH_RPC: "https://rinkeby.arbitrum.io/rpc",
     ETH_CONTRACT_ADDRESS_SALE_INFO:
-      "0x7B2B1D2AF3a16186F824A2a7C8bC18ce49916b0a",
-    ETH_CONTRACT_ADDRESS: "0x5A2312edD08C29F185eB63C02f31350Ea2512f64",
+      "0xF7C43849a0748848910b27FF2802951c9fb93794",
+    ETH_CONTRACT_ADDRESS: "0x272cC4925E544D2878D41bbDc5fF57F2120592b6",
     ETH_CONTRACT_ADDRESS_TOKEN_SALE:
-      "0xa9cccd81e1fa331ac893dfc7ff833bbb7309c720",
+      "0x7A416Afc042537f290CB44A7c2C269Caf0Edc93C",
     BLOCKCHAINS: {
       eth: "Ethereum",
     },

@@ -190,7 +190,8 @@ export default function Home() {
     if (web3Obj !== null) {
       web3Obj.eth.getChainId().then((chainID) => {
         // Detect which blockchain MM is connected to. ID 1 means Ethereum
-        if (chainID == 1 || chainID == 3) {
+        console.log(193, chainID);
+        if (chainID == 42161 || chainID == 421611) {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -232,7 +233,7 @@ export default function Home() {
       // Network account change
       window.ethereum.on("chainChanged", function (networkId) {
         console.log(157, networkId);
-        if (networkId === "0x1" || networkId === "0x3") {
+        if (networkId === "0xa4b1") {
           setWrongChain(false);
         } else {
           setWrongChain(true);
