@@ -15,16 +15,22 @@ export default function CurveGraph({
   zoomGraph,
   STATIC_MAX_TOKENS,
 }) {
+  let fit_in =
+    STATIC_MAX_TOKENS /
+    (curveData.totalTokensSoldBefore + curveData.tokensReceived);
+  if (fit_in == "Infinity") {
+    fit_in = 1;
+  }
   let steps_to_use =
     curveData.priceBefore !== curveData.priceAfter
       ? parseFloat(
           curveData.tokensReceived /
             (STATIC_MAX_TOKENS -
               (curveData.totalTokensSoldBefore + curveData.tokensReceived))
-        ).toFixed(4)
+        ).toFixed(4) * fit_in
       : parseFloat(curveData.totalTokensSoldBefore / STATIC_MAX_TOKENS).toFixed(
           4
-        );
+        ) * fit_in;
   let bottomPosition =
     parseFloat(
       (curveData.totalTokensSoldBefore + curveData.tokensReceived) /
@@ -107,7 +113,9 @@ export default function CurveGraph({
               <Col size={1}>{(87 / zoomLevel).toFixed()}M</Col>
               <Col size={1}>{(174 / zoomLevel).toFixed()}M</Col>
               <Col size={1}>{(261 / zoomLevel).toFixed()}M</Col>
-              <Col size={"0 0 auto"}>{(350 / zoomLevel).toFixed()}M</Col>
+              <Col size={"0 0 auto"}>
+                {(350 / zoomLevel).toFixed()}M {zoomLevel == 1 ? "" : " ..."}
+              </Col>
             </Row>
           </Supply>
         </Col>
@@ -119,7 +127,7 @@ export default function CurveGraph({
               onChange={(value) => zoomGraph(value.target.value)}
               type="range"
               min="1"
-              max="2"
+              max={fit_in}
               value={zoomLevel}
               step={steps_to_use}
             />
