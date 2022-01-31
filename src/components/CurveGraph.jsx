@@ -51,7 +51,9 @@ export default function CurveGraph({
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>
-              <span>{(curveData.maxPrice / zoomLevel).toFixed(6)}</span>
+              <span className={bottomPosition > 90 ? "opacity-0" : ""}>
+                {(curveData.maxPrice / zoomLevel).toFixed(6)}
+              </span>
             </Col>
             <ColPositionAbsolute
               className={

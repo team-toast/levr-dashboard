@@ -68,7 +68,7 @@ export default function Home({ ethPrice }) {
       const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
       setCurveData({
         priceBefore: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
+          web3?.utils?.fromWei(saleInfo._priceBefore, "microether")
         ),
         raisedBefore: parseFloat(
           web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
@@ -83,7 +83,7 @@ export default function Home({ ethPrice }) {
           web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
         ),
         priceAfter: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceAfter, "ether")
+          web3?.utils?.fromWei(saleInfo._priceAfter, "microether")
         ),
         tokensReceived: parseFloat(
           web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
@@ -91,7 +91,9 @@ export default function Home({ ethPrice }) {
         pricePaidPerToken: parseFloat(
           web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
         ),
-        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
+        maxPrice: parseFloat(
+          web3?.utils?.fromWei("328352394996040", "microether")
+        ),
       });
       if (curveData.priceBefore !== 0) {
         setInitSaleInfoFetch(false);
