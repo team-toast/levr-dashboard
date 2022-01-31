@@ -92,6 +92,33 @@ export default function Home() {
         ),
         maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
       });
+      console.log("CurveData", {
+        priceBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
+        ),
+        raisedBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
+        ),
+        totalTokensSoldBefore: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldBefore, "ether")
+        ),
+        raisedAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._raisedAfter, "ether")
+        ),
+        totalTokensSoldAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
+        ),
+        priceAfter: parseFloat(
+          web3?.utils?.fromWei(saleInfo._priceAfter, "ether")
+        ),
+        tokensReceived: parseFloat(
+          web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
+        ),
+        pricePaidPerToken: parseFloat(
+          web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
+        ),
+        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
+      });
       if (curveData.priceBefore !== 0) {
         setInitSaleInfoFetch(false);
       }

@@ -32,7 +32,7 @@ export default function CurveSale({
               className="b-r-0-10-10-0 bg-blue text-white p-10 text-center strong-500"
               size={"0 0 170px"}
             >
-              {numberWithCommas(curveData.raisedBefore)} ETH
+              {numberWithCommas(curveData.raisedBefore.toFixed(3))} ETH
             </Col>
           </Row>
         </Col>
