@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
+import axios from "axios";
 
 import CONTRACT_ABI_SALE_INFO from "./../lib/abi_info_sale.json";
 
@@ -15,7 +16,7 @@ let web3;
 
 const STATIC_MAX_TOKENS = 350000000;
 
-export default function Home() {
+export default function Home({ ethPrice }) {
   const [wallet, setWallet] = useState(null);
   const [web3Obj, setWeb3Obj] = useState(null);
   const [web3Detect, setWeb3Detect] = useState(false);
@@ -269,6 +270,7 @@ export default function Home() {
     } else {
       console.warn("No web3 detected.");
     }
+    console.log(`ethPrice`, ethPrice);
   }, []);
   return (
     <Layout>
@@ -312,4 +314,19 @@ export default function Home() {
       <TakeNoteOf />
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=20, stale-while-revalidate=59"
+  );
+  const ethPrice = await axios(
+    `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=ETH,USD`
+  );
+  return {
+    props: {
+      ethPrice: ethPrice.data.USD ? ethPrice.data.USD : "3000",
+    },
+  };
 }

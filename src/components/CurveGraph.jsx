@@ -45,7 +45,7 @@ export default function CurveGraph({
     <CurveBox>
       <Row>
         <Col className="margin-b-4 hide-xs" size={"0 0 auto"}>
-          <PriceStrong>Price (nETH)</PriceStrong>
+          <PriceStrong>Price (mETH)</PriceStrong>
         </Col>
         {/* Y AXIS PRICING */}
         <Col className="margin-b-4" size={"0 0 auto"}>
