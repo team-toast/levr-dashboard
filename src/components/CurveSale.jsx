@@ -64,7 +64,7 @@ export default function CurveSale({
               className="b-r-0-10-10-0 bg-green text-white p-10 text-center strong-500"
               size={"0 0 170px"}
             >
-              {curveData.priceBefore.toFixed(5)} nETH
+              {curveData.priceBefore.toFixed(6)} nETH
             </Col>
           </Row>
         </Col>

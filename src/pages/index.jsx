@@ -272,9 +272,9 @@ export default function Home() {
   }, []);
   return (
     <Layout>
-      {wrongChain !== false && (
+      {wrongChain !== false && walletAddress != null && (
         <ProgressBar
-          status={`Wrong chain, please switch to Ethereum Mainnet${
+          status={`Wrong chain, please switch to Arbitrum One${
             wallet === "walletconnect" ? " and refresh." : "."
           }`}
           closeBtn={() => setWrongChain(false)}
