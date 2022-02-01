@@ -42,6 +42,9 @@ strong {
 .strong-500 {
     font-weight: 500;
 }
+.font-21 {
+    font-size: 1.31rem;
+}
 .margin-b-4 {
     margin-bottom: 4rem;
 }
@@ -131,6 +134,9 @@ p {
 }
 .flex {
     display: flex;
+}
+.display-block {
+    display: block;
 }
 .text {
     &-white {
@@ -238,6 +244,13 @@ button, .button {
             }
         }
     }
+    &.blue-button {
+        background: none;
+        border: none;
+        box-shadow: none;
+        text-decoration: underline;
+        color: #36A9E1;
+    }
 }
 .button.button-secondary {
     border-color: ${colors.White};
@@ -248,6 +261,17 @@ button, .button {
         background: ${colors.Yellow};
     }
 }
+.close-button {
+    width: 41px;
+    min-width: auto;
+    margin-right: 1rem;
+}
+.inactive-button, .disabled-button {
+    pointer-events: none;
+}
+.disabled-button {
+    opacity: 0.2;
+}
 .b-r-0-10-10-0 {
     border-radius: 0 10px 10px 0;
 }
@@ -256,6 +280,9 @@ button, .button {
 }
 .p-10 {
     padding: 10px;
+}
+.padding-0-1 {
+    padding: 0 1rem;
 }
 .margin {
     &-top-2 {
@@ -339,6 +366,14 @@ input[type="text"] {
 }
 .visible-xs {
     display: none;
+}
+.font-weight {
+    &-bold {
+        font-weight: bold;
+    }
+    &-normal {
+        font-weight: normal;
+    }
 }
 ._loading_overlay_content {
     font-weight: bold;

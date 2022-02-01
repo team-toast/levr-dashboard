@@ -40,6 +40,6 @@ const ProgressBarDiv = styled.div`
   height: 100%;
   width: 100%;
   background: rgba(255, 255, 255, 0.7);
-  z-index: 2;
+  z-index: 3;
   backdrop-filter: blur(2px);
 `;

@@ -96,7 +96,7 @@ export default function Deposit({
     }
   };
 
-  const depositEthToDETH = async () => {
+  const depositEthToLEVR = async () => {
     console.log(`depositEthToDETH`);
     await getETHbalanceFunc();
     if (parseFloat(eTHbalance) >= parseFloat(depositJson)) {

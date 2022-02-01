@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
+import axios from "axios";
 
-import CONTRACT_ABI from "./../lib/abi_2022_01_14.json";
+import CONTRACT_ABI_SALE_INFO from "./../lib/abi_info_sale.json";
 
 import Layout from "../components/Layout";
 import Header from "../components/Header";
 import ProgressBar from "./../components/ProgressBar";
 import CurveSale from "./../components/CurveSale";
+import Buy from "./../components/Buy";
+import TakeNoteOf from "./../components/TakeNoteOf";
 
 let web3;
 
-const STATIC_MAX_TOKENS = 100000000;
+const STATIC_MAX_TOKENS = 350000000;
 
-export default function Home() {
+export default function Home({ ethPrice }) {
   const [wallet, setWallet] = useState(null);
   const [web3Obj, setWeb3Obj] = useState(null);
   const [web3Detect, setWeb3Detect] = useState(false);
@@ -21,10 +24,11 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
+  const [currentTimeStamp, setCurrentTimeStamp] = useState(Date.now());
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
-  const [maxTokens, setMaxTokens] = useState(100000000);
+  const [maxTokens, setMaxTokens] = useState(350000000);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const [curveData, setCurveData] = useState({
@@ -41,7 +45,7 @@ export default function Home() {
 
   const [initSaleInfoFetch, setInitSaleInfoFetch] = useState(true);
   useEffect(() => {
-    if (typeof window != "undefined" && !web3) {
+    if (typeof window != "undefined" && web3 != undefined) {
       if (window.ethereum !== undefined) {
         setWeb3Detect(true);
       }
@@ -51,22 +55,20 @@ export default function Home() {
   const zoomGraph = (data) => {
     setZoomLevel(data);
   };
-  const setNewData = () => {
-    // fetchSaleData("20000000000000000000000");
-    const data = 1000;
+  const setNewData = (ethValue) => {
+    const data = ethValue;
     fetchSaleData(web3.utils.toWei(data.toString(), "ether"));
   };
   const fetchSaleData = async (amount) => {
     try {
       let new_contract = await new web3.eth.Contract(
-        CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        CONTRACT_ABI_SALE_INFO,
+        process.env.ETH_CONTRACT_ADDRESS_SALE_INFO
       );
       const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
-      console.log(60, saleInfo);
       setCurveData({
         priceBefore: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceBefore, "ether")
+          web3?.utils?.fromWei(saleInfo._priceBefore, "microether")
         ),
         raisedBefore: parseFloat(
           web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
@@ -81,7 +83,7 @@ export default function Home() {
           web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
         ),
         priceAfter: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceAfter, "ether")
+          web3?.utils?.fromWei(saleInfo._priceAfter, "microether")
         ),
         tokensReceived: parseFloat(
           web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
@@ -89,7 +91,9 @@ export default function Home() {
         pricePaidPerToken: parseFloat(
           web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
         ),
-        maxPrice: parseFloat(web3?.utils?.fromWei("328352394996040", "ether")),
+        maxPrice: parseFloat(
+          web3?.utils?.fromWei("328352394996040", "microether")
+        ),
       });
       if (curveData.priceBefore !== 0) {
         setInitSaleInfoFetch(false);
@@ -99,7 +103,7 @@ export default function Home() {
     }
   };
   const connectSelectedWallet = async () => {
-    console.log("connectSelectedWallet");
+    console.log("connectSelectedWallet", wallet);
     if (wallet === "metamask") {
       try {
         const newWeb3 = await new Web3(window.ethereum);
@@ -108,7 +112,7 @@ export default function Home() {
         connectWallet();
       } catch (error) {
         setWallet(null);
-        web3 = false;
+        // web3 = false;
         setWeb3Obj(null);
         console.log("Could not connect Web3");
       }
@@ -128,7 +132,7 @@ export default function Home() {
         connectWallet();
       } catch (error) {
         setWallet(null);
-        web3 = false;
+        // web3 = false;
         setWeb3Obj(null);
         console.log("Could not connect Web3");
       }
@@ -140,7 +144,7 @@ export default function Home() {
   };
   const disconnectWalletConnect = () => {
     localStorage.removeItem("walletconnect");
-    web3 = null;
+    // web3 = null;
     setWeb3Obj(null);
     setWalletAddress(null);
     setWallet(null);
@@ -156,8 +160,9 @@ export default function Home() {
         let testPassed = false;
         if (wallet === "metamask") {
           try {
-            const sendTest = await window.ethereum.send("eth_requestAccounts");
-            console.log("sendTest", sendTest);
+            const sendTest = await window.ethereum.request({
+              method: "eth_requestAccounts",
+            });
             testPassed = true;
           } catch (error) {
             setWallet(null);
@@ -188,7 +193,8 @@ export default function Home() {
     if (web3Obj !== null) {
       web3Obj.eth.getChainId().then((chainID) => {
         // Detect which blockchain MM is connected to. ID 1 means Ethereum
-        if (chainID == 1 || chainID == 3) {
+        console.log(193, chainID);
+        if (chainID == 42161 || chainID == 421611) {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -197,8 +203,7 @@ export default function Home() {
     }
   }, [web3, web3Obj, walletAddress]);
   const connectWeb3 = async () => {
-    if (typeof window != "undefined" && web3 === undefined) {
-      console.log(201, "connectWeb3");
+    if (typeof window != "undefined") {
       // const newWeb3 = await new Web3(window.ethereum);
       const newWeb3 = await new Web3(process.env.ETH_RPC);
       web3 = newWeb3;
@@ -207,9 +212,11 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    console.log(208, window.ethereum);
     connectWeb3();
+  }, [currentTimeStamp]);
+  useEffect(() => {
     if (window.ethereum) {
+      setWeb3Detect(true);
       // Metamask account change
       window.ethereum.on("accountsChanged", function (accounts) {
         if (accounts.length > 0) {
@@ -217,7 +224,7 @@ export default function Home() {
         } else {
           // setWeb3(null);
           localStorage.removeItem("walletconnect");
-          web3 = null;
+          // web3 = null;
           setWeb3Obj(null);
           setWalletAddress(null);
           setWallet(null);
@@ -229,7 +236,7 @@ export default function Home() {
       // Network account change
       window.ethereum.on("chainChanged", function (networkId) {
         console.log(157, networkId);
-        if (networkId === "0x1" || networkId === "0x3") {
+        if (networkId === "0xa4b1") {
           setWrongChain(false);
         } else {
           setWrongChain(true);
@@ -238,12 +245,13 @@ export default function Home() {
     } else {
       console.warn("No web3 detected.");
     }
+    console.log(`ethPrice`, ethPrice);
   }, []);
   return (
     <Layout>
-      {wrongChain !== false && (
+      {wrongChain !== false && walletAddress != null && (
         <ProgressBar
-          status={`Wrong chain, please switch to Ethereum Mainnet${
+          status={`Wrong chain, please switch to Arbitrum One${
             wallet === "walletconnect" ? " and refresh." : "."
           }`}
           closeBtn={() => setWrongChain(false)}
@@ -270,9 +278,30 @@ export default function Home() {
         zoomGraph={zoomGraph}
         STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
       />
-      <div>
-        <button onClick={setNewData}>Mock purchase 1000 ETH</button>
-      </div>
+      <Buy
+        setShowConnectOptions={setShowConnectOptions}
+        walletAddress={walletAddress}
+        web3Obj={web3Obj}
+        web3={web3}
+        curveData={curveData}
+        setNewDataFunction={setNewData}
+      />
+      <TakeNoteOf />
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=20, stale-while-revalidate=59"
+  );
+  const ethPrice = await axios(
+    `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=ETH,USD`
+  );
+  return {
+    props: {
+      ethPrice: ethPrice.data.USD ? ethPrice.data.USD : "3000",
+    },
+  };
 }

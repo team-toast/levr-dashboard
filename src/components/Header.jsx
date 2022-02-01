@@ -14,6 +14,7 @@ export default function Header({
   showDisconnectWallet,
   setShowDisconnectWallet,
   disconnectWalletConnect,
+  noWeb3,
 }) {
   const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
   return (
@@ -74,60 +75,62 @@ export default function Header({
             </Col>
           </Row>
         </Col>
-        <StyledConnectCol size={`0 0 auto`}>
-          {walletAddress ? (
-            // <ConnectedDiv title={walletAddress}>
-            //   <EllipsisSpan onClick={disconnectWalletConnect}>
-            //     {shortenAddress(walletAddress)}
-            //   </EllipsisSpan>
-            // </ConnectedDiv>
-            <div>
-              <button
-                className="action white ellipse"
-                onClick={disconnectWalletConnect}
-              >
-                @{shortenAddress(walletAddress)}
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button
-                className="action white"
-                onClick={() => setShowConnectOptions(true)}
-              >
-                Connect Wallet
-              </button>
-              <StyledWalletOptions
-                className={showConnectOptions ? "" : "hidden"}
-              >
-                {web3Detect && (
+        {!noWeb3 && (
+          <StyledConnectCol size={`0 0 auto`}>
+            {walletAddress ? (
+              // <ConnectedDiv title={walletAddress}>
+              //   <EllipsisSpan onClick={disconnectWalletConnect}>
+              //     {shortenAddress(walletAddress)}
+              //   </EllipsisSpan>
+              // </ConnectedDiv>
+              <div>
+                <button
+                  className="action white ellipse"
+                  onClick={disconnectWalletConnect}
+                >
+                  @{shortenAddress(walletAddress)}
+                </button>
+              </div>
+            ) : (
+              <div>
+                <button
+                  className="action white"
+                  onClick={() => setShowConnectOptions(true)}
+                >
+                  Connect Wallet
+                </button>
+                <StyledWalletOptions
+                  className={showConnectOptions ? "" : "hidden"}
+                >
+                  {web3Detect && (
+                    <div>
+                      <button
+                        className="metamask"
+                        onClick={() => setWallet("metamask")}
+                      >
+                        MetaMask
+                      </button>
+                    </div>
+                  )}
                   <div>
                     <button
-                      className="metamask"
-                      onClick={() => setWallet("metamask")}
+                      className="walletconnect"
+                      onClick={() => setWallet("walletconnect")}
                     >
-                      MetaMask
+                      WalletConnect
                     </button>
                   </div>
-                )}
-                <div>
                   <button
-                    className="walletconnect"
-                    onClick={() => setWallet("walletconnect")}
+                    className="close-btn"
+                    onClick={() => setShowConnectOptions(false)}
                   >
-                    WalletConnect
+                    X
                   </button>
-                </div>
-                <button
-                  className="close-btn"
-                  onClick={() => setShowConnectOptions(false)}
-                >
-                  X
-                </button>
-              </StyledWalletOptions>
-            </div>
-          )}
-        </StyledConnectCol>
+                </StyledWalletOptions>
+              </div>
+            )}
+          </StyledConnectCol>
+        )}
         <MobileMenuCol size={1}>
           <StyledHamburgerMenu
             toggleMobileMenu={toggleMobileMenu}

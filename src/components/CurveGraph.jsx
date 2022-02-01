@@ -15,37 +15,45 @@ export default function CurveGraph({
   zoomGraph,
   STATIC_MAX_TOKENS,
 }) {
+  let fit_in =
+    STATIC_MAX_TOKENS /
+    (curveData.totalTokensSoldBefore + curveData.tokensReceived);
+  if (fit_in == "Infinity") {
+    fit_in = 1;
+  }
   let steps_to_use =
     curveData.priceBefore !== curveData.priceAfter
       ? parseFloat(
           curveData.tokensReceived /
             (STATIC_MAX_TOKENS -
               (curveData.totalTokensSoldBefore + curveData.tokensReceived))
-        ).toFixed(4)
+        ).toFixed(4) * fit_in
       : parseFloat(curveData.totalTokensSoldBefore / STATIC_MAX_TOKENS).toFixed(
           4
-        );
+        ) * fit_in;
   let bottomPosition =
     parseFloat(
       (curveData.totalTokensSoldBefore + curveData.tokensReceived) /
         (maxTokens / zoomLevel)
     ) * 100;
   if (bottomPosition < 15) {
-    bottomPosition = 15;
-  } else if (bottomPosition > 92.8) {
-    bottomPosition = 92.8;
+    // bottomPosition = 15;
+  } else if (bottomPosition >= 99) {
+    bottomPosition = 99;
   }
   return (
     <CurveBox>
       <Row>
         <Col className="margin-b-4 hide-xs" size={"0 0 auto"}>
-          <PriceStrong>Price (nETH)</PriceStrong>
+          <PriceStrong>Price (mETH)</PriceStrong>
         </Col>
         {/* Y AXIS PRICING */}
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>
-              <span>{(curveData.maxPrice / zoomLevel).toFixed(6)}</span>
+              <span className={bottomPosition > 90 ? "opacity-0" : ""}>
+                {(curveData.maxPrice / zoomLevel).toFixed(2)}
+              </span>
             </Col>
             <ColPositionAbsolute
               className={
@@ -53,9 +61,9 @@ export default function CurveGraph({
                   ? "newprice hide-this-price"
                   : "newprice show-this-price"
               }
-              bottom={bottomPosition < 15 ? 15 : bottomPosition}
+              bottom={bottomPosition}
             >
-              {curveData.priceAfter.toFixed(6)}
+              {curveData.priceAfter.toFixed(2)}
             </ColPositionAbsolute>
             <ColPositionAbsolute
               className="currentprice"
@@ -65,7 +73,7 @@ export default function CurveGraph({
                 ) * 100
               }
             >
-              {curveData.priceBefore.toFixed(6)}
+              {curveData.priceBefore.toFixed(2)}
             </ColPositionAbsolute>
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 4).toFixed(6)}</Col> */}
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 3).toFixed(6)}</Col>
@@ -103,14 +111,14 @@ export default function CurveGraph({
           </LineCurve>
           <Supply>
             <Row>
-              <Col size={1}>{(10 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(25 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(50 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(75 / zoomLevel).toFixed()}M</Col>
-              <Col size={"0 0 auto"}>{(100 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(0 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(87 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(174 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(261 / zoomLevel).toFixed()}M</Col>
+              <Col size={"0 0 auto"}>
+                {(350 / zoomLevel).toFixed()}M {zoomLevel == 1 ? "" : " ..."}
+              </Col>
             </Row>
-            <br />
-            <h3 className="text-center">Token Supply</h3>
           </Supply>
         </Col>
         <Col className="text-center hide-xs">
@@ -121,7 +129,7 @@ export default function CurveGraph({
               onChange={(value) => zoomGraph(value.target.value)}
               type="range"
               min="1"
-              max="2"
+              max={fit_in}
               value={zoomLevel}
               step={steps_to_use}
             />
@@ -133,6 +141,8 @@ export default function CurveGraph({
           </RangeSliderBox>
         </Col>
       </Row>
+      <br />
+      <h3 className="text-center">Token Supply</h3>
     </CurveBox>
   );
 }
@@ -203,6 +213,7 @@ const ColPositionAbsolute = styled(Col)`
   position: absolute;
   bottom: ${(props) => props.bottom}%;
   transition: all 0.25s ease;
+  right: 8px;
   &.hide-this-price {
     opacity: 0;
     bottom: 0;
@@ -301,7 +312,8 @@ const ColRow = styled(Row)`
   flex-direction: column;
   float: left;
   height: 100%;
-  padding: 1.3rem 0.5rem 0;
+  padding: 0rem 0.5rem 0;
+  top: 2rem;
 `;
 
 const CurveBox = styled.div`
