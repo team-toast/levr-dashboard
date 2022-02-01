@@ -52,7 +52,7 @@ export default function CurveGraph({
           <ColRow>
             <Col size={1}>
               <span className={bottomPosition > 90 ? "opacity-0" : ""}>
-                {(curveData.maxPrice / zoomLevel).toFixed(6)}
+                {(curveData.maxPrice / zoomLevel).toFixed(2)}
               </span>
             </Col>
             <ColPositionAbsolute
@@ -63,7 +63,7 @@ export default function CurveGraph({
               }
               bottom={bottomPosition}
             >
-              {curveData.priceAfter.toFixed(6)}
+              {curveData.priceAfter.toFixed(2)}
             </ColPositionAbsolute>
             <ColPositionAbsolute
               className="currentprice"
@@ -73,7 +73,7 @@ export default function CurveGraph({
                 ) * 100
               }
             >
-              {curveData.priceBefore.toFixed(6)}
+              {curveData.priceBefore.toFixed(2)}
             </ColPositionAbsolute>
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 4).toFixed(6)}</Col> */}
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 3).toFixed(6)}</Col>
@@ -213,6 +213,7 @@ const ColPositionAbsolute = styled(Col)`
   position: absolute;
   bottom: ${(props) => props.bottom}%;
   transition: all 0.25s ease;
+  right: 8px;
   &.hide-this-price {
     opacity: 0;
     bottom: 0;

@@ -375,7 +375,7 @@ export default function Buy({
             <p>
               Average cost per token is{" "}
               <span className="font-weight-bold text-red">
-                {curveData.priceBefore.toFixed(8)} mETH
+                {curveData.priceBefore.toFixed(2)} mETH
               </span>
             </p>
             {curveData.priceBefore.toFixed(8) !==
@@ -383,7 +383,7 @@ export default function Buy({
               <p>
                 {`You'll`} raise average cost to{" "}
                 <span className=" font-weight-bold text-blue">
-                  {curveData.priceAfter.toFixed(8)} mETH
+                  {curveData.priceAfter.toFixed(2)} mETH
                 </span>{" "}
                 and receive{" "}
                 <span className=" font-weight-bold text-green">
