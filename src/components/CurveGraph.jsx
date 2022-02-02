@@ -143,6 +143,22 @@ export default function CurveGraph({
       </Row>
       <br />
       <h3 className="text-center">Token Supply</h3>
+      <Row hidesm hidemd hidelg showxs>
+        <Col size={1}>
+          <RangeSliderBox className="mobile-zoom">
+            <RangeSlider
+              className="mobile-zoom__input"
+              onChange={(value) => zoomGraph(value.target.value)}
+              type="range"
+              min="1"
+              max={fit_in}
+              value={zoomLevel}
+              step={steps_to_use}
+            />
+            <span>Graph Zoom</span>
+          </RangeSliderBox>
+        </Col>
+      </Row>
     </CurveBox>
   );
 }
@@ -164,6 +180,25 @@ const RangeSliderBox = styled.div`
     input {
       cursor: not-allowed;
       filter: grayscale(1);
+    }
+  }
+  &.mobile-zoom {
+    height: initial;
+    width: 100%;
+    display: block;
+    top: 0;
+    margin-top: 1rem;
+    & > * {
+      flex: 1;
+    }
+    span {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 1rem;
+      position: relative;
+      left: initial;
+      transform: initial;
     }
   }
 `;
@@ -206,6 +241,14 @@ const RangeSlider = styled.input`
     background: black;
     cursor: pointer;
     border: none;
+  }
+  &.mobile-zoom__input {
+    top: 0;
+    left: 0;
+    margin: auto;
+    position: relative;
+    transform: initial;
+    width: 100%;
   }
 `;
 
@@ -347,6 +390,9 @@ const LineCurve = styled.div`
   margin: 2rem auto 0.5rem;
   overflow: hidden;
   position: relative;
+  @media screen and (max-width: 48em) {
+    height: 280px;
+  }
 `;
 
 const InnerCurve = styled.div`

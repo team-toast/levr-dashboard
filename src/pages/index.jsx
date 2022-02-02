@@ -120,7 +120,9 @@ export default function Home({ ethPrice }) {
       try {
         const provider = new WalletConnectProvider({
           rpc: {
-            1: process.env.ETH_RPC,
+            1: "https://cloudflare-eth.com/",
+            42161: process.env.ETH_RPC,
+            421611: process.env.ETH_RPC,
           },
         });
         await provider.enable();

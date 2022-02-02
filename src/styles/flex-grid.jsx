@@ -98,6 +98,13 @@ export const Row = styled.div`
         display: none;
       }
     `}
+    ${({ showxs }) =>
+    showxs &&
+    css`
+      @media screen and (max-width: 48em) {
+        display: flex;
+      }
+    `}
 `;
 
 export const Col = styled.div`
