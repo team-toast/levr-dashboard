@@ -284,6 +284,19 @@ button, .button {
 .padding-0-1 {
     padding: 0 1rem;
 }
+.padding-1 {
+    padding: 1rem;
+}
+.progress-message {
+    max-width: 400px;
+    margin: auto;
+    text-align: left;
+    background: white;
+    border-radius: 10px;
+    margin-top: 2rem;
+    box-shadow: 0 0 20px rgb(0 0 0 / 20%);
+    font-weight: normal;
+}
 .margin {
     &-top-2 {
         margin-top: 2em;
@@ -321,6 +334,9 @@ button, .button {
 }
 .hidden {
     display: none;
+}
+.text-1 {
+    font-size: 1rem;
 }
 ._loading_overlay_wrapper {
     padding-bottom: 6rem;

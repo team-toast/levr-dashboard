@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-export default function ProgressBar({ children, status, closeBtn }) {
+export default function ProgressBar({ children, status, closeBtn, message }) {
   return (
     <ProgressBarDiv status={status}>
       <Content>
         <Block>
           {`${status}`}
-          <Block>{children}</Block>
+          <Block>
+            {children}
+            <div
+              className="progress-message text-1 padding-1"
+              dangerouslySetInnerHTML={{
+                __html: message,
+              }}
+            ></div>
+          </Block>
         </Block>
       </Content>
       <CloseBtn onClick={closeBtn}>X</CloseBtn>
