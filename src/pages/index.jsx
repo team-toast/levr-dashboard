@@ -299,7 +299,7 @@ export default function Home({ ethPrice }) {
     } catch (error) {
       console.log("switchNetworkToArbitrum", error.code, error);
       if (error.code == undefined) {
-        setSwitchNetworkErrorMessage(`<strong>Unable to switch chain. Try adding "Arbitrum One" manually.</strong>
+        setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
 
           <p>Network Name: Arbitrum One</p>
 
@@ -333,7 +333,7 @@ export default function Home({ ethPrice }) {
           });
         } catch (error) {
           console.log("switchNetworkToArbitrum", 282, error);
-          setSwitchNetworkErrorMessage(`<strong>Unable to switch chain. Try adding "Arbitrum One" manually.</strong>
+          setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
 
           <p>Network Name: Arbitrum One</p>
 
