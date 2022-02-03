@@ -1,14 +1,24 @@
 import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-export default function ProgressBar({ status, closeBtn }) {
+export default function ProgressBar({ children, status, closeBtn }) {
   return (
     <ProgressBarDiv status={status}>
-      <Content>{`${status}`}</Content>
+      <Content>
+        <Block>
+          {`${status}`}
+          <Block>{children}</Block>
+        </Block>
+      </Content>
       <CloseBtn onClick={closeBtn}>X</CloseBtn>
     </ProgressBarDiv>
   );
 }
+
+const Block = styled.div`
+  display: block;
+  flex: 1 0 100%;
+`;
 
 const CloseBtn = styled.button`
   position: absolute;
@@ -31,6 +41,7 @@ const Content = styled.div`
   height: 100%;
   text-align: center;
   padding: 0 1rem;
+  flex-wrap: wrap;
 `;
 
 const ProgressBarDiv = styled.div`

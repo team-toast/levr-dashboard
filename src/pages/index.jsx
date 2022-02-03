@@ -126,6 +126,40 @@ export default function Home({ ethPrice }) {
           },
         });
         await provider.enable();
+        // Subscribe to accounts change
+        provider.on("accountsChanged", (accounts) => {
+          console.log(accounts);
+          if (accounts.length > 0) {
+            setWalletAddress(accounts[0]);
+          } else {
+            // setWeb3(null);
+            localStorage.removeItem("walletconnect");
+            // web3 = null;
+            setWeb3Obj(null);
+            setWalletAddress(null);
+            setWallet(null);
+            // setDETHbalance(null);
+            // setDETHtoETHvalue(0);
+            // setETHbalance(0);
+          }
+        });
+
+        // Subscribe to chainId change
+        provider.on("chainChanged", (chainId) => {
+          console.log(chainId);
+          console.log(157, chainId);
+          if (chainId === "0xa4b1") {
+            setWrongChain(false);
+          } else {
+            setWrongChain(true);
+          }
+        });
+
+        // Subscribe to session disconnection
+        provider.on("disconnect", (code, reason) => {
+          console.log(code, reason);
+          disconnectWalletConnect();
+        });
         const newWeb3 = await new Web3(provider);
         web3 = newWeb3;
         setWeb3Obj(web3);
@@ -249,6 +283,42 @@ export default function Home({ ethPrice }) {
     }
     console.log(`ethPrice`, ethPrice);
   }, []);
+  const switchNetworkToArbitrum = async () => {
+    console.log("switchNetworkToArbitrum");
+    try {
+      await web3.currentProvider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0xa4b1" }],
+      });
+      console.log("switchNetworkToArbitrum", "try");
+    } catch (error) {
+      console.log("switchNetworkToArbitrum", error);
+      if (error.code === 4902) {
+        try {
+          console.log("switchNetworkToArbitrum", 264, "try");
+          await web3.currentProvider.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0xa4b1",
+                chainName: "Arbitrum One",
+                rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+                nativeCurrency: {
+                  name: "AETH",
+                  symbol: "AETH",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://arbiscan.io"],
+              },
+            ],
+          });
+        } catch (error) {
+          console.log("switchNetworkToArbitrum", 282, error);
+          alert(error.message);
+        }
+      }
+    }
+  };
   return (
     <Layout>
       {wrongChain !== false && walletAddress != null && (
@@ -257,7 +327,12 @@ export default function Home({ ethPrice }) {
             wallet === "walletconnect" ? " and refresh." : "."
           }`}
           closeBtn={() => setWrongChain(false)}
-        ></ProgressBar>
+        >
+          <br />
+          <button onClick={switchNetworkToArbitrum}>
+            Switch to Arbitrum One
+          </button>
+        </ProgressBar>
       )}
       <Header
         wallet={wallet}
