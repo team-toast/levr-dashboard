@@ -290,6 +290,20 @@ export default function Home({ ethPrice }) {
   }, []);
   const switchNetworkToArbitrum = async () => {
     console.log("switchNetworkToArbitrum");
+    if (wallet === "walletconnect") {
+      setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
+
+          <p>Network Name: Arbitrum One</p>
+
+          <p>New RPC URL: https://arb1.arbitrum.io/rpc</p>
+
+          <p>Chain ID: 42161</p>
+
+          <p>Symbol: AETH</p>
+
+          <p>Block Explorer URL: https://arbiscan.io</p>
+          `);
+    }
     try {
       await web3.currentProvider.request({
         method: "wallet_switchEthereumChain",
