@@ -357,6 +357,9 @@ const ColRow = styled(Row)`
   height: 100%;
   padding: 0rem 0.5rem 0;
   top: 2rem;
+  @media screen and (max-width: 48em) {
+    padding-left: 0;
+  }
 `;
 
 const CurveBox = styled.div`
