@@ -187,6 +187,7 @@ export default function Home({ ethPrice }) {
     setWeb3Obj(null);
     setWalletAddress(null);
     setWallet(null);
+    setSwitchNetworkErrorMessage("");
     // setDETHbalance(null);
     // setDETHtoETHvalue(0);
     // setETHbalance(0);
@@ -222,6 +223,7 @@ export default function Home({ ethPrice }) {
         }
       })();
     }
+    setSwitchNetworkErrorMessage("");
   };
   const shortenAddress = (data) => {
     const first = data.slice(0, 6);
@@ -331,7 +333,18 @@ export default function Home({ ethPrice }) {
           });
         } catch (error) {
           console.log("switchNetworkToArbitrum", 282, error);
-          alert(error.message);
+          setSwitchNetworkErrorMessage(`<strong>Unable to switch chain. Try adding "Arbitrum One" manually.</strong>
+
+          <p>Network Name: Arbitrum One</p>
+
+          <p>New RPC URL: https://arb1.arbitrum.io/rpc</p>
+
+          <p>Chain ID: 42161</p>
+
+          <p>Symbol: AETH</p>
+
+          <p>Block Explorer URL: https://arbiscan.io</p>
+          `);
         }
       }
     }
@@ -340,7 +353,7 @@ export default function Home({ ethPrice }) {
     <Layout>
       {wrongChain !== false && walletAddress != null && (
         <ProgressBar
-          status={`Wrong chain, please switch to Arbitrum One${
+          status={`Wrong chain, please switch to "Arbitrum One"${
             wallet === "walletconnect" ? " and refresh." : "."
           }`}
           message={switchNetworkErrorMessage}

@@ -9,12 +9,14 @@ export default function ProgressBar({ children, status, closeBtn, message }) {
           {`${status}`}
           <Block>
             {children}
-            <div
-              className="progress-message text-1 padding-1"
-              dangerouslySetInnerHTML={{
-                __html: message,
-              }}
-            ></div>
+            {message && (
+              <div
+                className="progress-message text-1 padding-1"
+                dangerouslySetInnerHTML={{
+                  __html: message,
+                }}
+              ></div>
+            )}
           </Block>
         </Block>
       </Content>
