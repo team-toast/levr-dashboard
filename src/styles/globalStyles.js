@@ -284,6 +284,9 @@ button, .button {
 .padding-0-1 {
     padding: 0 1rem;
 }
+.padding-r-1 {
+    padding-right: 1rem !important;
+}
 .padding-1 {
     padding: 1rem;
 }

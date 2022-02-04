@@ -39,7 +39,7 @@ export default function Header({
           <Row>
             <Col size={1}>
               <Link href="/">
-                <a className="menu-item-links">Home</a>
+                <a className="menu-item-links padding-r-1">Home</a>
               </Link>
             </Col>
             <Col size={"0 0 auto"} className="text-right">
