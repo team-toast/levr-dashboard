@@ -19,6 +19,7 @@ const STATIC_MAX_TOKENS = 350000000;
 let PROVIDER;
 
 export default function Home({ ethPrice }) {
+  const [showUSDCurrency, setShowUSDCurrency] = useState(false);
   const [wallet, setWallet] = useState(null);
   const [web3Obj, setWeb3Obj] = useState(null);
   const [web3Detect, setWeb3Detect] = useState(false);
@@ -27,6 +28,8 @@ export default function Home({ ethPrice }) {
   const [showConnectOptions, setShowConnectOptions] = useState(false);
   const [showDisconnectWallet, setShowDisconnectWallet] = useState(false);
   const [currentTimeStamp, setCurrentTimeStamp] = useState(Date.now());
+
+  const [depositEth, setDepositEth] = useState("");
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
@@ -72,9 +75,7 @@ export default function Home({ ethPrice }) {
       );
       const saleInfo = await new_contract.methods.getSaleInfo(amount).call();
       setCurveData({
-        priceBefore: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceBefore, "microether")
-        ),
+        priceBefore: saleInfo._priceBefore.toString(),
         raisedBefore: parseFloat(
           web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
         ),
@@ -87,18 +88,14 @@ export default function Home({ ethPrice }) {
         totalTokensSoldAfter: parseFloat(
           web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
         ),
-        priceAfter: parseFloat(
-          web3?.utils?.fromWei(saleInfo._priceAfter, "microether")
-        ),
+        priceAfter: saleInfo._priceAfter.toString(),
         tokensReceived: parseFloat(
           web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
         ),
         pricePaidPerToken: parseFloat(
           web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
         ),
-        maxPrice: parseFloat(
-          web3?.utils?.fromWei("328352394996040", "microether")
-        ),
+        maxPrice: "328352394996040",
       });
       if (curveData.priceBefore !== 0) {
         setInitSaleInfoFetch(false);
@@ -391,6 +388,10 @@ export default function Home({ ethPrice }) {
       }
     }
   };
+  const convertTo = (value, data) => {
+    const convert = parseFloat(web3?.utils?.fromWei(value, data));
+    return convert;
+  };
   return (
     <Layout>
       {wrongChain !== false && walletAddress != null && (
@@ -418,6 +419,8 @@ export default function Home({ ethPrice }) {
         setShowDisconnectWallet={setShowDisconnectWallet}
         disconnectWalletConnect={disconnectWalletConnect}
         shortenAddress={shortenAddress}
+        showUSDCurrency={showUSDCurrency}
+        setShowUSDCurrency={setShowUSDCurrency}
       />
       <CurveSale
         initSaleInfoFetch={initSaleInfoFetch}
@@ -427,14 +430,22 @@ export default function Home({ ethPrice }) {
         zoomLevel={zoomLevel}
         zoomGraph={zoomGraph}
         STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
+        showUSDCurrency={showUSDCurrency}
+        ethPrice={ethPrice}
+        convertTo={convertTo}
       />
       <Buy
+        showUSDCurrency={showUSDCurrency}
         setShowConnectOptions={setShowConnectOptions}
         walletAddress={walletAddress}
         web3Obj={web3Obj}
         web3={web3}
         curveData={curveData}
         setNewDataFunction={setNewData}
+        ethPrice={ethPrice}
+        depositEth={depositEth}
+        setDepositEth={setDepositEth}
+        convertTo={convertTo}
       />
       <TakeNoteOf />
     </Layout>

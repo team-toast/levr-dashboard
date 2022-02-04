@@ -34,10 +34,14 @@ export default function Buy({
   walletAddress,
   setNewDataFunction,
   setShowConnectOptions,
+  showUSDCurrency,
+  ethPrice,
+  depositEth,
+  setDepositEth,
+  convertTo,
 }) {
   const [levrBalance, setLevrBalance] = useState(0);
   const [eTHbalance, setETHbalance] = useState(0);
-  const [depositEth, setDepositEth] = useState("");
   const [notEnoughBalance, setNotEnoughBalance] = useState(false);
   const [status, setStatus] = useState([]);
   const [statusBusy, setStatusBusy] = useState(false);
@@ -374,17 +378,37 @@ export default function Buy({
             </p>
             <p>
               Average cost per token is{" "}
-              <span className="font-weight-bold text-red">
-                {curveData.priceBefore.toFixed(2)} mETH
-              </span>
+              {showUSDCurrency ? (
+                <span className="font-weight-bold text-red">
+                  {(
+                    ethPrice * convertTo(curveData.priceBefore, "ether")
+                  ).toFixed(4)}{" "}
+                  USD
+                </span>
+              ) : (
+                <span className="font-weight-bold text-red">
+                  {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
+                  mETH
+                </span>
+              )}
             </p>
-            {curveData.priceBefore.toFixed(8) !==
-              curveData.priceAfter.toFixed(8) && (
+            {convertTo(curveData.priceBefore, "ether").toFixed(8) !==
+              convertTo(curveData.priceAfter).toFixed(8) && (
               <p>
                 {`You'll`} raise average cost to{" "}
-                <span className=" font-weight-bold text-blue">
-                  {curveData.priceAfter.toFixed(2)} mETH
-                </span>{" "}
+                {showUSDCurrency ? (
+                  <span className=" font-weight-bold text-blue">
+                    {(
+                      ethPrice * convertTo(curveData.priceAfter, "ether")
+                    ).toFixed(4)}{" "}
+                    USD
+                  </span>
+                ) : (
+                  <span className=" font-weight-bold text-blue">
+                    {convertTo(curveData.priceAfter, "microether").toFixed(2)}{" "}
+                    mETH
+                  </span>
+                )}{" "}
                 and receive{" "}
                 <span className=" font-weight-bold text-green">
                   {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR.

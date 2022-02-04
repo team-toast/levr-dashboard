@@ -12,6 +12,9 @@ export default function CurveSale({
   zoomLevel,
   zoomGraph,
   STATIC_MAX_TOKENS,
+  showUSDCurrency,
+  ethPrice,
+  convertTo,
 }) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -64,7 +67,19 @@ export default function CurveSale({
               className="b-r-0-10-10-0 bg-green text-white p-10 text-center strong-500"
               size={"0 0 170px"}
             >
-              {curveData.priceBefore.toFixed(2)} mETH
+              {showUSDCurrency ? (
+                <span>
+                  {(
+                    ethPrice * convertTo(curveData.priceBefore, "ether")
+                  ).toFixed(4)}{" "}
+                  USD
+                </span>
+              ) : (
+                <span>
+                  {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
+                  mETH
+                </span>
+              )}
             </Col>
           </Row>
         </Col>
@@ -77,6 +92,9 @@ export default function CurveSale({
         zoomLevel={zoomLevel}
         zoomGraph={zoomGraph}
         STATIC_MAX_TOKENS={STATIC_MAX_TOKENS}
+        ethPrice={ethPrice}
+        showUSDCurrency={showUSDCurrency}
+        convertTo={convertTo}
       ></CurveGraph>
     </Box>
   );

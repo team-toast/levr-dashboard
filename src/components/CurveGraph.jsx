@@ -14,6 +14,9 @@ export default function CurveGraph({
   zoomLevel,
   zoomGraph,
   STATIC_MAX_TOKENS,
+  showUSDCurrency,
+  ethPrice,
+  convertTo,
 }) {
   let fit_in =
     STATIC_MAX_TOKENS /
@@ -22,7 +25,8 @@ export default function CurveGraph({
     fit_in = 1;
   }
   let steps_to_use =
-    curveData.priceBefore !== curveData.priceAfter
+    convertTo(curveData.priceBefore, "ether") !==
+    convertTo(curveData.priceAfter, "ether")
       ? parseFloat(
           curveData.tokensReceived /
             (STATIC_MAX_TOKENS -
@@ -45,15 +49,30 @@ export default function CurveGraph({
     <CurveBox>
       <Row>
         <Col className="margin-b-4 hide-xs" size={"0 0 auto"}>
-          <PriceStrong>Price (mETH)</PriceStrong>
+          {showUSDCurrency ? (
+            <PriceStrong>Price (USD)</PriceStrong>
+          ) : (
+            <PriceStrong>Price (mETH)</PriceStrong>
+          )}
         </Col>
         {/* Y AXIS PRICING */}
         <Col className="margin-b-4" size={"0 0 auto"}>
           <ColRow>
             <Col size={1}>
-              <span className={bottomPosition > 90 ? "opacity-0" : ""}>
-                {(curveData.maxPrice / zoomLevel).toFixed(2)}
-              </span>
+              {showUSDCurrency ? (
+                <span className={bottomPosition > 90 ? "opacity-0" : ""}>
+                  {(
+                    (ethPrice * convertTo(curveData.maxPrice, "ether")) /
+                    zoomLevel
+                  ).toFixed(4)}
+                </span>
+              ) : (
+                <span className={bottomPosition > 90 ? "opacity-0" : ""}>
+                  {(
+                    convertTo(curveData.maxPrice, "microether") / zoomLevel
+                  ).toFixed(2)}
+                </span>
+              )}
             </Col>
             <ColPositionAbsolute
               className={
@@ -63,7 +82,17 @@ export default function CurveGraph({
               }
               bottom={bottomPosition}
             >
-              {curveData.priceAfter.toFixed(2)}
+              {showUSDCurrency ? (
+                <span>
+                  {(
+                    ethPrice * convertTo(curveData.priceAfter, "ether")
+                  ).toFixed(4)}
+                </span>
+              ) : (
+                <span>
+                  {convertTo(curveData.priceAfter, "microether").toFixed(2)}
+                </span>
+              )}
             </ColPositionAbsolute>
             <ColPositionAbsolute
               className="currentprice"
@@ -73,7 +102,17 @@ export default function CurveGraph({
                 ) * 100
               }
             >
-              {curveData.priceBefore.toFixed(2)}
+              {showUSDCurrency ? (
+                <span>
+                  {(
+                    ethPrice * convertTo(curveData.priceBefore, "ether")
+                  ).toFixed(4)}
+                </span>
+              ) : (
+                <span>
+                  {convertTo(curveData.priceBefore, "microether").toFixed(2)}
+                </span>
+              )}
             </ColPositionAbsolute>
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 4).toFixed(6)}</Col> */}
             {/* <Col size={1}>{((curveData.maxPrice / 5) * 3).toFixed(6)}</Col>
@@ -346,6 +385,7 @@ const PriceStrong = styled.strong`
   display: block;
   top: 50%;
   position: relative;
+  width: 100px;
 `;
 
 const ColRow = styled(Row)`

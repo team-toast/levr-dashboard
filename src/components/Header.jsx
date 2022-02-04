@@ -15,6 +15,8 @@ export default function Header({
   setShowDisconnectWallet,
   disconnectWalletConnect,
   noWeb3,
+  showUSDCurrency,
+  setShowUSDCurrency,
 }) {
   const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
   return (
@@ -72,6 +74,15 @@ export default function Header({
                   <img src="/Icon awesome-telegram-plane.svg" height="21" />
                 </a>
               </SocialCol>
+            </Col>
+            <Col size={"0 0 auto"} className="text-right">
+              <CurrencyToggel
+                className={showUSDCurrency}
+                onClick={() => setShowUSDCurrency(!showUSDCurrency)}
+              >
+                <div>mETH</div>
+                <div>USD</div>
+              </CurrencyToggel>
             </Col>
           </Row>
         </Col>
@@ -145,6 +156,43 @@ export default function Header({
     </StyledHeader>
   );
 }
+
+const CurrencyToggel = styled.div`
+  display: flex;
+  height: 100%;
+  background: none;
+  box-shadow: inset 0 0 0 1px #fff;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: #fff;
+  height: 41px;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  top: 7px;
+  margin-right: 1rem;
+  &:before {
+    content: " ";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: #1ae287;
+    display: block;
+    border-radius: 25px;
+    transition: all 0.15s ease;
+  }
+  > * {
+    padding: 0 0.5rem;
+  }
+  &.true {
+    &:before {
+      left: 0;
+    }
+  }
+`;
 
 const StyledHamburgerMenu = styled.div`
   position: relative;
