@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-export default function ProgressBar({ children, status, closeBtn, message }) {
+export default function ProgressBar({
+  children,
+  status,
+  closeBtn,
+  messages = [],
+}) {
   return (
     <ProgressBarDiv status={status}>
       <Content>
@@ -9,14 +14,17 @@ export default function ProgressBar({ children, status, closeBtn, message }) {
           {`${status}`}
           <Block>
             {children}
-            {message && (
-              <div
-                className="progress-message text-1 padding-1"
-                dangerouslySetInnerHTML={{
-                  __html: message,
-                }}
-              ></div>
-            )}
+            {messages.map((message, index) => {
+              return (
+                <div
+                  key={`message-${index}`}
+                  className="progress-message text-1 padding-1"
+                  dangerouslySetInnerHTML={{
+                    __html: message,
+                  }}
+                ></div>
+              );
+            })}
           </Block>
         </Block>
       </Content>
@@ -44,14 +52,13 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
   text-align: center;
   padding: 0 1rem;
   flex-wrap: wrap;
+  overflow-y: auto;
+  padding: 6rem 1rem 2rem;
 `;
 
 const ProgressBarDiv = styled.div`

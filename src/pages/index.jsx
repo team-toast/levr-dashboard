@@ -16,6 +16,8 @@ let web3;
 
 const STATIC_MAX_TOKENS = 350000000;
 
+let PROVIDER;
+
 export default function Home({ ethPrice }) {
   const [wallet, setWallet] = useState(null);
   const [web3Obj, setWeb3Obj] = useState(null);
@@ -106,7 +108,6 @@ export default function Home({ ethPrice }) {
     }
   };
   const connectSelectedWallet = async () => {
-    console.log("connectSelectedWallet", wallet);
     if (wallet === "metamask") {
       try {
         const newWeb3 = await new Web3(window.ethereum);
@@ -121,17 +122,17 @@ export default function Home({ ethPrice }) {
       }
     } else if (wallet === "walletconnect") {
       try {
-        const provider = new WalletConnectProvider({
+        PROVIDER = new WalletConnectProvider({
           rpc: {
             1: "https://cloudflare-eth.com/",
             42161: process.env.ETH_RPC,
             421611: process.env.ETH_RPC,
           },
         });
-        await provider.enable();
+        PROVIDER.enable();
+
         // Subscribe to accounts change
-        provider.on("accountsChanged", (accounts) => {
-          console.log(accounts);
+        PROVIDER.on("accountsChanged", (accounts) => {
           if (accounts.length > 0) {
             setWalletAddress(accounts[0]);
           } else {
@@ -147,8 +148,17 @@ export default function Home({ ethPrice }) {
           }
         });
 
+        PROVIDER.on("session_update", (error, payload) => {
+          if (error) {
+            alert(error);
+            throw error;
+          }
+          const { accounts, chainId } = payload.params[0];
+          alert(chainId);
+        });
+
         // Subscribe to chainId change
-        provider.on("chainChanged", (chainId) => {
+        PROVIDER.on("chainChanged", (chainId) => {
           console.log(chainId);
           console.log(157, chainId);
           if (chainId === "0xa4b1") {
@@ -159,11 +169,11 @@ export default function Home({ ethPrice }) {
         });
 
         // Subscribe to session disconnection
-        provider.on("disconnect", (code, reason) => {
+        PROVIDER.on("disconnect", (code, reason) => {
           console.log(code, reason);
           disconnectWalletConnect();
         });
-        const newWeb3 = await new Web3(provider);
+        const newWeb3 = await new Web3(PROVIDER);
         web3 = newWeb3;
         setWeb3Obj(web3);
         const accounts = await web3.eth.getAccounts();
@@ -187,13 +197,12 @@ export default function Home({ ethPrice }) {
     setWeb3Obj(null);
     setWalletAddress(null);
     setWallet(null);
-    setSwitchNetworkErrorMessage("");
+    setSwitchNetworkErrorMessage([]);
     // setDETHbalance(null);
     // setDETHtoETHvalue(0);
     // setETHbalance(0);
   };
   const connectWallet = () => {
-    console.log(66, `connectWallet`);
     if (typeof window != "undefined" && web3) {
       (async () => {
         console.log("Startup, test eth_requestAccounts");
@@ -216,14 +225,13 @@ export default function Home({ ethPrice }) {
           console.log("updating web3");
           // const newWeb3 = new Web3(window.ethereum);
           const accounts = await web3.eth.getAccounts();
-          console.log("accounts", accounts);
           setWalletAddress(accounts[0]);
           // await getDETHbalance(accounts[0]);
           // await getETHbalance(accounts[0]);
         }
       })();
     }
-    setSwitchNetworkErrorMessage("");
+    setSwitchNetworkErrorMessage([]);
   };
   const shortenAddress = (data) => {
     const first = data.slice(0, 6);
@@ -234,7 +242,6 @@ export default function Home({ ethPrice }) {
     if (web3Obj !== null) {
       web3Obj.eth.getChainId().then((chainID) => {
         // Detect which blockchain MM is connected to. ID 1 means Ethereum
-        console.log(193, chainID);
         if (chainID == 42161 || chainID == 421611) {
           setWrongChain(false);
         } else {
@@ -291,7 +298,13 @@ export default function Home({ ethPrice }) {
   const switchNetworkToArbitrum = async () => {
     console.log("switchNetworkToArbitrum");
     if (wallet === "walletconnect") {
-      setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
+      setSwitchNetworkErrorMessage([
+        `<strong>Switch not being detected?</strong>
+        <p>1. Disconnect Wallet</p>
+        <p>2. Switch manually to "Arbitrum One"</p>
+        <p>3. Connect to wallet</p>
+        `,
+        `<strong>Add "Arbitrum One" manually.</strong>
 
           <p>Network Name: Arbitrum One</p>
 
@@ -302,7 +315,8 @@ export default function Home({ ethPrice }) {
           <p>Symbol: AETH</p>
 
           <p>Block Explorer URL: https://arbiscan.io</p>
-          `);
+          `,
+      ]);
     }
     try {
       await web3.currentProvider.request({
@@ -313,7 +327,13 @@ export default function Home({ ethPrice }) {
     } catch (error) {
       console.log("switchNetworkToArbitrum", error.code, error);
       if (error.code == undefined) {
-        setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
+        setSwitchNetworkErrorMessage([
+          `<strong>Switch not being detected?</strong>
+        <p>1. Disconnect Wallet</p>
+        <p>2. Switch manually to "Arbitrum One"</p>
+        <p>3. Connect to wallet</p>
+        `,
+          `<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
 
           <p>Network Name: Arbitrum One</p>
 
@@ -324,7 +344,8 @@ export default function Home({ ethPrice }) {
           <p>Symbol: AETH</p>
 
           <p>Block Explorer URL: https://arbiscan.io</p>
-          `);
+          `,
+        ]);
       }
       if (error.code === 4902) {
         try {
@@ -347,7 +368,13 @@ export default function Home({ ethPrice }) {
           });
         } catch (error) {
           console.log("switchNetworkToArbitrum", 282, error);
-          setSwitchNetworkErrorMessage(`<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
+          setSwitchNetworkErrorMessage([
+            `<strong>Switch not being detected?</strong>
+        <p>1. Disconnect Wallet</p>
+        <p>2. Switch manually to "Arbitrum One"</p>
+        <p>3. Connect to wallet</p>
+        `,
+            `<strong>Unable to switch chain? Add "Arbitrum One" manually.</strong>
 
           <p>Network Name: Arbitrum One</p>
 
@@ -358,7 +385,8 @@ export default function Home({ ethPrice }) {
           <p>Symbol: AETH</p>
 
           <p>Block Explorer URL: https://arbiscan.io</p>
-          `);
+          `,
+          ]);
         }
       }
     }
@@ -370,7 +398,7 @@ export default function Home({ ethPrice }) {
           status={`Wrong chain, please switch to "Arbitrum One"${
             wallet === "walletconnect" ? " and refresh." : "."
           }`}
-          message={switchNetworkErrorMessage}
+          messages={switchNetworkErrorMessage}
           closeBtn={() => setWrongChain(false)}
         >
           <br />

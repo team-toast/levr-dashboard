@@ -16,7 +16,7 @@ export default function Layout({ title = "LEVR", children = null }) {
   return (
     <LayoutStyling>
       <div className="screen-loader">
-        <div className="screen-loader--text">LEVR.ly</div>
+        <div className="screen-loader--text">levr.ly</div>
         <div className="screen-loader--loading"></div>
       </div>
       <Head>
