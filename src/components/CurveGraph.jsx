@@ -25,8 +25,11 @@ export default function CurveGraph({
     fit_in = 1;
   }
   let steps_to_use =
-    convertTo(curveData.priceBefore, "ether") !==
-    convertTo(curveData.priceAfter, "ether")
+    convertTo(
+      curveData.priceBefore,
+      showUSDCurrency ? "ether" : "microether"
+    ) !==
+    convertTo(curveData.priceAfter, showUSDCurrency ? "ether" : "microether")
       ? parseFloat(
           curveData.tokensReceived /
             (STATIC_MAX_TOKENS -
