@@ -376,8 +376,8 @@ export default function Buy({
                 <a>Terms & Conditions</a>
               </Link>
             </p>
-            <p>
-              Average cost per token is{" "}
+            <div>
+              The current cost per token is{" "}
               {showUSDCurrency ? (
                 <span className="font-weight-bold text-red">
                   {(
@@ -391,11 +391,11 @@ export default function Buy({
                   mETH
                 </span>
               )}
-            </p>
+            </div>
             {convertTo(curveData.priceBefore, "ether").toFixed(8) !==
               convertTo(curveData.priceAfter).toFixed(8) && (
-              <p>
-                {`You'll`} raise average cost to{" "}
+              <div>
+                You will raise the cost to{" "}
                 {showUSDCurrency ? (
                   <span className=" font-weight-bold text-blue">
                     {(
@@ -408,12 +408,31 @@ export default function Buy({
                     {convertTo(curveData.priceAfter, "microether").toFixed(2)}{" "}
                     mETH
                   </span>
-                )}{" "}
-                and receive{" "}
+                )}
+                <br />
+                You will receive{" "}
                 <span className=" font-weight-bold text-green">
                   {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR.
                 </span>
-              </p>
+                <br />
+                You will pay an average of{" "}
+                {showUSDCurrency ? (
+                  <span className=" font-weight-bold text-blue">
+                    {(
+                      ethPrice * convertTo(curveData.pricePaidPerToken, "ether")
+                    ).toFixed(4)}{" "}
+                    USD
+                  </span>
+                ) : (
+                  <span className=" font-weight-bold text-blue">
+                    {convertTo(
+                      curveData.pricePaidPerToken,
+                      "microether"
+                    ).toFixed(2)}{" "}
+                    mETH
+                  </span>
+                )}
+              </div>
             )}
           </Inner>
         </Col>

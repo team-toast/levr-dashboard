@@ -172,24 +172,41 @@ const CurrencyToggel = styled.div`
   padding: 0 0.5rem;
   top: 7px;
   margin-right: 1rem;
+  color: #06033d;
+  outline: none;
   &:before {
     content: " ";
     position: absolute;
-    left: 50%;
+    left: 0;
     top: 0;
     height: 100%;
     width: 50%;
-    background: #1ae287;
+    background: #ffffff;
     display: block;
     border-radius: 25px;
     transition: all 0.15s ease;
+    z-index: 0;
   }
   > * {
     padding: 0 0.5rem;
+    z-index: 1;
+    &:nth-child(1) {
+      padding-left: 0;
+    }
+    &:nth-child(2) {
+      color: #fff;
+      padding-right: 0.25rem;
+    }
   }
   &.true {
+    > *:nth-child(1) {
+      color: #fff;
+    }
+    > *:nth-child(2) {
+      color: #06033d;
+    }
     &:before {
-      left: 0;
+      left: 50%;
     }
   }
 `;

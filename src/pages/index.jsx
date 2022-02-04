@@ -92,9 +92,7 @@ export default function Home({ ethPrice }) {
         tokensReceived: parseFloat(
           web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
         ),
-        pricePaidPerToken: parseFloat(
-          web3?.utils?.fromWei(saleInfo._pricePaidPerToken, "ether")
-        ),
+        pricePaidPerToken: saleInfo._pricePaidPerToken.toString(),
         maxPrice: "328352394996040",
       });
       if (curveData.priceBefore !== 0) {
