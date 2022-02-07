@@ -320,7 +320,7 @@ const ColPositionAbsolute = styled(Col)`
     display: block;
     left: 116%;
     position: absolute;
-    bottom: 5px;
+    bottom: 2px;
     z-index: 1;
     color: #133be3;
     line-height: 19px;
@@ -334,7 +334,7 @@ const ColPositionAbsolute = styled(Col)`
     display: block;
     left: 116%;
     position: absolute;
-    bottom: 5px;
+    bottom: 2px;
     z-index: 1;
     color: #e02235;
     line-height: 19px;
