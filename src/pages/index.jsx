@@ -393,7 +393,7 @@ export default function Home({ ethPrice }) {
     }
   };
   const convertTo = (value, data) => {
-    const convert = parseFloat(web3?.utils?.fromWei(value, data));
+    const convert = parseFloat(web3?.utils?.fromWei(value.toString(), data));
     return convert;
   };
   return (
