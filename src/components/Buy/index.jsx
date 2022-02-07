@@ -34,10 +34,14 @@ export default function Buy({
   walletAddress,
   setNewDataFunction,
   setShowConnectOptions,
+  showUSDCurrency,
+  ethPrice,
+  depositEth,
+  setDepositEth,
+  convertTo,
 }) {
   const [levrBalance, setLevrBalance] = useState(0);
   const [eTHbalance, setETHbalance] = useState(0);
-  const [depositEth, setDepositEth] = useState("");
   const [notEnoughBalance, setNotEnoughBalance] = useState(false);
   const [status, setStatus] = useState([]);
   const [statusBusy, setStatusBusy] = useState(false);
@@ -55,7 +59,7 @@ export default function Buy({
     if (web3_rpc !== undefined) {
       new_contract = new web3_rpc.eth.Contract(
         BALANCE_ABI,
-        process.env.ETH_CONTRACT_ADDRESS_TOKEN_SALE
+        process.env.ETH_CONTRACT_ADDRESS_LEVR_ERC20
       );
     }
     const result = await new_contract.methods.balanceOf(walletAddress).call();
@@ -76,7 +80,7 @@ export default function Buy({
   };
 
   const addLevrTokenToMM = async () => {
-    const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_TOKEN_SALE;
+    const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_LEVR_ERC20;
     const tokenSymbol = "LEVR";
     const tokenDecimals = 18;
     // const tokenImage = "https://app.levr.ly/deth-logo-svg.svg";
@@ -114,7 +118,7 @@ export default function Buy({
       setStatusBusy(true);
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       setStatus([
         {
@@ -372,24 +376,63 @@ export default function Buy({
                 <a>Terms & Conditions</a>
               </Link>
             </p>
-            <p>
-              Average cost per token is{" "}
-              <span className="font-weight-bold text-red">
-                {curveData.priceBefore.toFixed(2)} mETH
-              </span>
-            </p>
-            {curveData.priceBefore.toFixed(8) !==
-              curveData.priceAfter.toFixed(8) && (
-              <p>
-                {`You'll`} raise average cost to{" "}
-                <span className=" font-weight-bold text-blue">
-                  {curveData.priceAfter.toFixed(2)} mETH
-                </span>{" "}
-                and receive{" "}
+            <div>
+              The current cost per token is{" "}
+              {showUSDCurrency ? (
+                <span className="font-weight-bold text-red">
+                  {(
+                    ethPrice * convertTo(curveData.priceBefore, "ether")
+                  ).toFixed(4)}{" "}
+                  USD
+                </span>
+              ) : (
+                <span className="font-weight-bold text-red">
+                  {convertTo(curveData.priceBefore, "microether").toFixed(4)}{" "}
+                  mETH
+                </span>
+              )}
+            </div>
+            {convertTo(curveData.priceBefore, "ether").toFixed(18) !==
+              convertTo(curveData.priceAfter, "ether").toFixed(18) && (
+              <div>
+                You will raise the cost to{" "}
+                {showUSDCurrency ? (
+                  <span className=" font-weight-bold text-blue">
+                    {(
+                      ethPrice * convertTo(curveData.priceAfter, "ether")
+                    ).toFixed(4)}{" "}
+                    USD
+                  </span>
+                ) : (
+                  <span className=" font-weight-bold text-blue">
+                    {convertTo(curveData.priceAfter, "microether").toFixed(4)}{" "}
+                    mETH
+                  </span>
+                )}
+                <br />
+                You will receive{" "}
                 <span className=" font-weight-bold text-green">
                   {numberWithCommas(curveData.tokensReceived.toFixed(0))} LEVR.
                 </span>
-              </p>
+                <br />
+                You will pay an average of{" "}
+                {showUSDCurrency ? (
+                  <span className=" font-weight-bold text-blue">
+                    {(
+                      ethPrice * convertTo(curveData.pricePaidPerToken, "ether")
+                    ).toFixed(4)}{" "}
+                    USD
+                  </span>
+                ) : (
+                  <span className=" font-weight-bold text-blue">
+                    {convertTo(
+                      curveData.pricePaidPerToken,
+                      "microether"
+                    ).toFixed(4)}{" "}
+                    mETH
+                  </span>
+                )}
+              </div>
             )}
           </Inner>
         </Col>

@@ -15,6 +15,8 @@ export default function Header({
   setShowDisconnectWallet,
   disconnectWalletConnect,
   noWeb3,
+  showUSDCurrency,
+  setShowUSDCurrency,
 }) {
   const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
   return (
@@ -37,7 +39,7 @@ export default function Header({
           <Row>
             <Col size={1}>
               <Link href="/">
-                <a className="menu-item-links">Home</a>
+                <a className="menu-item-links padding-r-1">Home</a>
               </Link>
             </Col>
             <Col size={"0 0 auto"} className="text-right">
@@ -72,6 +74,15 @@ export default function Header({
                   <img src="/Icon awesome-telegram-plane.svg" height="21" />
                 </a>
               </SocialCol>
+            </Col>
+            <Col size={"0 0 auto"} className="text-right">
+              <CurrencyToggel
+                className={showUSDCurrency}
+                onClick={() => setShowUSDCurrency(!showUSDCurrency)}
+              >
+                <div>mETH</div>
+                <div>USD</div>
+              </CurrencyToggel>
             </Col>
           </Row>
         </Col>
@@ -145,6 +156,60 @@ export default function Header({
     </StyledHeader>
   );
 }
+
+const CurrencyToggel = styled.div`
+  display: flex;
+  height: 100%;
+  background: none;
+  box-shadow: inset 0 0 0 1px #fff;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: #fff;
+  height: 41px;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  top: 7px;
+  margin-right: 1rem;
+  color: #06033d;
+  outline: none;
+  &:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: #ffffff;
+    display: block;
+    border-radius: 25px;
+    transition: all 0.15s ease;
+    z-index: 0;
+  }
+  > * {
+    padding: 0 0.5rem;
+    z-index: 1;
+    &:nth-child(1) {
+      padding-left: 0;
+    }
+    &:nth-child(2) {
+      color: #fff;
+      padding-right: 0.25rem;
+    }
+  }
+  &.true {
+    > *:nth-child(1) {
+      color: #fff;
+    }
+    > *:nth-child(2) {
+      color: #06033d;
+    }
+    &:before {
+      left: 50%;
+    }
+  }
+`;
 
 const StyledHamburgerMenu = styled.div`
   position: relative;

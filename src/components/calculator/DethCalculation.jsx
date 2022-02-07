@@ -24,7 +24,7 @@ export default function DethCalculation({
     if (walletAddress && deth > 0) {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
 
       setStatus("Withdrawing all ...");
