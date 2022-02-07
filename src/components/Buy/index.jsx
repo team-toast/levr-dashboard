@@ -59,7 +59,7 @@ export default function Buy({
     if (web3_rpc !== undefined) {
       new_contract = new web3_rpc.eth.Contract(
         BALANCE_ABI,
-        process.env.ETH_CONTRACT_ADDRESS_TOKEN_SALE
+        process.env.ETH_CONTRACT_ADDRESS_LEVR_ERC20
       );
     }
     const result = await new_contract.methods.balanceOf(walletAddress).call();
@@ -80,7 +80,7 @@ export default function Buy({
   };
 
   const addLevrTokenToMM = async () => {
-    const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_TOKEN_SALE;
+    const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_LEVR_ERC20;
     const tokenSymbol = "LEVR";
     const tokenDecimals = 18;
     // const tokenImage = "https://app.levr.ly/deth-logo-svg.svg";
@@ -118,7 +118,7 @@ export default function Buy({
       setStatusBusy(true);
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       setStatus([
         {

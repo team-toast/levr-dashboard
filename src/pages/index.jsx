@@ -3,7 +3,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 import axios from "axios";
 
-import CONTRACT_ABI_SALE_INFO from "./../lib/abi_info_sale.json";
+import CONTRACT_ABI_SALE_INFO from "./../lib/abi_sale_info.json";
 
 import Layout from "../components/Layout";
 import Header from "../components/Header";

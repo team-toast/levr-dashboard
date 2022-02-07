@@ -50,7 +50,7 @@ export default function Deposit({
     try {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       setShowOutput(false);
       const getCalculate = await new_contract.methods
@@ -76,7 +76,7 @@ export default function Deposit({
     try {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       setShowOutput(false);
       const getCalculate = await new_contract.methods
@@ -102,7 +102,7 @@ export default function Deposit({
     if (parseFloat(eTHbalance) >= parseFloat(depositJson)) {
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       setStatus("Depositing ...");
       const fundit = await new_contract.methods
@@ -134,7 +134,7 @@ export default function Deposit({
       setNotEnoughBalance(false);
       let new_contract = await new web3.eth.Contract(
         CONTRACT_ABI,
-        process.env.ETH_CONTRACT_ADDRESS
+        process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
       );
       const balanceOfDETH = await new_contract.methods
         .balanceOf(walletAddress)
