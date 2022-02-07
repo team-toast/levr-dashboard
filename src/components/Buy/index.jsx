@@ -387,13 +387,13 @@ export default function Buy({
                 </span>
               ) : (
                 <span className="font-weight-bold text-red">
-                  {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
+                  {convertTo(curveData.priceBefore, "microether").toFixed(4)}{" "}
                   mETH
                 </span>
               )}
             </div>
-            {convertTo(curveData.priceBefore, "ether").toFixed(8) !==
-              convertTo(curveData.priceAfter).toFixed(8) && (
+            {convertTo(curveData.priceBefore, "ether").toFixed(18) !==
+              convertTo(curveData.priceAfter, "ether").toFixed(18) && (
               <div>
                 You will raise the cost to{" "}
                 {showUSDCurrency ? (
@@ -405,7 +405,7 @@ export default function Buy({
                   </span>
                 ) : (
                   <span className=" font-weight-bold text-blue">
-                    {convertTo(curveData.priceAfter, "microether").toFixed(2)}{" "}
+                    {convertTo(curveData.priceAfter, "microether").toFixed(4)}{" "}
                     mETH
                   </span>
                 )}
@@ -428,7 +428,7 @@ export default function Buy({
                     {convertTo(
                       curveData.pricePaidPerToken,
                       "microether"
-                    ).toFixed(2)}{" "}
+                    ).toFixed(4)}{" "}
                     mETH
                   </span>
                 )}
