@@ -388,7 +388,7 @@ export default function Buy({
               ) : (
                 <span className="font-weight-bold text-red">
                   {convertTo(curveData.priceBefore, "microether").toFixed(4)}{" "}
-                  mETH
+                  µEth
                 </span>
               )}
             </div>
@@ -406,7 +406,7 @@ export default function Buy({
                 ) : (
                   <span className=" font-weight-bold text-blue">
                     {convertTo(curveData.priceAfter, "microether").toFixed(4)}{" "}
-                    mETH
+                    µEth
                   </span>
                 )}
                 <br />
@@ -429,7 +429,7 @@ export default function Buy({
                       curveData.pricePaidPerToken,
                       "microether"
                     ).toFixed(4)}{" "}
-                    mETH
+                    µEth
                   </span>
                 )}
               </div>

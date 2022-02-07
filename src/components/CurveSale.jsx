@@ -77,7 +77,7 @@ export default function CurveSale({
               ) : (
                 <span>
                   {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
-                  mETH
+                  µEth
                 </span>
               )}
             </Col>

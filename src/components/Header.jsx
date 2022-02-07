@@ -80,7 +80,7 @@ export default function Header({
                 className={showUSDCurrency}
                 onClick={() => setShowUSDCurrency(!showUSDCurrency)}
               >
-                <div>mETH</div>
+                <div>µEth</div>
                 <div>USD</div>
               </CurrencyToggel>
             </Col>
