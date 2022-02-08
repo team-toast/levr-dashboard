@@ -63,7 +63,7 @@ export default function Buy({
       );
     }
     const result = await new_contract.methods.balanceOf(walletAddress).call();
-    const format = web3?.utils?.fromWei(result);
+    const format = web3?.utils?.fromWei(result.toString());
     setLevrBalance(format);
     // } catch (error) {
     //   console.log("Unable to get balance.", error);
@@ -388,7 +388,7 @@ export default function Buy({
               ) : (
                 <span className="font-weight-bold text-red">
                   {convertTo(curveData.priceBefore, "microether").toFixed(4)}{" "}
-                  mETH
+                  µEth
                 </span>
               )}
             </div>
@@ -406,7 +406,7 @@ export default function Buy({
                 ) : (
                   <span className=" font-weight-bold text-blue">
                     {convertTo(curveData.priceAfter, "microether").toFixed(4)}{" "}
-                    mETH
+                    µEth
                   </span>
                 )}
                 <br />
@@ -429,7 +429,7 @@ export default function Buy({
                       curveData.pricePaidPerToken,
                       "microether"
                     ).toFixed(4)}{" "}
-                    mETH
+                    µEth
                   </span>
                 )}
               </div>

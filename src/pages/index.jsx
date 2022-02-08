@@ -14,7 +14,7 @@ import TakeNoteOf from "./../components/TakeNoteOf";
 
 let web3;
 
-const STATIC_MAX_TOKENS = 350000000;
+const STATIC_MAX_TOKENS = 400000000;
 
 let PROVIDER;
 
@@ -33,7 +33,7 @@ export default function Home({ ethPrice }) {
 
   const [setNewDataIncrements, setSetNewDataIncrements] = useState(1);
 
-  const [maxTokens, setMaxTokens] = useState(350000000);
+  const [maxTokens, setMaxTokens] = useState(400000000);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const [switchNetworkErrorMessage, setSwitchNetworkErrorMessage] =
@@ -77,20 +77,26 @@ export default function Home({ ethPrice }) {
       setCurveData({
         priceBefore: saleInfo._priceBefore.toString(),
         raisedBefore: parseFloat(
-          web3?.utils?.fromWei(saleInfo._raisedBefore, "ether")
+          web3?.utils?.fromWei(saleInfo._raisedBefore.toString(), "ether")
         ),
         totalTokensSoldBefore: parseFloat(
-          web3?.utils?.fromWei(saleInfo._totalTokensSoldBefore, "ether")
+          web3?.utils?.fromWei(
+            saleInfo._totalTokensSoldBefore.toString(),
+            "ether"
+          )
         ),
         raisedAfter: parseFloat(
-          web3?.utils?.fromWei(saleInfo._raisedAfter, "ether")
+          web3?.utils?.fromWei(saleInfo._raisedAfter.toString(), "ether")
         ),
         totalTokensSoldAfter: parseFloat(
-          web3?.utils?.fromWei(saleInfo._totalTokensSoldAfter, "ether")
+          web3?.utils?.fromWei(
+            saleInfo._totalTokensSoldAfter.toString(),
+            "ether"
+          )
         ),
         priceAfter: saleInfo._priceAfter.toString(),
         tokensReceived: parseFloat(
-          web3?.utils?.fromWei(saleInfo._tokensReceived, "ether")
+          web3?.utils?.fromWei(saleInfo._tokensReceived.toString(), "ether")
         ),
         pricePaidPerToken: saleInfo._pricePaidPerToken.toString(),
         maxPrice: "328352394996040",
@@ -387,7 +393,7 @@ export default function Home({ ethPrice }) {
     }
   };
   const convertTo = (value, data) => {
-    const convert = parseFloat(web3?.utils?.fromWei(value, data));
+    const convert = parseFloat(web3?.utils?.fromWei(value.toString(), data));
     return convert;
   };
   return (

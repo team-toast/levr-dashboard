@@ -55,7 +55,7 @@ export default function CurveGraph({
           {showUSDCurrency ? (
             <PriceStrong>Price (USD)</PriceStrong>
           ) : (
-            <PriceStrong>Price (mETH)</PriceStrong>
+            <PriceStrong>Price (µEth)</PriceStrong>
           )}
         </Col>
         {/* Y AXIS PRICING */}
@@ -154,11 +154,11 @@ export default function CurveGraph({
           <Supply>
             <Row>
               <Col size={1}>{(0 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(87 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(174 / zoomLevel).toFixed()}M</Col>
-              <Col size={1}>{(261 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(400 / 4 / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(((400 / 4) * 2) / zoomLevel).toFixed()}M</Col>
+              <Col size={1}>{(((400 / 4) * 3) / zoomLevel).toFixed()}M</Col>
               <Col size={"0 0 auto"}>
-                {(350 / zoomLevel).toFixed()}M {zoomLevel == 1 ? "" : " ..."}
+                {(400 / zoomLevel).toFixed()}M {zoomLevel == 1 ? "" : " ..."}
               </Col>
             </Row>
           </Supply>
@@ -320,7 +320,7 @@ const ColPositionAbsolute = styled(Col)`
     display: block;
     left: 116%;
     position: absolute;
-    bottom: 5px;
+    bottom: 2px;
     z-index: 1;
     color: #133be3;
     line-height: 19px;
@@ -334,7 +334,7 @@ const ColPositionAbsolute = styled(Col)`
     display: block;
     left: 116%;
     position: absolute;
-    bottom: 5px;
+    bottom: 2px;
     z-index: 1;
     color: #e02235;
     line-height: 19px;
