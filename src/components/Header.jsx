@@ -23,12 +23,16 @@ export default function Header({
     <StyledHeader>
       <Row>
         <ColLogo>
-          <StyledImg className="hide-xs" src="/logo.svg" alt="LEVR LOGO" />
-          <StyledImg
-            className="visible-xs"
-            src="/logo%202.svg"
-            alt="LEVR LOGO"
-          />
+          <Link href="/">
+            <a>
+              <StyledImg className="hide-xs" src="/logo.svg" alt="LEVR LOGO" />
+              <StyledImg
+                className="visible-xs"
+                src="/logo%202.svg"
+                alt="LEVR LOGO"
+              />
+            </a>
+          </Link>
         </ColLogo>
         <Col
           className={
@@ -218,6 +222,7 @@ const StyledHamburgerMenu = styled.div`
   width: 3.5em;
   background: none;
   cursor: pointer;
+  display: inline-block;
   span {
     display: block;
     height: 2px;
@@ -249,6 +254,7 @@ const StyledHamburgerMenu = styled.div`
 `;
 
 const MobileMenuCol = styled(Col)`
+  text-align: right;
   @media screen and (min-width: 40rem) {
     display: none;
   }
@@ -524,6 +530,7 @@ const StyledHeader = styled.header`
         left: 0;
         transition: all 0.25s ease;
         display: block;
+        padding-right: 0;
       }
       .menu-item-links {
         text-decoration: none;

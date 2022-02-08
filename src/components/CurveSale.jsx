@@ -75,9 +75,12 @@ export default function CurveSale({
                   USD
                 </span>
               ) : (
-                <span>
-                  {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
-                  µEth
+                <span className="meth-symbol">
+                  <span>
+                    {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
+                    µEth
+                  </span>
+                  <span className="explain"></span>
                 </span>
               )}
             </Col>

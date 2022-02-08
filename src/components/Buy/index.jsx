@@ -373,7 +373,7 @@ export default function Buy({
             <p>
               View{" "}
               <Link href="/terms-and-conditions">
-                <a>Terms & Conditions</a>
+                <a target="blank">Terms & Conditions</a>
               </Link>
             </p>
             <div>
@@ -471,7 +471,7 @@ export default function Buy({
               {" "}
               to our{" "}
               <Link href="/terms-and-conditions">
-                <a>Terms & Conditions</a>
+                <a target="blank">Terms & Conditions</a>
               </Link>
             </label>
           </p>

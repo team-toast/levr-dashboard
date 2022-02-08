@@ -400,7 +400,9 @@ const ColRow = styled(Row)`
   height: 100%;
   padding: 0rem 0.5rem 0;
   top: 2rem;
+  width: 70px;
   @media screen and (max-width: 48em) {
+    width: initial;
     padding-left: 0;
   }
 `;
