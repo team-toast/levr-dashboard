@@ -724,6 +724,12 @@ const BuyRow = styled(Row)`
         background: none;
         box-shadow: inset 0 0 0 1px #dddddd;
         color: #777;
+        &:hover {
+          color: #ffffff;
+          background: #06033d;
+          box-shadow: none;
+          transition: all 0.25s ease;
+        }
         @media screen and (max-width: 48em) {
           left: calc(100% - 169px);
         }
