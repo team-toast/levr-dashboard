@@ -79,6 +79,27 @@ export default function Buy({
     return getWeiValue;
   };
 
+  const getGasFees = async () => {
+    let retrievedGasPrice = 0;
+    const getretrievedGasPrice = await web3?.eth?.getGasPrice(function (e, r) {
+      retrievedGasPrice = r;
+    });
+    const getEstimateGas = await web3?.eth?.estimateGas(
+      {
+        from: walletAddress,
+      },
+      function (error, result) {
+        if (error) {
+          alert(error);
+        }
+      }
+    );
+    const getWeiGasFee = await web3?.utils?.fromWei(
+      (retrievedGasPrice * getEstimateGas).toString()
+    );
+    return getWeiGasFee * 2;
+  };
+
   const addLevrTokenToMM = async () => {
     const tokenAddress = process.env.ETH_CONTRACT_ADDRESS_LEVR_ERC20;
     const tokenSymbol = "LEVR";
@@ -193,6 +214,17 @@ export default function Buy({
       block: "start",
       inline: "nearest",
     });
+  };
+
+  const addMaximumBalance = async () => {
+    const getBalance = await getETHbalance(walletAddress);
+    const getFees = await getGasFees();
+    console.log(getBalance, getBalance == "0", getFees);
+    if (getBalance == "0") {
+      setDepositEth(getBalance);
+    } else {
+      setDepositEth(getBalance - parseFloat(getFees) * 2);
+    }
   };
 
   useEffect(() => {
@@ -343,13 +375,22 @@ export default function Buy({
         <Col className="balance buy" size={1}>
           <Inner>
             <strong className="margin-bottom-1 display-block">Buy LEVR</strong>
-            <div className="flex">
+            <div className="flex position-relative">
               <input
                 value={depositEth}
                 onChange={() => enterEthValue(event)}
                 type="text"
                 placeholder="Enter ETH amount"
               />
+              {walletAddress != null && (
+                <button
+                  onClick={addMaximumBalance}
+                  title="Max"
+                  className="max-button"
+                >
+                  max*
+                </button>
+              )}
               {walletAddress == null ? (
                 <button
                   onClick={() => setShowConnectOptions(true)}
@@ -370,6 +411,9 @@ export default function Buy({
                 </button>
               )}
             </div>
+            <p className="font-14">
+              <i>* Max amount in wallet minus the estimated gas fees.</i>
+            </p>
             <p>
               View{" "}
               <Link href="/terms-and-conditions">
@@ -668,6 +712,21 @@ const BuyRow = styled(Row)`
       button {
         width: 150px;
         min-width: auto;
+      }
+      button.max-button {
+        position: absolute;
+        left: calc(100% - 197px);
+        width: initial;
+        height: 1.7rem;
+        line-height: 1.7rem;
+        top: 8px;
+        padding: 0 7px;
+        background: none;
+        box-shadow: inset 0 0 0 1px #dddddd;
+        color: #777;
+        @media screen and (max-width: 48em) {
+          left: calc(100% - 169px);
+        }
       }
       @media screen and (max-width: 48em) {
         margin-top: 2rem;

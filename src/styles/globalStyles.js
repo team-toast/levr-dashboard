@@ -266,6 +266,7 @@ button, .button {
     min-width: auto;
     margin-right: 1rem;
 }
+
 .inactive-button, .disabled-button {
     pointer-events: none;
 }
@@ -398,6 +399,9 @@ input[type="text"] {
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #DDDDDD;
     border-radius: 5px 0px 0px 5px;
+}
+.font-14 {
+    font-size: 14px;
 }
 .dollar-symbol input {
     padding: 0px 1rem 0 2.5rem !important;

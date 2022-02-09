@@ -77,7 +77,13 @@ export default function CurveSale({
               ) : (
                 <span className="meth-symbol">
                   <span>
-                    {convertTo(curveData.priceBefore, "microether").toFixed(2)}{" "}
+                    {isNaN(
+                      convertTo(curveData.priceBefore, "microether").toFixed(2)
+                    )
+                      ? (0.0).toFixed(2)
+                      : convertTo(curveData.priceBefore, "microether").toFixed(
+                          2
+                        )}{" "}
                     µEth
                   </span>
                   <span className="explain"></span>
