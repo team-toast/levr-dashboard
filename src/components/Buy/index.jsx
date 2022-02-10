@@ -223,7 +223,8 @@ export default function Buy({
     if (getBalance == "0") {
       setDepositEth(getBalance);
     } else {
-      setDepositEth(getBalance - parseFloat(getFees) * 2);
+      const feesWithBlance = getBalance - parseFloat(getFees) * 2;
+      setDepositEth(feesWithBlance < 0 ? "0" : feesWithBlance);
     }
   };
 
