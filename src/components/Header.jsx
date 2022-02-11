@@ -40,17 +40,20 @@ export default function Header({
           }
           size={1}
         >
-          <Row>
+          <Row xsNoflex>
             <Col size={1}>
               <Link href="/">
                 <a className="menu-item-links padding-r-1">Home</a>
               </Link>
+              <Link href="/how-to-bridge-arbitrum">
+                <a target="_blank" className="menu-item-links padding-r-1">
+                  Bridge Arbitrum
+                </a>
+              </Link>
             </Col>
             <Col size={"0 0 auto"} className="text-right">
               <SocialCol
-                className={
-                  toggleMobileMenu ? "menu-item show-menu-item" : "menu-item"
-                }
+                className={toggleMobileMenu ? "show-menu-item" : ""}
                 size={`0 0 auto`}
               >
                 <a
@@ -79,15 +82,17 @@ export default function Header({
                 </a>
               </SocialCol>
             </Col>
-            <Col size={"0 0 auto"} className="text-right">
-              <CurrencyToggel
-                className={showUSDCurrency}
-                onClick={() => setShowUSDCurrency(!showUSDCurrency)}
-              >
-                <div>µEth</div>
-                <div>USD</div>
-              </CurrencyToggel>
-            </Col>
+            {!noWeb3 && (
+              <Col size={"0 0 auto"} className="text-right">
+                <CurrencyToggel
+                  className={showUSDCurrency}
+                  onClick={() => setShowUSDCurrency(!showUSDCurrency)}
+                >
+                  <div>µEth</div>
+                  <div>USD</div>
+                </CurrencyToggel>
+              </Col>
+            )}
           </Row>
         </Col>
         {!noWeb3 && (
@@ -212,6 +217,10 @@ const CurrencyToggel = styled.div`
     &:before {
       left: 50%;
     }
+  }
+  @media screen and (max-width: 40rem) {
+    max-width: 102px;
+    float: right;
   }
 `;
 

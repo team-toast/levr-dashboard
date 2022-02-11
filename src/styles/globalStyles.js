@@ -332,6 +332,9 @@ button, .button {
     box-shadow: 0 0 20px rgb(0 0 0 / 20%);
     width: 200px;
 }
+.max-width-450 {
+    max-width: 450px;
+};
 .progress-message {
     max-width: 400px;
     margin: auto;
