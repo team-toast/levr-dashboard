@@ -356,7 +356,37 @@ export default function Buy({
               <h2 className="text-green">
                 {numberWithCommas(parseFloat(levrBalance).toFixed(0))} LEVR
               </h2>
-              <i>In your wallet</i>
+              <i>
+                Estimated value{" "}
+                {showUSDCurrency ? (
+                  <strong className="display-inline-block">
+                    {numberWithCommas(
+                      parseFloat(
+                        (
+                          levrBalance *
+                          (ethPrice * convertTo(curveData.priceBefore, "ether"))
+                        ).toFixed(2)
+                      )
+                    )}{" "}
+                    USD
+                  </strong>
+                ) : (
+                  <strong className="display-inline-block">
+                    {numberWithCommas(
+                      parseFloat(
+                        (
+                          levrBalance *
+                          convertTo(
+                            curveData.priceBefore,
+                            showUSDCurrency ? "ether" : "microether"
+                          )
+                        ).toFixed(2)
+                      )
+                    )}{" "}
+                    µEth
+                  </strong>
+                )}
+              </i>
             </Col>
           </Row>
           <div className="text-center margin-top-2">

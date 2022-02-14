@@ -335,6 +335,9 @@ button, .button {
 .max-width-450 {
     max-width: 450px;
 };
+.display-inline-block {
+    display: inline-block;
+}
 .progress-message {
     max-width: 400px;
     margin: auto;

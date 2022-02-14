@@ -50,6 +50,11 @@ export default function Header({
                   Bridge Arbitrum
                 </a>
               </Link>
+              <Link href="/how-to-sell-my-levr">
+                <a target="_blank" className="menu-item-links padding-r-1">
+                  Sell my LEVR
+                </a>
+              </Link>
             </Col>
             <Col size={"0 0 auto"} className="text-right">
               <SocialCol
