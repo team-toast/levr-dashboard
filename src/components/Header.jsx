@@ -23,12 +23,16 @@ export default function Header({
     <StyledHeader>
       <Row>
         <ColLogo>
-          <StyledImg className="hide-xs" src="/logo.svg" alt="LEVR LOGO" />
-          <StyledImg
-            className="visible-xs"
-            src="/logo%202.svg"
-            alt="LEVR LOGO"
-          />
+          <Link href="/">
+            <a>
+              <StyledImg className="hide-xs" src="/logo.svg" alt="LEVR LOGO" />
+              <StyledImg
+                className="visible-xs"
+                src="/logo%202.svg"
+                alt="LEVR LOGO"
+              />
+            </a>
+          </Link>
         </ColLogo>
         <Col
           className={
@@ -36,17 +40,25 @@ export default function Header({
           }
           size={1}
         >
-          <Row>
+          <Row xsNoflex>
             <Col size={1}>
               <Link href="/">
                 <a className="menu-item-links padding-r-1">Home</a>
               </Link>
+              <Link href="/how-to-bridge-arbitrum">
+                <a target="_blank" className="menu-item-links padding-r-1">
+                  Bridge Arbitrum
+                </a>
+              </Link>
+              <Link href="/how-to-sell-my-levr">
+                <a target="_blank" className="menu-item-links padding-r-1">
+                  Sell my LEVR
+                </a>
+              </Link>
             </Col>
             <Col size={"0 0 auto"} className="text-right">
               <SocialCol
-                className={
-                  toggleMobileMenu ? "menu-item show-menu-item" : "menu-item"
-                }
+                className={toggleMobileMenu ? "show-menu-item" : ""}
                 size={`0 0 auto`}
               >
                 <a
@@ -75,15 +87,17 @@ export default function Header({
                 </a>
               </SocialCol>
             </Col>
-            <Col size={"0 0 auto"} className="text-right">
-              <CurrencyToggel
-                className={showUSDCurrency}
-                onClick={() => setShowUSDCurrency(!showUSDCurrency)}
-              >
-                <div>µEth</div>
-                <div>USD</div>
-              </CurrencyToggel>
-            </Col>
+            {!noWeb3 && (
+              <Col size={"0 0 auto"} className="text-right">
+                <CurrencyToggel
+                  className={showUSDCurrency}
+                  onClick={() => setShowUSDCurrency(!showUSDCurrency)}
+                >
+                  <div>µEth</div>
+                  <div>USD</div>
+                </CurrencyToggel>
+              </Col>
+            )}
           </Row>
         </Col>
         {!noWeb3 && (
@@ -209,6 +223,10 @@ const CurrencyToggel = styled.div`
       left: 50%;
     }
   }
+  @media screen and (max-width: 40rem) {
+    max-width: 102px;
+    float: right;
+  }
 `;
 
 const StyledHamburgerMenu = styled.div`
@@ -218,6 +236,7 @@ const StyledHamburgerMenu = styled.div`
   width: 3.5em;
   background: none;
   cursor: pointer;
+  display: inline-block;
   span {
     display: block;
     height: 2px;
@@ -249,6 +268,7 @@ const StyledHamburgerMenu = styled.div`
 `;
 
 const MobileMenuCol = styled(Col)`
+  text-align: right;
   @media screen and (min-width: 40rem) {
     display: none;
   }
@@ -524,6 +544,7 @@ const StyledHeader = styled.header`
         left: 0;
         transition: all 0.25s ease;
         display: block;
+        padding-right: 0;
       }
       .menu-item-links {
         text-decoration: none;

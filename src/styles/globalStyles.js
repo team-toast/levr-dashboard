@@ -266,6 +266,7 @@ button, .button {
     min-width: auto;
     margin-right: 1rem;
 }
+
 .inactive-button, .disabled-button {
     pointer-events: none;
 }
@@ -289,6 +290,53 @@ button, .button {
 }
 .padding-1 {
     padding: 1rem;
+}
+.meth-symbol {
+    display: flex;
+}
+.meth-symbol > span {
+    flex: 1;
+}
+.meth-symbol .explain {
+    position: relative;
+    display: block;
+    flex: 0 0 auto;
+}
+.meth-symbol .explain::before {
+    content: "?";
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background: #fff;
+    color: #06033d;
+    top: 2px;
+    right: 2px;
+    position: absolute;
+    font-weight: normal;
+    font-family: "Helvetica Neue",Arial;
+    line-height: 23px;
+    cursor: pointer;
+}
+.meth-symbol .explain:hover::after {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #fff;
+    border-radius: 3px;
+    padding: 0.5rem;
+    content: "µEth is the symbol for MicroEther";
+    font-family: "Helvetica Neue",Arial;
+    font-weight: normal;
+    color: #06033d;
+    z-index: 1;
+    box-shadow: 0 0 20px rgb(0 0 0 / 20%);
+    width: 200px;
+}
+.max-width-450 {
+    max-width: 450px;
+};
+.display-inline-block {
+    display: inline-block;
 }
 .progress-message {
     max-width: 400px;
@@ -357,6 +405,9 @@ input[type="text"] {
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #DDDDDD;
     border-radius: 5px 0px 0px 5px;
+}
+.font-14 {
+    font-size: 14px;
 }
 .dollar-symbol input {
     padding: 0px 1rem 0 2.5rem !important;
