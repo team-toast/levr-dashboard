@@ -21,40 +21,45 @@ export default function TermsAndConditions({}) {
                         </li>
                         <li>
                             <p data-renderer-start-pos="194">
-                                levr.ly and/or LEVR are extremely experimental
-                                and could enter into several failure modes.
+                                <strong>levr.ly</strong> and/or LEVR are
+                                extremely experimental and could enter into
+                                several failure modes.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="289">
-                                levr.ly and/or LEVR could fail technically
-                                through a software vulnerability.
+                                <strong>levr.ly</strong> and/or LEVR could fail
+                                technically through a software vulnerability.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="369">
-                                While levr.ly and/or LEVR have been thoroughly
-                                tested, bugs may have nonetheless snuck through.
+                                While <strong>levr.ly</strong> and/or LEVR have
+                                been thoroughly tested, bugs may have
+                                nonetheless snuck through.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="469">
-                                levr.ly and/or LEVR could fail due to an
-                                economic attack, the details of which might not
-                                even be suspected at the time of launch.
+                                <strong>levr.ly</strong> and/or LEVR could fail
+                                due to an economic attack, the details of which
+                                might not even be suspected at the time of
+                                launch.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="603">
-                                The projects that levr.ly fund may turn out to
-                                be flawed technically or have economic attack
-                                vectors that make them infeasible.
+                                The projects that <strong>levr.ly</strong> fund
+                                may turn out to be flawed technically or have
+                                economic attack vectors that make them
+                                infeasible.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="736">
-                                LEVR, and the projects funded by levr.ly, might
-                                never find profitable returns.
+                                LEVR, and the projects funded by{" "}
+                                <strong>levr.ly</strong>, might never find
+                                profitable returns.
                             </p>
                         </li>
                         <li>
@@ -67,16 +72,17 @@ export default function TermsAndConditions({}) {
                         </li>
                         <li>
                             <p data-renderer-start-pos="977">
-                                ETH deposited on the levr.ly interface will be
-                                held in a variety of smart contracts, which no
-                                one has direct control over, but may also be
-                                technically flawed.
+                                ETH deposited on the <strong>levr.ly</strong>{" "}
+                                interface will be held in a variety of smart
+                                contracts, which no one has direct control over,
+                                but may also be technically flawed.
                             </p>
                         </li>
                         <li>
                             <p data-renderer-start-pos="1140">
-                                I agree levr.ly may track anonymized data about
-                                my interactions with the sale.
+                                I agree <strong>levr.ly</strong> may track
+                                anonymized data about my interactions with the
+                                sale.
                             </p>
                         </li>
                         <li>
