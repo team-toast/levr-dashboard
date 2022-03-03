@@ -235,7 +235,7 @@ export default function Buy({
         }
         if (regExp.test(input)) {
             setDepositEth(value);
-            setEtherAmountInput(value);
+            setEtherAmountInput(input);
         }
     };
 
