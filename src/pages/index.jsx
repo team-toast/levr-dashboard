@@ -173,9 +173,8 @@ export default function Home({ ethPrice }) {
                 PROVIDER.on("chainChanged", (chainId) => {
                     console.log(chainId);
                     console.log(157, chainId);
-                    let ropstenId = "0x3";
-                    let arbitrumId = "0xa4b1";
-                    if (chainId === ropstenId) {
+
+                    if (chainId === "0xa4b1") {
                         setWrongChain(false);
                     } else {
                         setWrongChain(true);
@@ -257,8 +256,8 @@ export default function Home({ ethPrice }) {
             web3Obj.eth.getChainId().then((chainID) => {
                 // Detect which blockchain MM is connected to. ID 1 means Ethereum
                 if (
-                    chainID == 3 ||
-                    chainID == 42161 /* || chainID == 421611 */
+                    chainID == 42161 ||
+                    chainID == 421611 /* || chainID == 3 */
                 ) {
                     setWrongChain(false);
                 } else {

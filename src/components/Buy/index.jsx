@@ -253,9 +253,11 @@ export default function Buy({
         console.log(getBalance, getBalance == "0", getFees);
         if (getBalance == "0") {
             setDepositEth(getBalance);
+            setNewDataFunction(getBalance);
         } else {
             const feesWithBlance = getBalance - parseFloat(getFees) * 2;
             setDepositEth(feesWithBlance < 0 ? "0" : feesWithBlance);
+            setNewDataFunction(feesWithBlance < 0 ? "0" : feesWithBlance);
         }
     };
 
@@ -267,6 +269,7 @@ export default function Buy({
             }
         }
     }, [web3, walletAddress]);
+
     return (
         <Box>
             {statusBusy && (
@@ -513,12 +516,14 @@ export default function Buy({
                                 <button
                                     onClick={() => setShowConfirmBox(true)}
                                     className={
-                                        status.length > 0
+                                        status.length === 2 &&
+                                        status.length !== 0
                                             ? "b-r-0-10-10-0 inactive-button"
                                             : "b-r-0-10-10-0"
                                     }
                                 >
-                                    {status.length > 0 ? (
+                                    {status.length === 2 &&
+                                    status.length !== 0 ? (
                                         <span>Busy ...</span>
                                     ) : (
                                         <span>Buy</span>
@@ -786,7 +791,7 @@ const ConnectWalletOverlay = styled.div`
     .error {
         background: #e02235;
     }
-    .success {
+    >>>>>>>da99204fcb4f0fa500a8c0018203d4c0e727fa76 .success {
         background: #1ae287;
     }
     .busy {
