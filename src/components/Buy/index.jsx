@@ -791,7 +791,7 @@ const ConnectWalletOverlay = styled.div`
     .error {
         background: #e02235;
     }
-    >>>>>>>da99204fcb4f0fa500a8c0018203d4c0e727fa76 .success {
+    .success {
         background: #1ae287;
     }
     .busy {
