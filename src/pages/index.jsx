@@ -254,7 +254,10 @@ export default function Home({ ethPrice }) {
         if (web3Obj !== null) {
             web3Obj.eth.getChainId().then((chainID) => {
                 // Detect which blockchain MM is connected to. ID 1 means Ethereum
-                if (chainID == 42161 || chainID == 421611 || chainID == 3) {
+                if (
+                    chainID == 42161 ||
+                    chainID == 421611 /* || chainID == 3 */
+                ) {
                     setWrongChain(false);
                 } else {
                     setWrongChain(true);
