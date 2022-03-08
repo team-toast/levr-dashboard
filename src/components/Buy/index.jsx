@@ -489,12 +489,14 @@ export default function Buy({
                                 <button
                                     onClick={() => setShowConfirmBox(true)}
                                     className={
-                                        status.length > 0
+                                        status.length === 2 &&
+                                        status.length !== 0
                                             ? "b-r-0-10-10-0 inactive-button"
                                             : "b-r-0-10-10-0"
                                     }
                                 >
-                                    {status.length > 0 ? (
+                                    {status.length === 2 &&
+                                    status.length !== 0 ? (
                                         <span>Busy ...</span>
                                     ) : (
                                         <span>Buy</span>
