@@ -697,7 +697,7 @@ export default function Buy({
                                     : "button action disabled-button"
                             }
                         >
-                            Shut up and take my money
+                            Confirm and Purchase
                         </button>
                     </p>
                     <p>
