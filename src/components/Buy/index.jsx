@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
-import debounce from "lodash.debounce";
 import { useState, useEffect, useCallback } from "react";
 
 import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
@@ -239,26 +238,10 @@ export default function Buy({
     };
 
     const enterEthValue = (value) => {
-        const regExp = /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
-        const input = value;
-        const tmp = input == "" ? "" : input;
-
-        if (input != "" && input != 0) {
-            if (regExp.test(input)) {
-                setNewDataFunction(input);
-            }
-        }
-        if (regExp.test(input)) {
-            //setDepositEth(tmp);
-            setEtherAmountInput(input);
-        }
+        setNewDataFunction(value);
     };
 
     const optimizedSaleInfoCall = useCallback(debounce(enterEthValue), []);
-
-    // const lodashDebounce = debounce((value) => {
-    //     enterEthValue(value);
-    // }, 500);
 
     const goToPleaseNote = () => {
         document.getElementById("please-note").scrollIntoView({
@@ -514,8 +497,14 @@ export default function Buy({
                             <input
                                 value={depositEth}
                                 onChange={(event) => {
-                                    setDepositEth(event.target.value);
-                                    optimizedSaleInfoCall(event.target.value);
+                                    const regExp =
+                                        /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
+                                    const input = event.target.value;
+                                    const tmp = input == "" ? "" : input;
+                                    if (regExp.test(input)) {
+                                        setDepositEth(tmp);
+                                        optimizedSaleInfoCall(tmp);
+                                    }
                                 }}
                                 type="text"
                                 placeholder="Enter ETH amount"
