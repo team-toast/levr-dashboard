@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
-import { useState, useEffect } from "react";
+import debounce from "lodash.debounce";
+import { useState, useEffect, useCallback } from "react";
 
 import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
 
@@ -26,6 +27,7 @@ const BALANCE_ABI = [
 ];
 
 import Link from "next/link";
+//import { useCallback } from "react/cjs/react.production.min";
 
 export default function Buy({
     curveData,
@@ -224,20 +226,39 @@ export default function Buy({
         }
     };
 
-    const enterEthValue = (event) => {
+    const debounce = (func) => {
+        let timer;
+        return function (...args) {
+            const context = this;
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                func.apply(context, args);
+            }, 500);
+        };
+    };
+
+    const enterEthValue = (value) => {
         const regExp = /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
-        const input = event.target.value;
-        const value = input == "" ? "" : input;
+        const input = value;
+        const tmp = input == "" ? "" : input;
+
         if (input != "" && input != 0) {
             if (regExp.test(input)) {
                 setNewDataFunction(input);
             }
         }
         if (regExp.test(input)) {
-            setDepositEth(value);
+            //setDepositEth(tmp);
             setEtherAmountInput(input);
         }
     };
+
+    const optimizedSaleInfoCall = useCallback(debounce(enterEthValue), []);
+
+    // const lodashDebounce = debounce((value) => {
+    //     enterEthValue(value);
+    // }, 500);
 
     const goToPleaseNote = () => {
         document.getElementById("please-note").scrollIntoView({
@@ -492,7 +513,10 @@ export default function Buy({
                         <div className="flex position-relative">
                             <input
                                 value={depositEth}
-                                onChange={() => enterEthValue(event)}
+                                onChange={(event) => {
+                                    setDepositEth(event.target.value);
+                                    optimizedSaleInfoCall(event.target.value);
+                                }}
                                 type="text"
                                 placeholder="Enter ETH amount"
                             />
