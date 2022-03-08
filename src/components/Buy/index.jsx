@@ -48,9 +48,31 @@ export default function Buy({
     const [confirmTerms, setConfirmTerms] = useState(false);
     const [confirmLoaction, setConfirmLoaction] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
+    const [subscription, setSubscription] = useState(null);
+    const [etherAmountInput, setEtherAmountInput] = useState("0.000001");
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    const listenForBuy = async () => {
+        if (!subscription) {
+            let new_contract = await new web3.eth.Contract(
+                CONTRACT_ABI,
+                process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
+            );
+            new_contract.events
+                .allEvents()
+                .on("connected", function (subscriptionId) {
+                    console.log(subscriptionId);
+                    setSubscription(subscriptionId);
+                })
+                .on("data", function (event) {
+                    setNewDataFunction(etherAmountInput);
+                    console.log("BUY DETECTED! ", event);
+                });
+        }
+    };
+
     const getLevrBalance = async (data) => {
         let new_contract;
         const rpcURL = process.env.ETH_RPC;
@@ -213,6 +235,7 @@ export default function Buy({
         }
         if (regExp.test(input)) {
             setDepositEth(value);
+            setEtherAmountInput(input);
         }
     };
 
@@ -241,8 +264,12 @@ export default function Buy({
     useEffect(() => {
         if (walletAddress != null) {
             getLevrBalance(walletAddress);
+            if (web3) {
+                listenForBuy();
+            }
         }
-    }, [web3Obj, walletAddress]);
+    }, [web3, walletAddress]);
+
     return (
         <Box>
             {statusBusy && (
