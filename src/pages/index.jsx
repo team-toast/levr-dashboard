@@ -173,6 +173,10 @@ export default function Home({ ethPrice }) {
                 PROVIDER.on("chainChanged", (chainId) => {
                     console.log(chainId);
                     console.log(157, chainId);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 366fced75873a7c42638de0b841c71d336bfdebb
                     if (chainId === "0xa4b1") {
                         setWrongChain(false);
                     } else {
@@ -254,7 +258,14 @@ export default function Home({ ethPrice }) {
         if (web3Obj !== null) {
             web3Obj.eth.getChainId().then((chainID) => {
                 // Detect which blockchain MM is connected to. ID 1 means Ethereum
+<<<<<<< HEAD
                 if (chainID == 42161 || chainID == 421611 || chainID == 3) {
+=======
+                if (
+                    chainID == 42161 ||
+                    chainID == 421611 /* || chainID == 3 */
+                ) {
+>>>>>>> 366fced75873a7c42638de0b841c71d336bfdebb
                     setWrongChain(false);
                 } else {
                     setWrongChain(true);

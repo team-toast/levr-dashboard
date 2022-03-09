@@ -51,10 +51,31 @@ export default function Buy({
     const [confirmLoaction, setConfirmLoaction] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
     const [referer, setReferer] = useState(null);
-
+    const [subscription, setSubscription] = useState(null);
+    const [etherAmountInput, setEtherAmountInput] = useState("0.000001");
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    const listenForBuy = async () => {
+        if (!subscription) {
+            let new_contract = await new web3.eth.Contract(
+                CONTRACT_ABI,
+                process.env.ETH_CONTRACT_ADDRESS_Levr_Sale
+            );
+            new_contract.events
+                .allEvents()
+                .on("connected", function (subscriptionId) {
+                    console.log(subscriptionId);
+                    setSubscription(subscriptionId);
+                })
+                .on("data", function (event) {
+                    setNewDataFunction(etherAmountInput);
+                    console.log("BUY DETECTED! ", event);
+                });
+        }
+    };
+
     const getLevrBalance = async (data) => {
         let new_contract;
         const rpcURL = process.env.ETH_RPC;
@@ -140,8 +161,6 @@ export default function Buy({
     };
 
     const depositEthToLEVR = async () => {
-        console.log(`depositEthToLEVR`);
-
         setShowConfirmBox(false);
         const currentBalance = await getETHbalance(walletAddress);
         let purchaseReferer = "0x0000000000000000000000000000000000000000";
@@ -221,6 +240,7 @@ export default function Buy({
         }
         if (regExp.test(input)) {
             setDepositEth(value);
+            setEtherAmountInput(input);
         }
     };
 
@@ -238,19 +258,22 @@ export default function Buy({
         console.log(getBalance, getBalance == "0", getFees);
         if (getBalance == "0") {
             setDepositEth(getBalance);
+            setNewDataFunction(getBalance);
         } else {
             const feesWithBlance = getBalance - parseFloat(getFees) * 2;
             setDepositEth(feesWithBlance < 0 ? "0" : feesWithBlance);
+            setNewDataFunction(feesWithBlance < 0 ? "0" : feesWithBlance);
         }
     };
-
-    // http://localhost:3000/?referer=0x860eae023C3Aa28B197AF1bDA800be9220A468BC
 
     useEffect(() => {
         if (walletAddress != null) {
             getLevrBalance(walletAddress);
+            if (web3) {
+                listenForBuy();
+            }
         }
-    }, [web3Obj, walletAddress]);
+    }, [web3, walletAddress]);
 
     return (
         <Box>
@@ -507,12 +530,14 @@ export default function Buy({
                                         }
                                     }}
                                     className={
-                                        status.length > 0
+                                        status.length === 2 &&
+                                        status.length !== 0
                                             ? "b-r-0-10-10-0 inactive-button"
                                             : "b-r-0-10-10-0"
                                     }
                                 >
-                                    {status.length > 0 ? (
+                                    {status.length === 2 &&
+                                    status.length !== 0 ? (
                                         <span>Busy ...</span>
                                     ) : (
                                         <span>Buy</span>
@@ -686,7 +711,7 @@ export default function Buy({
                                     : "button action disabled-button"
                             }
                         >
-                            Shut up and take my money
+                            Confirm and Purchase
                         </button>
                     </p>
                     <p>
