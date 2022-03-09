@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { setCookies, getCookie } from "cookies-next";
 
 import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
 
@@ -522,11 +523,30 @@ export default function Buy({
                                     onClick={() => {
                                         setShowConfirmBox(true);
                                         console.log("Referer: ", query.referer);
-                                        if (query.referer.length === 42) {
-                                            setReferer(query.referer);
+                                        let referrerCookieValue =
+                                            getCookie("referrer");
+                                        if (referrerCookieValue) {
                                             console.log(
-                                                "Setting referer value"
+                                                "Referral cookie found: ",
+                                                referrerCookieValue
                                             );
+                                            setReferer(referrerCookieValue);
+                                        } else {
+                                            if (
+                                                web3.utils.isAddress(
+                                                    query.referer
+                                                )
+                                            ) {
+                                                setReferer(query.referer);
+                                                console.log(
+                                                    "Setting referer value"
+                                                );
+                                                setCookies(
+                                                    "referrer",
+                                                    query.referer,
+                                                    { maxAge: 2592000 }
+                                                );
+                                            }
                                         }
                                     }}
                                     className={
