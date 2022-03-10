@@ -33,8 +33,12 @@ export default function GenerateReferral({}) {
             web3.utils.isAddress(referrerAddress.toString())
         ) {
             let refAddr =
-                "https://community.levr.ly/?referer=" + referrerAddress;
-            // "http://localhost:3000/?referer=" + referrerAddress;
+                // "https://community.levr.ly/?referer=" + referrerAddress;
+                // "http://localhost:3000/?referer=" + referrerAddress;
+                "https://" +
+                window.location.hostname +
+                "/?referer=" +
+                referrerAddress;
             setReferralLink(refAddr);
             copiedTimer();
             copy(refAddr);

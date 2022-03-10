@@ -53,7 +53,7 @@ export default function Header({
                                     Home
                                 </a>
                             </Link>
-                            <Link href="/how-to-bridge-arbitrum">
+                            <Link href="/how-to-bridge-arbitrum/">
                                 <a
                                     target="_blank"
                                     className="menu-item-links padding-r-1"
@@ -61,7 +61,7 @@ export default function Header({
                                     Bridge Arbitrum
                                 </a>
                             </Link>
-                            <Link href="/how-to-sell-my-levr">
+                            <Link href="/how-to-sell-my-levr/">
                                 <a
                                     target="_blank"
                                     className="menu-item-links padding-r-1"
@@ -69,7 +69,7 @@ export default function Header({
                                     Sell my LEVR
                                 </a>
                             </Link>
-                            <Link href="/referral-generator">
+                            <Link href="/referral-generator/">
                                 <a
                                     target="_blank"
                                     className="menu-item-links padding-r-1"
@@ -88,7 +88,7 @@ export default function Header({
                                 <a
                                     target="_blank"
                                     rel="noreferrer"
-                                    href="https://twitter.com/levr_ly"
+                                    href="https://twitter.com/levr_ly/"
                                     title="twitter"
                                 >
                                     <img
@@ -99,7 +99,7 @@ export default function Header({
                                 <a
                                     target="_blank"
                                     rel="noreferrer"
-                                    href="https://medium.com/levr-ly"
+                                    href="https://medium.com/levr-ly/"
                                     title="Medium"
                                 >
                                     <img
@@ -109,7 +109,7 @@ export default function Header({
                                 </a>
                                 <a
                                     target="_blank"
-                                    href="https://t.me/levrly"
+                                    href="https://t.me/levrly/"
                                     rel="noreferrer"
                                     title="Telegram"
                                 >
