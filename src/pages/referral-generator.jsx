@@ -5,7 +5,7 @@ import styled, { keyframes } from "styled-components";
 import Web3 from "web3";
 
 export default function GenerateReferral({}) {
-    const [referrerAddress, setRefererAddress] = useState(null);
+    const [referrerAddress, setReferrerAddress] = useState(null);
     const [web3, setWeb3] = useState(null);
     const [referralLink, setReferralLink] = useState(null);
     const [buttonText, setButtonText] = useState("Generate Referral Link");
@@ -24,7 +24,7 @@ export default function GenerateReferral({}) {
 
     const handleAddressInput = (value) => {
         console.log(web3.utils.isAddress(value.toString()));
-        setRefererAddress(value);
+        setReferrerAddress(value);
     };
 
     const handleReferralGenerate = () => {
@@ -33,11 +33,11 @@ export default function GenerateReferral({}) {
             web3.utils.isAddress(referrerAddress.toString())
         ) {
             let refAddr =
-                // "https://community.levr.ly/?referer=" + referrerAddress;
-                // "http://localhost:3000/?referer=" + referrerAddress;
+                // "https://community.levr.ly/?referrer=" + referrerAddress;
+                // "http://localhost:3000/?referrer=" + referrerAddress;
                 "https://" +
                 window.location.hostname +
-                "/?referer=" +
+                "/?referrer=" +
                 referrerAddress;
             setReferralLink(refAddr);
             copiedTimer();

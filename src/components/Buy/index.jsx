@@ -51,7 +51,7 @@ export default function Buy({
     const [confirmTerms, setConfirmTerms] = useState(false);
     const [confirmLoaction, setConfirmLoaction] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
-    const [referer, setReferer] = useState(null);
+    const [referrer, setReferrer] = useState(null);
     const [subscription, setSubscription] = useState(null);
     const [etherAmountInput, setEtherAmountInput] = useState("0.000001");
     function numberWithCommas(x) {
@@ -164,9 +164,9 @@ export default function Buy({
     const depositEthToLEVR = async () => {
         setShowConfirmBox(false);
         const currentBalance = await getETHbalance(walletAddress);
-        let purchaseReferer = "0x0000000000000000000000000000000000000000";
-        if (referer) {
-            purchaseReferer = referer;
+        let purchaseReferrer = "0x0000000000000000000000000000000000000000";
+        if (referrer) {
+            purchaseReferrer = referrer;
         }
         console.log("currentBalance", currentBalance);
         if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
@@ -186,7 +186,7 @@ export default function Buy({
                 // 1. Wallet who gets the LEVR
                 // 2. Person who referred the purchase
 
-                .buy(walletAddress, purchaseReferer)
+                .buy(walletAddress, purchaseReferrer)
                 .send(
                     {
                         from: walletAddress,
@@ -522,7 +522,10 @@ export default function Buy({
                                 <button
                                     onClick={() => {
                                         setShowConfirmBox(true);
-                                        console.log("Referer: ", query.referer);
+                                        console.log(
+                                            "Referrer: ",
+                                            query.referrer
+                                        );
                                         let referrerCookieValue =
                                             getCookie("referrer");
                                         if (referrerCookieValue) {
@@ -530,20 +533,20 @@ export default function Buy({
                                                 "Referral cookie found: ",
                                                 referrerCookieValue
                                             );
-                                            setReferer(referrerCookieValue);
+                                            setReferrer(referrerCookieValue);
                                         } else {
                                             if (
                                                 web3.utils.isAddress(
-                                                    query.referer
+                                                    query.referrer
                                                 )
                                             ) {
-                                                setReferer(query.referer);
+                                                setReferrer(query.referrer);
                                                 console.log(
-                                                    "Setting referer value"
+                                                    "Setting referrer value"
                                                 );
                                                 setCookies(
                                                     "referrer",
-                                                    query.referer,
+                                                    query.referrer,
                                                     { maxAge: 2592000 }
                                                 );
                                             }
