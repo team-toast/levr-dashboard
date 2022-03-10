@@ -1,6 +1,7 @@
 module.exports = {
     reactStrictMode: true,
     target: "serverless",
+    trailingSlash: true,
     env: {
         // ETH_RPC: "https://cloudflare-eth.com/",
         ETH_RPC:
