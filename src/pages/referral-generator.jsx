@@ -52,7 +52,7 @@ export default function GenerateReferral({}) {
             <Header noWeb3={true} />
             <ReferralArea>
                 <h1>Generate Referral Link</h1>
-                <p>Get 5% LEVR bonus if someone uses your link.</p>
+                <p>Get a 5% LEVR bonus if someone uses your link.</p>
                 <input
                     // value={referrerAddress}
                     onChange={(event) => {
