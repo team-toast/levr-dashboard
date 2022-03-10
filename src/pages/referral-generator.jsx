@@ -77,7 +77,7 @@ export default function GenerateReferral({}) {
                 {referralLink && referralLink !== "Invalid Address" && (
                     <div>
                         <p>
-                            Copied {"  "} <img src="copied.svg" />
+                            Copied {"  "} <img src="/copied.svg" />
                         </p>
                     </div>
                 )}
