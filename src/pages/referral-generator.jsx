@@ -33,8 +33,8 @@ export default function GenerateReferral({}) {
             web3.utils.isAddress(referrerAddress.toString())
         ) {
             let refAddr =
-                // "https://community.levr.ly/?referer=" + referrerAddress;
-                "http://localhost:3000//?referer=" + referrerAddress;
+                "https://community.levr.ly/?referer=" + referrerAddress;
+            // "http://localhost:3000/?referer=" + referrerAddress;
             setReferralLink(refAddr);
             copiedTimer();
             copy(refAddr);
@@ -50,36 +50,34 @@ export default function GenerateReferral({}) {
     return (
         <Layout>
             <Header noWeb3={true} />
-            <div className="content max-width-450">
-                <ReferralArea>
-                    <h1>Generate Referral Link</h1>
-                    <p>Get 5% LEVR bonus if someone uses your link.</p>
-                    <input
-                        // value={referrerAddress}
-                        onChange={(event) => {
-                            handleAddressInput(event.target.value);
-                        }}
-                        type="text"
-                        placeholder="Enter your wallet address"
-                    />
+            <ReferralArea>
+                <h1>Generate Referral Link</h1>
+                <p>Get 5% LEVR bonus if someone uses your link.</p>
+                <input
+                    // value={referrerAddress}
+                    onChange={(event) => {
+                        handleAddressInput(event.target.value);
+                    }}
+                    type="text"
+                    placeholder="Enter your wallet address"
+                />
 
-                    <button
-                        onClick={() => {
-                            handleReferralGenerate();
-                        }}
-                    >
-                        {buttonText}
-                    </button>
-                    <p className="small">{referralLink}</p>
-                    {referralLink && referralLink !== "Invalid Address" && (
-                        <div>
-                            <p>
-                                Copied {"  "} <img src="copied.svg" />
-                            </p>
-                        </div>
-                    )}
-                </ReferralArea>
-            </div>
+                <button
+                    onClick={() => {
+                        handleReferralGenerate();
+                    }}
+                >
+                    {buttonText}
+                </button>
+                <p className="small">{referralLink}</p>
+                {referralLink && referralLink !== "Invalid Address" && (
+                    <div>
+                        <p>
+                            Copied {"  "} <img src="copied.svg" />
+                        </p>
+                    </div>
+                )}
+            </ReferralArea>
         </Layout>
     );
 }
@@ -89,6 +87,7 @@ const ReferralArea = styled.div`
     flex-direction: column;
     justify-items: center;
     align-items: center;
+    width: 100%;
 
     button,
     .button {
@@ -97,6 +96,6 @@ const ReferralArea = styled.div`
     }
 
     p.small {
-        font-size: 11px;
+        font-size: 15px;
     }
 `;
