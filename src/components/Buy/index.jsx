@@ -278,6 +278,22 @@ export default function Buy({
                 listenForBuy();
             }
         }
+
+        let tmpWeb3 = new Web3();
+        //console.log("Referrer: ", query.referrer);
+        let referrerCookieValue = getCookie("referrer");
+        if (referrerCookieValue) {
+            //console.log("Referral cookie found: ", referrerCookieValue);
+            setReferrer(referrerCookieValue);
+        } else {
+            if (tmpWeb3.utils.isAddress(query.referrer)) {
+                setReferrer(query.referrer);
+                //console.log("Setting referrer value");
+                setCookies("referrer", query.referrer, {
+                    maxAge: 2592000,
+                });
+            }
+        }
     }, [web3, walletAddress]);
 
     return (
@@ -535,35 +551,6 @@ export default function Buy({
                                 <button
                                     onClick={() => {
                                         setShowConfirmBox(true);
-                                        console.log(
-                                            "Referrer: ",
-                                            query.referrer
-                                        );
-                                        let referrerCookieValue =
-                                            getCookie("referrer");
-                                        if (referrerCookieValue) {
-                                            console.log(
-                                                "Referral cookie found: ",
-                                                referrerCookieValue
-                                            );
-                                            setReferrer(referrerCookieValue);
-                                        } else {
-                                            if (
-                                                web3.utils.isAddress(
-                                                    query.referrer
-                                                )
-                                            ) {
-                                                setReferrer(query.referrer);
-                                                console.log(
-                                                    "Setting referrer value"
-                                                );
-                                                setCookies(
-                                                    "referrer",
-                                                    query.referrer,
-                                                    { maxAge: 2592000 }
-                                                );
-                                            }
-                                        }
                                     }}
                                     className={
                                         status.length === 2 &&
