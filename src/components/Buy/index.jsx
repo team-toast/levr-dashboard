@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { setCookies, getCookie } from "cookies-next";
 
@@ -28,6 +28,7 @@ const BALANCE_ABI = [
 ];
 
 import Link from "next/link";
+//import { useCallback } from "react/cjs/react.production.min";
 
 export default function Buy({
     curveData,
@@ -230,20 +231,23 @@ export default function Buy({
         }
     };
 
-    const enterEthValue = (event) => {
-        const regExp = /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
-        const input = event.target.value;
-        const value = input == "" ? "" : input;
-        if (input != "" && input != 0) {
-            if (regExp.test(input)) {
-                setNewDataFunction(input);
-            }
-        }
-        if (regExp.test(input)) {
-            setDepositEth(value);
-            setEtherAmountInput(input);
-        }
+    const debounce = (func) => {
+        let timer;
+        return function (...args) {
+            const context = this;
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                func.apply(context, args);
+            }, 500);
+        };
     };
+
+    const enterEthValue = (value) => {
+        setNewDataFunction(value);
+    };
+
+    const optimizedSaleInfoCall = useCallback(debounce(enterEthValue), []);
 
     const goToPleaseNote = () => {
         document.getElementById("please-note").scrollIntoView({
@@ -272,6 +276,22 @@ export default function Buy({
             getLevrBalance(walletAddress);
             if (web3) {
                 listenForBuy();
+            }
+        }
+
+        let tmpWeb3 = new Web3();
+        //console.log("Referrer: ", query.referrer);
+        let referrerCookieValue = getCookie("referrer");
+        if (referrerCookieValue) {
+            //console.log("Referral cookie found: ", referrerCookieValue);
+            setReferrer(referrerCookieValue);
+        } else {
+            if (tmpWeb3.utils.isAddress(query.referrer)) {
+                setReferrer(query.referrer);
+                //console.log("Setting referrer value");
+                setCookies("referrer", query.referrer, {
+                    maxAge: 2592000,
+                });
             }
         }
     }, [web3, walletAddress]);
@@ -498,7 +518,16 @@ export default function Buy({
                         <div className="flex position-relative">
                             <input
                                 value={depositEth}
-                                onChange={() => enterEthValue(event)}
+                                onChange={(event) => {
+                                    const regExp =
+                                        /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
+                                    const input = event.target.value;
+                                    const tmp = input == "" ? "" : input;
+                                    if (regExp.test(input)) {
+                                        setDepositEth(tmp);
+                                        optimizedSaleInfoCall(tmp);
+                                    }
+                                }}
                                 type="text"
                                 placeholder="Enter ETH amount"
                             />
@@ -522,35 +551,6 @@ export default function Buy({
                                 <button
                                     onClick={() => {
                                         setShowConfirmBox(true);
-                                        console.log(
-                                            "Referrer: ",
-                                            query.referrer
-                                        );
-                                        let referrerCookieValue =
-                                            getCookie("referrer");
-                                        if (referrerCookieValue) {
-                                            console.log(
-                                                "Referral cookie found: ",
-                                                referrerCookieValue
-                                            );
-                                            setReferrer(referrerCookieValue);
-                                        } else {
-                                            if (
-                                                web3.utils.isAddress(
-                                                    query.referrer
-                                                )
-                                            ) {
-                                                setReferrer(query.referrer);
-                                                console.log(
-                                                    "Setting referrer value"
-                                                );
-                                                setCookies(
-                                                    "referrer",
-                                                    query.referrer,
-                                                    { maxAge: 2592000 }
-                                                );
-                                            }
-                                        }
                                     }}
                                     className={
                                         status.length === 2 &&
