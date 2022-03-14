@@ -279,6 +279,10 @@ button, .button {
 .b-r-10-0-0-10 {
     border-radius: 10px 0 0 10px;
 }
+.b-r-m-10-10-10-10-10 {
+    border-radius: 10px 10px 10px 10px;
+    margin: 25px;
+}
 .p-10 {
     padding: 10px;
 }

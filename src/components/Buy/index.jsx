@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
+import { setCookies, getCookie } from "cookies-next";
 
 import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
 
@@ -41,6 +43,7 @@ export default function Buy({
     setDepositEth,
     convertTo,
 }) {
+    const { query } = useRouter();
     const [levrBalance, setLevrBalance] = useState(0);
     const [eTHbalance, setETHbalance] = useState(0);
     const [notEnoughBalance, setNotEnoughBalance] = useState(false);
@@ -49,6 +52,7 @@ export default function Buy({
     const [confirmTerms, setConfirmTerms] = useState(false);
     const [confirmLoaction, setConfirmLoaction] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
+    const [referrer, setReferrer] = useState(null);
     const [subscription, setSubscription] = useState(null);
     const [etherAmountInput, setEtherAmountInput] = useState("0.000001");
     function numberWithCommas(x) {
@@ -159,9 +163,12 @@ export default function Buy({
     };
 
     const depositEthToLEVR = async () => {
-        console.log(`depositEthToLEVR`);
         setShowConfirmBox(false);
         const currentBalance = await getETHbalance(walletAddress);
+        let purchaseReferrer = "0x0000000000000000000000000000000000000000";
+        if (referrer) {
+            purchaseReferrer = referrer;
+        }
         console.log("currentBalance", currentBalance);
         if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
             setStatusBusy(true);
@@ -174,14 +181,13 @@ export default function Buy({
                     title: "Awaiting ...",
                 },
             ]);
+
             const fundit = await new_contract.methods
                 // Params
                 // 1. Wallet who gets the LEVR
                 // 2. Person who referred the purchase
-                .buy(
-                    walletAddress,
-                    "0x0000000000000000000000000000000000000000"
-                )
+
+                .buy(walletAddress, purchaseReferrer)
                 .send(
                     {
                         from: walletAddress,
@@ -527,7 +533,38 @@ export default function Buy({
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => setShowConfirmBox(true)}
+                                    onClick={() => {
+                                        setShowConfirmBox(true);
+                                        console.log(
+                                            "Referrer: ",
+                                            query.referrer
+                                        );
+                                        let referrerCookieValue =
+                                            getCookie("referrer");
+                                        if (referrerCookieValue) {
+                                            console.log(
+                                                "Referral cookie found: ",
+                                                referrerCookieValue
+                                            );
+                                            setReferrer(referrerCookieValue);
+                                        } else {
+                                            if (
+                                                web3.utils.isAddress(
+                                                    query.referrer
+                                                )
+                                            ) {
+                                                setReferrer(query.referrer);
+                                                console.log(
+                                                    "Setting referrer value"
+                                                );
+                                                setCookies(
+                                                    "referrer",
+                                                    query.referrer,
+                                                    { maxAge: 2592000 }
+                                                );
+                                            }
+                                        }
+                                    }}
                                     className={
                                         status.length === 2 &&
                                         status.length !== 0
