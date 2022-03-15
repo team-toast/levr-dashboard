@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import { Row, Col } from "./../../styles/flex-grid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
+import { setCookies, getCookie } from "cookies-next";
 
 import CONTRACT_ABI from "./../../lib/abi_eth_token_sale.json";
 
@@ -26,6 +28,7 @@ const BALANCE_ABI = [
 ];
 
 import Link from "next/link";
+//import { useCallback } from "react/cjs/react.production.min";
 
 export default function Buy({
     curveData,
@@ -40,6 +43,7 @@ export default function Buy({
     setDepositEth,
     convertTo,
 }) {
+    const { query } = useRouter();
     const [levrBalance, setLevrBalance] = useState(0);
     const [eTHbalance, setETHbalance] = useState(0);
     const [notEnoughBalance, setNotEnoughBalance] = useState(false);
@@ -48,6 +52,7 @@ export default function Buy({
     const [confirmTerms, setConfirmTerms] = useState(false);
     const [confirmLoaction, setConfirmLoaction] = useState(false);
     const [showConfirmBox, setShowConfirmBox] = useState(false);
+    const [referrer, setReferrer] = useState(null);
     const [subscription, setSubscription] = useState(null);
     const [etherAmountInput, setEtherAmountInput] = useState("0.000001");
     function numberWithCommas(x) {
@@ -158,9 +163,12 @@ export default function Buy({
     };
 
     const depositEthToLEVR = async () => {
-        console.log(`depositEthToLEVR`);
         setShowConfirmBox(false);
         const currentBalance = await getETHbalance(walletAddress);
+        let purchaseReferrer = "0x0000000000000000000000000000000000000000";
+        if (referrer) {
+            purchaseReferrer = referrer;
+        }
         console.log("currentBalance", currentBalance);
         if (parseFloat(currentBalance) >= parseFloat(depositEth)) {
             setStatusBusy(true);
@@ -173,14 +181,13 @@ export default function Buy({
                     title: "Awaiting ...",
                 },
             ]);
+
             const fundit = await new_contract.methods
                 // Params
                 // 1. Wallet who gets the LEVR
                 // 2. Person who referred the purchase
-                .buy(
-                    walletAddress,
-                    "0x0000000000000000000000000000000000000000"
-                )
+
+                .buy(walletAddress, purchaseReferrer)
                 .send(
                     {
                         from: walletAddress,
@@ -224,20 +231,23 @@ export default function Buy({
         }
     };
 
-    const enterEthValue = (event) => {
-        const regExp = /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
-        const input = event.target.value;
-        const value = input == "" ? "" : input;
-        if (input != "" && input != 0) {
-            if (regExp.test(input)) {
-                setNewDataFunction(input);
-            }
-        }
-        if (regExp.test(input)) {
-            setDepositEth(value);
-            setEtherAmountInput(input);
-        }
+    const debounce = (func) => {
+        let timer;
+        return function (...args) {
+            const context = this;
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                func.apply(context, args);
+            }, 500);
+        };
     };
+
+    const enterEthValue = (value) => {
+        setNewDataFunction(value);
+    };
+
+    const optimizedSaleInfoCall = useCallback(debounce(enterEthValue), []);
 
     const goToPleaseNote = () => {
         document.getElementById("please-note").scrollIntoView({
@@ -266,6 +276,22 @@ export default function Buy({
             getLevrBalance(walletAddress);
             if (web3) {
                 listenForBuy();
+            }
+        }
+
+        let tmpWeb3 = new Web3();
+        //console.log("Referrer: ", query.referrer);
+        let referrerCookieValue = getCookie("referrer");
+        if (referrerCookieValue) {
+            //console.log("Referral cookie found: ", referrerCookieValue);
+            setReferrer(referrerCookieValue);
+        } else {
+            if (tmpWeb3.utils.isAddress(query.referrer)) {
+                setReferrer(query.referrer);
+                //console.log("Setting referrer value");
+                setCookies("referrer", query.referrer, {
+                    maxAge: 2592000,
+                });
             }
         }
     }, [web3, walletAddress]);
@@ -492,7 +518,16 @@ export default function Buy({
                         <div className="flex position-relative">
                             <input
                                 value={depositEth}
-                                onChange={() => enterEthValue(event)}
+                                onChange={(event) => {
+                                    const regExp =
+                                        /^(\d+(\.\d{0,18})?|\.?\d{0,2})$/;
+                                    const input = event.target.value;
+                                    const tmp = input == "" ? "" : input;
+                                    if (regExp.test(input)) {
+                                        setDepositEth(tmp);
+                                        optimizedSaleInfoCall(tmp);
+                                    }
+                                }}
                                 type="text"
                                 placeholder="Enter ETH amount"
                             />
@@ -514,7 +549,9 @@ export default function Buy({
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => setShowConfirmBox(true)}
+                                    onClick={() => {
+                                        setShowConfirmBox(true);
+                                    }}
                                     className={
                                         status.length === 2 &&
                                         status.length !== 0

@@ -173,7 +173,6 @@ export default function Home({ ethPrice }) {
                 PROVIDER.on("chainChanged", (chainId) => {
                     console.log(chainId);
                     console.log(157, chainId);
-
                     if (chainId === "0xa4b1") {
                         setWrongChain(false);
                     } else {
