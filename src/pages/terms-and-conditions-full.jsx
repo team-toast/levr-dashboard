@@ -7,9 +7,7 @@ export default function TermsAndConditions({}) {
             <Header noWeb3={true} />
             <div className="content">
                 <div>
-                    <MainTitle>
-                        <strong>Terms and Conditions&nbsp;</strong>
-                    </MainTitle>
+                    <MainTitle>Terms and Conditions&nbsp;</MainTitle>
                 </div>
                 <div>
                     <p>&nbsp;</p>
@@ -51,9 +49,7 @@ export default function TermsAndConditions({}) {
                         <p>&nbsp;</p>
                     </div>
                     <div>
-                        <SubTitle>
-                            <strong>Regulation S Compliance&nbsp;&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Regulation S Compliance&nbsp;&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -140,9 +136,7 @@ export default function TermsAndConditions({}) {
                         <p>&nbsp;</p>
                     </div>
                     <div>
-                        <SubTitle>
-                            <strong>Prohibited resales&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Prohibited resales&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -168,9 +162,7 @@ export default function TermsAndConditions({}) {
                     </div>
                     <div>
                         <SubTitle>
-                            <strong>
-                                Restricted Jurisdictions&nbsp;&nbsp;
-                            </strong>
+                            Restricted Jurisdictions&nbsp;&nbsp;
                         </SubTitle>
                     </div>
 
@@ -243,9 +235,7 @@ export default function TermsAndConditions({}) {
                         <p>&nbsp;</p>
                     </div>
                     <div>
-                        <SubTitle>
-                            <strong>Assumption of Risk&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Assumption of Risk&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -866,9 +856,7 @@ export default function TermsAndConditions({}) {
                         <p>&nbsp;</p>
                     </div>
                     <div>
-                        <SubTitle>
-                            <strong>Data Protection&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Data Protection&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -958,9 +946,7 @@ export default function TermsAndConditions({}) {
                     </div>
                     <div>
                         <SubTitle>
-                            <strong>
-                                Compliance With&nbsp;Legal Requirements&nbsp;
-                            </strong>
+                            Compliance With&nbsp;Legal Requirements&nbsp;
                         </SubTitle>
                     </div>
                 </div>
@@ -1038,9 +1024,7 @@ export default function TermsAndConditions({}) {
                 </div>
                 <div>
                     <div>
-                        <SubTitle>
-                            <strong>Reservation&nbsp;of Rights&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Reservation&nbsp;of Rights&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -1079,9 +1063,7 @@ export default function TermsAndConditions({}) {
                 </div>
                 <div>
                     <div>
-                        <SubTitle>
-                            <strong>Limitation&nbsp;of Liability&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Limitation&nbsp;of Liability&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -1160,9 +1142,7 @@ export default function TermsAndConditions({}) {
                         <p>&nbsp;</p>
                     </div>
                     <div>
-                        <SubTitle>
-                            <strong>Indemnification&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>Indemnification&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -1193,9 +1173,7 @@ export default function TermsAndConditions({}) {
                 </div>
                 <div>
                     <div>
-                        <SubTitle>
-                            <strong>General&nbsp;</strong>
-                        </SubTitle>
+                        <SubTitle>General&nbsp;</SubTitle>
                     </div>
 
                     <div>
@@ -1307,8 +1285,10 @@ export default function TermsAndConditions({}) {
 
 const MainTitle = styled.p`
     font-size: 24px;
+    font-weight: bold;
 `;
 
 const SubTitle = styled.p`
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
 `;
