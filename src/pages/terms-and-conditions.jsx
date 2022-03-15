@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import Header from "../components/Header";
+import Link from "next/link";
 export default function TermsAndConditions({}) {
     return (
         <Layout>
@@ -8,7 +9,19 @@ export default function TermsAndConditions({}) {
                 <h1>Terms and Conditions</h1>
                 <p>
                     {" "}
-                    <strong>Version 1.0, last edited 28 Feb 2022</strong>
+                    <strong>
+                        {`Version 1.0, last edited 28 Feb 2022 (`}
+                        <Link href="/terms-and-conditions-full">
+                            <a
+                                // className="menu-item-links"
+                                target="_blank"
+                                //className="menu-item-links"
+                            >
+                                Full Terms and Conditions
+                            </a>
+                        </Link>
+                        {`)`}
+                    </strong>
                 </p>
                 <p>
                     <ul data-indent-level="1">
