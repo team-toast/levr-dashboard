@@ -10,7 +10,7 @@ export default function TermsAndConditions({}) {
                 <p>
                     {" "}
                     <strong>
-                        {`Version 1.0, last edited 28 Feb 2022 (`}
+                        {`Version 2.0, last edited 15 March 2022 (`}
                         <Link href="/terms-and-conditions-full">
                             <a
                                 // className="menu-item-links"
