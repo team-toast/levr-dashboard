@@ -77,6 +77,14 @@ export default function Header({
                                     Referral Link
                                 </a>
                             </Link>
+                            <Link href="https://github.com/team-toast/levr-sale/blob/main/contracts/Arbitrum%20Deployments.md">
+                                <a
+                                    target="_blank"
+                                    className="menu-item-links padding-r-1"
+                                >
+                                    Smart Contracts
+                                </a>
+                            </Link>
                         </Col>
                         <Col size={"0 0 auto"} className="text-right">
                             <SocialCol
