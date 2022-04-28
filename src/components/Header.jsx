@@ -61,7 +61,7 @@ export default function Header({
                                     Bridge Arbitrum
                                 </a>
                             </Link>
-                            <Link href="/how-to-sell-my-levr">
+                            <Link href="https://arbitrum.balancer.fi/#/pool/0x85a7023f3d287f849b6c8223af1e783383a391a8000200000000000000000044">
                                 <a
                                     target="_blank"
                                     className="menu-item-links padding-r-1"
